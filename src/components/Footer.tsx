@@ -1,0 +1,30 @@
+const Footer = () => {
+  return (
+    <div className="min-h-[40vh] py-40 bg-base-300 flex items-center justify-center text-base-content">
+      <div className="flex justify-start w-5xl p-4">
+        <div className="text-4xl font-serif flex items-start gap-2 mb-6">
+          <span className="italic">N</span>
+          <span className="italic">K</span>
+          <span className="text-2xl">—</span>
+        </div>
+        <div className="flex flex-col items-start  text-left max-w-xl ml-10 pl-4">
+          <div className="text-sm mb-4 font-medium">
+              Nkounga Exaucé is a designer driven by visual craft &amp; storytelling.
+            <br />
+            Currently designing at Discord. Previously Google.
+          </div>
+
+          <div className="text-xs text-base-content/70 border-t border-base-content/70 pt-4">
+            My 2025 portfolio is under construction—while that’s happening,
+            <br />
+            you can find me on <a className="link link-hover" href="#">LinkedIn</a>, or say
+            <a className="link link-hover" href="mailto:nkoungagil@gmail.com"> nkoungagil@gmail.com</a>.
+          </div>
+        </div>
+
+      </div>
+    </div>
+  );
+};
+
+export default Footer;
