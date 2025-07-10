@@ -1,38 +1,164 @@
- 
-const images = [
-  "https://i.pinimg.com/736x/84/fe/01/84fe017678e0801a1d03a06f0d83bc76.jpg",
-  "https://i.pinimg.com/736x/72/d2/d7/72d2d7d4c0a3f7baeae647d3f44a5476.jpg",
-  "https://i.pinimg.com/736x/21/7e/be/217ebe78850843de2d4565102117a509.jpg",
-  "https://i.pinimg.com/736x/a7/c6/8f/a7c68fb790f692ea25d86343529c4dd3.jpg",
-  "https://i.pinimg.com/736x/3e/fe/ad/3efeadb61d5e07a56f7f6e8d3e6fd3e9.jpg",
-  "https://i.pinimg.com/736x/94/44/d6/9444d6152ee921c58a78ead3725e5c11.jpg",
-  "https://i.pinimg.com/736x/d8/21/e3/d821e3d89d437a298e53a78497107c16.jpg",
-  "https://i.pinimg.com/736x/5e/ab/83/5eab83fe882e84d907040cfd1f1485c1.jpg",
-];
+import { useState, useRef } from "react";
+import { projets } from "../libs/data"; 
+import { Calendar } from "lucide-react";
+import { Link } from "react-router";
 
-export default function Projet() {
+export default function ProjetsPage() {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [imageIndex, setImageIndex] = useState(0);
+  const carouselRef = useRef();
+
+  const scrollToItem = (index) => {
+    const carousel = carouselRef.current;
+    if (carousel && carousel.children[index]) {
+      carousel.children[index].scrollIntoView({
+        behavior: "smooth",
+        inline: "center",
+      });
+      setActiveIndex(index);
+      setImageIndex(0);
+    }
+  };
+
+  const nextProjet = () => scrollToItem((activeIndex + 1) % projets.length);
+  const prevProjet = () =>
+    scrollToItem((activeIndex - 1 + projets.length) % projets.length);
+  const nextImage = () => {
+    const total = projets[activeIndex].imagesIllustration.length;
+    setImageIndex((imageIndex + 1) % total);
+  };
+  const prevImage = () => {
+    const total = projets[activeIndex].imagesIllustration.length;
+    setImageIndex((imageIndex - 1 + total) % total);
+  };
+
+  const projetActif = projets[activeIndex];
+
   return (
-    <div className=" min-h-screen text-white p-6 flex flex-col items-center justify-center">
-      <div className="max-w-6xl w-full">
-        
+    <div className="flex items-center flex-col">
+      <div className="max-w-5xl space-y-6 ">
+        <div className="flex flex-col lg:flex-row  ">
+          <div className="relative w-full  ">
+            <figure className="w-full h-[60vh] bg-base-200 rounded-xl overflow-hidden flex items-center justify-center">
+              <img
+                src={projetActif.imagesIllustration[imageIndex]}
+                alt={projetActif.nom}
+                className="w-full h-full object-cover"
+                onError={(e) => {
+                  e.target.onerror = null;
+                  e.target.src = "/placeholder.png"; // ton image de secours
+                }}
+              />
+            </figure>
+            <div className="absolute bottom-0 p-15 right-0 left-0 flex justify-between items-end z-10 text-white  bg-gradient-to-t  from-base-200 to-transparent">
+              <div className="w-full lg:w-1/3 space-y-4 ">
+                <h2 className="text-3xl font-bold  text-shadow-md">{projetActif.nom}</h2>
+                
+                <div className="flex flex-wrap gap-2">
+                  {projetActif.technologies.map((tech) => (
+                    <span key={tech} className="p-2 py-1 rounded-full backdrop-blur-md border border-base-content/30 bg-base-200/30">
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+                <p className="text-sm text-white/60 flex items-center gap-2">
+                <Calendar size={16}/>  {projetActif.dateCreation}
+                </p>
+              </div>
+              <div className="flex-col items-end flex">
+                <div className="mb-7 flex">
+                     <Link
+                  to={ `${projetActif.slug}`}
+                  >
 
-        <h1 className="text-4xl md:text-5xl font-bold leading-tight mb-6">
-          Investment and incubation partner for Muslim leaders building impactful companies in emerging tech.
-        </h1>
+                  <div
+                  className="backdrop-blur-md py-3  px-4 border border-base-content/30 hover:-primary/79 hover:border-primary/80 btn-circle mr-2 "
+                  
+                  >
+                  Voir le projet
+                </div>
+                </Link>
+                  <button
+                  onClick={prevImage}
+                  className="backdrop-blur-md h-12 w-12 border border-base-content/30 hover:border-primary/80 btn-circle mr-2 "
+                >
+                  ❮
+                </button>
+                <button
+                  onClick={nextImage}
+                  className="backdrop-blur-md h-12 w-12 border border-base-content/30 hover:border-primary/80 btn-circle "
+                >
+                  ❯
+                </button>
+                </div>
+                
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-          {images.map((src, index) => (
-            <div key={index} className="rounded overflow-hidden">
-              <img src= {src}  alt={`img-${index}`} className="w-full h-full object-cover" />
-            </div>
-          ))}
-          <div className="bg-orange-500 text-white p-4 rounded flex flex-col justify-between">
-            <div className="font-bold">APPLY TO JOIN ALIF</div>
-            <div className="text-sm">Applications are open until 20th Feb. Join.</div>
+                <div className="flex justify-center gap-2 ">
+                  {projetActif.imagesIllustration.map((_, index) => (
+                    <div
+                      key={index}
+                      onClick={() => setImageIndex(index)}
+                      className={`bg-base-300 w-7 h-2  rounded-full ${
+                        index === imageIndex ? "bg-primary  " : "bg-base-300/50 backdrop-blur-md   shadow"
+                      }`}
+                    />
+                  ))}
+                </div>
+              </div> 
+            </div> 
           </div>
-        </div>
+        </div> 
+        <div className="relative w-full">
+          <div
+            ref={carouselRef}
+            className={`carousel flex space-x-4 overflow-x-auto scroll-smooth duration-300  ${
+              projets[activeIndex].id === 1 && "ml-15"
+            } ${
+              projets[activeIndex].id === projets[projets.length - 1].id &&
+              "mr-15"
+            }`}
+          >
+            {projets.map((projet, index) => (
+              <div
+                key={projet.slug}
+                onClick={() => scrollToItem(index)}
+                className={`carousel-item min-w-[250px] my-9 bg-base-200 sm:min-w-[280px] max-w-xs rounded-xl cursor-pointer transition-all duration-300 hover:border-primary/10 hover:shadow-xl border-2 ${
+                  index === activeIndex ? "border-primary bg-primary/40 shadow-2xl" : "border-base-300"
+                }`}
+              >
+                <div className="card shadow-md w-full ">
+                  <figure>
+                    <img
+                      src={projet.imagesIllustration[0]}
+                      alt={projet.nom}
+                      className="h-36 sm:h-40 w-full object-cover"
+                    />
+                  </figure>
+                  <div className="card-body p-3">
+                    <h3 className="text-base font-semibold">{projet.nom}</h3>
+                    <p className="text-xs text-base-content/60">
+                      {projet.technologies.join(", ")}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
 
-         
+          {/* Boutons du carousel projets */}
+          <button
+            onClick={prevProjet}
+            className=" backdrop-blur-md h-12 w-12 border border-base-content/30 hover:border-primary/80 btn-circle absolute -left-5 top-1/2 -translate-y-1/2 z-10"
+          >
+            ❮
+          </button>
+          <button
+            onClick={nextProjet}
+            className="backdrop-blur-md h-12 w-12 border border-base-content/30 hover:border-primary/80 btn-circle absolute -right-5 top-1/2 -translate-y-1/2 z-10"
+          >
+            ❯
+          </button>
+        </div>
       </div>
     </div>
   );

@@ -1,6 +1,6 @@
 import ScrollIndicator from "./ScrollIndicator";
 import Paragraph from "./Paragraph";
-import BlurOverlay from "./BlurOverlay";
+import shadowOverlay from "./shadowOverlay";
 import Header from "./Header";
 import ThemeControler from "./ThemeControler";
 import HeroSection from "./HeroSection";
@@ -17,7 +17,7 @@ import Getintouch from "./Getintouch";
 export {
   ScrollIndicator,
   Paragraph,
-  BlurOverlay,
+  shadowOverlay,
   ThemeControler,
   Header,
   HeroSection,

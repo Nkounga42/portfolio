@@ -1,6 +1,7 @@
 import { Code, BookOpen, Laptop, Coffee, Target, Zap, Download } from "lucide-react";
 import { motion } from "motion/react";
 import * as UI from "../components/UICompoents";
+import { Link } from "react-router-dom";
 export default function About() {
   return (
     <div className="min-h-screen flex items-center flex-col">
@@ -123,70 +124,7 @@ export default function About() {
         </div>
       </section>
 
-      {/* Objectifs & Valeurs */}
-      <section className="py-20 w-full bg-base-100">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">Mes Objectifs</h2>
-            <p className="text-lg max-w-2xl mx-auto opacity-80">
-              Ce qui me motive et guide mon apprentissage en tant que futur
-              développeur full stack.
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {[
-              {
-                icon: <Target className="h-8 w-8" />,
-                title: "Devenir Expert",
-                description:
-                  "Maîtriser les technologies modernes et devenir un développeur full stack accompli d'ici 2 ans.",
-              },
-              {
-                icon: <Code className="h-8 w-8" />,
-                title: "Code de Qualité",
-                description:
-                  "Écrire du code propre, maintenable et bien testé en suivant les meilleures pratiques.",
-              },
-              {
-                icon: <BookOpen className="h-8 w-8" />,
-                title: "Apprentissage Continu",
-                description:
-                  "Rester à jour avec les dernières technologies et tendances du développement web.",
-              },
-              {
-                icon: <Zap className="h-8 w-8" />,
-                title: "Innovation",
-                description:
-                  "Créer des solutions créatives et innovantes pour résoudre des problèmes réels.",
-              },
-              {
-                icon: <Laptop className="h-8 w-8" />,
-                title: "Projets Impactants",
-                description:
-                  "Développer des applications qui ont un impact positif sur la vie des utilisateurs.",
-              },
-              {
-                icon: <Coffee className="h-8 w-8" />,
-                title: "Équilibre Vie-Code",
-                description:
-                  "Maintenir une passion pour le code tout en gardant un équilibre de vie sain.",
-              },
-            ].map((goal, index) => (
-              <div key={index} className="card bg-base-100  ">
-                <div className="card-body items-center text-center">
-                  <div className="flex items-center justify-center w-16 h-16 bg-primary/10 text-primary rounded-lg mb-4">
-                    {goal.icon}
-                  </div>
-                  <h3 className="card-title">{goal.title}</h3>
-                  <p className="opacity-70">{goal.description}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
+      
       {/* Section Contact */}
   <section className="py-20 mb-40 ">
         <div className="container mx-auto px-4">
@@ -238,12 +176,10 @@ const ProfileCard = () => {
               mes compétences en pratique.
             </span>
           </h1>
-          <p className="text-gray-400 font-medium">Previously at Apple.</p>
+          <p className="text-gray-400 font-medium">Actuellement chez  <Link to={"https://www.xn--wilka-gta.com/"}>Wilkaî</Link>.</p>
           {/* Description */}
           <p className="text-sm text-gray-500 mb-8">
-            I am a seasoned product designer with 5 years of experience
-            specializing in crafting creative tools solutions and empowering
-            creatives.
+          Je m'intéresse à la création d'outils numériques utiles qui améliorent l'expérience utilisateur et facilitent le travail des créateurs. Curieux et motivé, je cherche à concevoir des solutions qui allient efficacité et créativité.
           </p>
 
           {/* Social Media Icons */}
@@ -273,11 +209,11 @@ const ProfileCard = () => {
             </span>
           </motion.div>
           <motion.div 
-            className="flex text-sm text-base-content tracking-wide px-3 py-2 mx-3 rounded-full "
+            className="flex text-sm text-base-content tracking-wide px-3 py-2 mx-3 rounded-full cursor-pointer"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-           <Download className="h-5 w-5 mr-1" />Télécharger mon CB
+           <Download className="h-5 w-5 mr-1" />Télécharger mon CV
           </motion.div>
         </div>
         </div>

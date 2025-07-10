@@ -32,6 +32,10 @@ const route = {
       path: "/projects",
       component: <Screen.Project />,
     },
+    ProjetOverview: {
+      path: "/projects/:slug",
+      component: <Screen.ProjetOverview />,
+    },
     Skills: {
       path: "/skills",
       component: <Screen.Skills />,
@@ -75,7 +79,7 @@ ReactDOM.createRoot(root).render(
         <Route path="*" element={<Navigate to={route.Page404.path} />} />
       </Routes>
     </BrowserRouter>
-    <UI.BlurOverlay direction="toTop" position="bottom" />
+    <UI.shadowOverlay direction="toTop" position="bottom" />
 
   </>
 );

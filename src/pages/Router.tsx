@@ -6,6 +6,7 @@ import About from "./About";
 import Project from "./Project";
 import Blog from "./Blog";
 import Skills from "./Skills";
+import ProjetOverview from "./ProjetOverview";
 
 export {
   Article,
@@ -14,6 +15,7 @@ export {
   Page404,
   About,
   Project,
+  ProjetOverview,
   Blog,
   Skills
 }
