@@ -12,6 +12,8 @@ import Footer from "./footer";
 import Carousel from "./Carousel";
 import Timeline from "./TimeLine";
 import Getintouch from "./Getintouch";
+import Testimonials from "./Testimonials";
+import Objectif from "./Objectif";
 
 
 export {
@@ -28,5 +30,7 @@ export {
   Footer,
   Carousel,
   Timeline,
-  Getintouch
+  Getintouch, 
+  Testimonials,
+  Objectif
 } 

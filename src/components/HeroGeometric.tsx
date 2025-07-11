@@ -162,7 +162,7 @@ export default function HeroGeometric({
                   },
                 }}
               >
-                <span className="text-sm text-white/90 tracking-wide">
+                <span className="text-sm text-base-content/90 tracking-wide">
                 Disponible pour travailler
                 </span>
               </motion.div>
@@ -180,8 +180,8 @@ export default function HeroGeometric({
             initial="hidden"
             animate="visible"
           >
-            <p className="text-base sm:text-lg md:text-lg text-base-content/40 mb-8 leading-relaxed font-light tracking-wide max-w-xl mx-auto px-4">
-            Développeur full-stack en formation à <strong><a href=""className="text-base-content/70 "> ESCIC </a></strong>, <br/> je crée des solutions numériques complètes, du backend à l’interface utilisateur. Je cherche à relever des défis concrets pour mettre mes compétences en pratique.
+            <p className="text-base sm:text-lg md:text-lg text-base-content/80 mb-8 leading-relaxed font-light tracking-wide max-w-xl mx-auto px-4">
+            Développeur full-stack en formation à <strong><a href=""className="text-base-content "> ESCIC </a></strong>, <br/> je crée des solutions numériques complètes, du backend à l’interface utilisateur. Je cherche à relever des défis concrets pour mettre mes compétences en pratique.
             </p>
           </motion.div>
         </div>

@@ -2,7 +2,7 @@ import { useState, useRef } from "react";
 import { projets } from "../libs/data"; 
 import { Calendar } from "lucide-react";
 import { Link } from "react-router";
-
+import * as UI from "../components/UICompoents";
 export default function ProjetsPage() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [imageIndex, setImageIndex] = useState(0);
@@ -35,7 +35,8 @@ export default function ProjetsPage() {
   const projetActif = projets[activeIndex];
 
   return (
-    <div className="flex items-center flex-col">
+  <>
+    <div className="flex items-center flex-col mb-20">
       <div className="max-w-5xl space-y-6 ">
         <div className="flex flex-col lg:flex-row  ">
           <div className="relative w-full  ">
@@ -160,6 +161,10 @@ export default function ProjetsPage() {
           </button>
         </div>
       </div>
+      
     </div>
+    
+            <UI.Footer />
+    </>
   );
 }

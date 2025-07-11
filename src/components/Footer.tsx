@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const Footer = () => {
   return (
     <div className="min-h-[40vh] py-40 bg-base-300 flex items-center justify-center text-base-content">
@@ -11,14 +13,14 @@ const Footer = () => {
           <div className="text-sm mb-4 font-medium">
               Nkounga Exaucé is a designer driven by visual craft &amp; storytelling.
             <br />
-            Currently designing at Discord. Previously Google.
+            Currently fullstack developer at Wilkaî.
           </div>
 
           <div className="text-xs text-base-content/70 border-t border-base-content/70 pt-4">
             My 2025 portfolio is under construction—while that’s happening,
             <br />
-            you can find me on <a className="link link-hover" href="#">LinkedIn</a>, or say
-            <a className="link link-hover" href="mailto:nkoungagil@gmail.com"> nkoungagil@gmail.com</a>.
+            you can find me on <Link className="link link-hover" to="http://www.linkedin.com/in/exauce-nkounga">LinkedIn</Link>, or say
+            <Link className="link link-hover" to="mailto:nkoungagil@gmail.com"> nkoungagil@gmail.com</Link>.
           </div>
         </div>
 
