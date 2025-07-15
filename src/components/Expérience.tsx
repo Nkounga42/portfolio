@@ -10,8 +10,7 @@ const ExpRience = () => {
                 Mon parcours académique et mes expériences pratiques en
                 développement.
               </p>
-            </div>
-            <UI.Timeline />
+            </div> 
             {/* <div className="timeline timeline-snap-icon max-md:timeline-compact timeline-vertical">
             <div className="timeline-start md:text-end mb-10">
               <time className="font-mono italic">2024 - Présent</time>

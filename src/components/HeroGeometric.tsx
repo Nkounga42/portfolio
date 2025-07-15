@@ -1,4 +1,12 @@
 import { motion } from "framer-motion";
+interface MyProps {
+  className?: string;
+  delay?: number;
+  width?: number;
+  height?: number;
+  rotate?: number;
+  gradient?: string;
+}
 
 function ElegantShape({
   delay = 0,
@@ -6,13 +14,7 @@ function ElegantShape({
   height = 100,
   rotate = 0,
   gradient = "from-white/[0.08]",
-}: {
-  delay?: number;
-  width?: number;
-  height?: number;
-  rotate?: number;
-  gradient?: string;
-}) {
+}: MyProps) {
   return (
     <motion.div
       initial={{

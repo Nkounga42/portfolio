@@ -1,19 +1,16 @@
-import { 
-  Download,
-} from "lucide-react";
+import { Download } from "lucide-react";
 import { motion } from "motion/react";
 import * as UI from "../components/UICompoents";
 import { Link } from "react-router-dom";
-import InfiniteScroll from "../components/infiniteSchroll";
+import img from "../../public/image.jpg";
 
 export default function About() {
   return (
     <div className=" bg-base-200">
       <ProfileCard />
-      
-      <div className="min-h-screen flex items-center flex-col">
 
-<UI.Objectif/> 
+      <div className="min-h-screen flex items-center flex-col">
+        <UI.Objectif />
         <section className="py-20  ">
           <div className="container mx-auto px-4">
             <div className="text-center mb-16">
@@ -26,14 +23,13 @@ export default function About() {
               </p>
             </div>
             <UI.Timeline />
-             
           </div>
         </section>
       </div>
       <section className="py-40 bg-base-100 ">
         <div className="container mx-auto px-4 flex justify-center ">
           <div className="hero rounded-3xl max-w-4xl">
-            <div className="hero-content text-center text-primary-content py-12">
+            <div className="hero-content text-center text-base-content py-12">
               <div className="max-w-2xl">
                 <h2 className="text-4xl font-bold mb-4">
                   Travaillons Ensemble !
@@ -44,10 +40,10 @@ export default function About() {
                   N'hésitez pas à me contacter !
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                  <button className="rounded-full btn  text-base-content btn-lg">
+                  <button className="rounded-full btn  text-base-content btn-lg hover:bg-base-content hover:text-base-200">
                     Me Contacter
                   </button>
-                  <button className="rounded-full btn btn-outline btn-lg text-primary-content -primary-content hover:border-primary-content hover:bg-primary-content hover:text-base-200">
+                  <button className="rounded-full btn btn-outline btn-lg text-base-content -primary-content hover:border-base-content hover:bg-base-content hover:text-base-200">
                     Voir LinkedIn
                   </button>
                 </div>
@@ -56,8 +52,7 @@ export default function About() {
           </div>
         </div>
       </section>
-<div className=" flex items-center flex-col">
-        
+      <div className=" flex items-center flex-col">
         {/* <InfiniteScroll items={Array.from({ length: 10 }, (v, i) => i)} /> */}
       </div>
       <UI.Footer />
@@ -65,16 +60,17 @@ export default function About() {
   );
 }
 
- 
-
 const ProfileCard = () => {
   const viableToWork = false;
+  const handleDowload = () => {
+    window.location.href = "https://drive.google.com/file/d/16gRaEVVXpH_kSEK1x3MISM-og4zXeGza/view?usp=sharing";
+  }
   return (
     <div className="max-w-4xl mx-auto p-6  rounded-xl flex flex-col gap-4">
-      <div className="flex items-start gap-4 mt-15 ">
-        <div className="avatar">
+      <div className="flex flex-col sm:flex-row  sm:items-start items-center  justify-center gap-6 mt-6">
+        <div className="avatar align-top sm:mb-5">
           <div className="mask mask-squircle w-50">
-            <img src="../../public/image.jpg" />
+            <img src={img} />
           </div>
         </div>
         <div className="ml-5">
@@ -127,12 +123,13 @@ const ProfileCard = () => {
               </motion.div>
             )}
             <motion.div
-              className="flex text-sm text-base-content tracking-wide px-3 py-2 m x-3 rounded-full cursor-pointer"
+              className="flex text-sm text-base-content tracking-wide px-3 py-2 m x-3 rounded-full cursor-pointer hover:text-primary"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
+              onClick={handleDowload}
             >
               <Download className="h-5 w-5 mr-1" />
-              Télécharger mon CV
+              Voir mon CV
             </motion.div>
           </div>
         </div>

@@ -1,5 +1,6 @@
-import { ContactRound, HandMetal, MapPinned } from "lucide-react";
-import { useState, FormEvent } from "react";
+import { ContactRound,  MapPinned } from "lucide-react";
+import { useState } from "react";
+import type { FormEvent } from "react";
 
 export default function Getintouch() {
   const [formData, setFormData] = useState({

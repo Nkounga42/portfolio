@@ -1,66 +1,87 @@
-import { Flame, Github, Search } from "lucide-react";
+import { Github, Search, Menu } from "lucide-react";
 import * as UI from "./UICompoents";
 import { Link, useLocation } from "react-router-dom";
-import Logo from '../assets/logo'
+import Logo from "../assets/logo";
+
 const pages = {
   Home: "/",
   About: "/about",
   Projects: "/projects",
   Skills: "/skills",
   Experience: "/experience",
-  // Education: "/education",
-  // Blog: "/blog",
   Contact: "/contact",
 };
 
 const Header = () => {
-  const location = useLocation(); // Pour éviter d'utiliser window.location.pathname directement
+  const location = useLocation();
+ const scrollToTop=()=> {
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+  const NavLinks = () => (
+    <>
+      {Object.entries(pages).map(([page, url]) => (
+        <li key={url}>
+          <div
+            className={`text-sm px-2 h-[50px] flex items-center block ${
+              location.pathname === url && "border-primary" 
+            }`}
+            onClick={scrollToTop}
+          >
+            <Link
+             className={`text-sm px-2 h-[50px] flex items-center block ${
+              location.pathname === url
+                ? "font-semibold text-primary border-b"
+                : "text-base-content/70 hover:text-base-content"
+            }`} to={url}>{page}</Link>
+
+          </div>
+        </li>
+      ))}
+    </>
+  );
 
   return (
-    <div className="sticky top-0 left-0 right-0 z-90 bg-base-100/80 backdrop-blur-sm border-b border-base-200 flex items-center justify-center h-[50px]">
-      <div className="max-w-5xl mx-auto flex items-center justify-between w-full">
-        <div className="text-base flex items-center gap-2">
-          <Link to="/" className="text-xl mr-2 transition-all duration-200">
-             <Logo/>
+    <div className="sticky top-0 z-50 bg-base-100/80 backdrop-blur border-b border-base-200">
+      <div className="max-w-6xl mx-auto px-4 flex items-center justify-between h-[50px] ">
+        <div className="flex items-center gap-2">
+          <Link to="/" className="text-xl">
+            <Logo />
           </Link>
-
-          {Object.entries(pages).map(([page, url], index) => (
-            <div
-              key={url}
-              className={`h-[50px] flex items-center transition-all duration-200 ease-in-out ${
-                location.pathname === url ? "border-b-3 border-primary" : ""
-              }`}
-            >
-              <Link
-                to={url}
-                className={`text-base-content p-2 ${
-                  location.pathname === url
-                    ? "font-semibold"
-                    : "text-base-content/60 hover:text-base-content"
-                }`}
-                onClick={(e) => {
-                  if (url.startsWith("http")) {
-                    e.preventDefault();
-                  }
-                }}
-              >
-                {page}
-              </Link>
-            </div>
-          ))}
         </div>
 
-        <div className="text-base flex items-center gap-4 ml-4">
-          <button className="btn btn-primary btn-sm normal-case text-sm">
+        <ul className="hidden lg:flex items-center gap-2">{NavLinks()}</ul>
+
+        <div className="flex items-center gap-3">
+          <button className="btn btn-primary btn-sm hidden md:inline-flex">
             Prendre Contact
           </button>
-          <button>
-            <Search className="h-5 w-5 cursor-pointer" />
-          </button>
+
+          <Search className="h-5 w-5 cursor-pointer" />
           <UI.ThemeControler />
-          <Link to='https://github.com/Nkounga42' target="_blank" rel="noreferrer">
+          <Link
+            to="https://github.com/Nkounga42"
+            target="_blank"
+            rel="noreferrer"
+          >
             <Github className="h-5 w-5" />
           </Link>
+
+          <div className="dropdown dropdown-end lg:hidden">
+            <label tabIndex={0} className="btn btn-ghost btn-sm">
+              <Menu className="h-5 w-5" />
+            </label>
+            <ul
+              tabIndex={0}
+              className="dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
+            >
+              {NavLinks()}
+              <li className="block md:hidden">
+                <button className="btn btn-primary btn-sm w-full mt-2">
+                  Prendre Contact
+                </button>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>

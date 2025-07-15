@@ -7,14 +7,14 @@ import HeroSection from "./HeroSection";
 import Navbar from "./NavBar";
 import IdeasGrid from "./IdeasGrid";
 import EmptyPage from "./EmptyPage";
-import Newsletter from "./Newsletter";
-import Footer from "./footer";  
-import Carousel from "./Carousel";
-import Timeline from "./TimeLine";
+import Newsletter from "./Newsletter"; 
+import Carousel from "./Carousel"; 
 import Getintouch from "./Getintouch";
 import Testimonials from "./Testimonials";
 import Objectif from "./Objectif";
 
+import Footer from "./Footer";
+import Timeline from "./Timeline";
 
 export {
   ScrollIndicator,

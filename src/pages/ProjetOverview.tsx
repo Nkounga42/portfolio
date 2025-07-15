@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import { projets } from "../libs/data";
-import { FolderOpen, CalendarDays } from "lucide-react";
+import { CalendarDays } from "lucide-react";
 
 export default function ProjetOverview() {
   const { slug } = useParams();

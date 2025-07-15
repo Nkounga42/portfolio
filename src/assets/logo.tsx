@@ -1,7 +1,9 @@
-const Logo = ({ size = "46" }) => (
+import img from '../../public/image.jpg'
+
+const Logo = () => (
   <div className="avatar ">
     <div className="mask mask-squircle w-6">
-      <img src="../../public/image.jpg" />
+      <img src={img} />
     </div>
   </div>
 );

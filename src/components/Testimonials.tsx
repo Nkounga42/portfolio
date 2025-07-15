@@ -1,5 +1,3 @@
-// Testimonials.jsx
-import { Quote } from "lucide-react";
 
 const testimonials = [
   {

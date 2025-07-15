@@ -1,5 +1,4 @@
-import React from 'react';
-
+ 
 const BlurOverlay = () => {
   return (
     <div className="absolute bottom-0 left-0 inset-0 h-1/2 pointer-events-none flex flex-col ">
