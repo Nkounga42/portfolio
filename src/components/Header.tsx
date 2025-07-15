@@ -47,10 +47,10 @@ const Header = () => {
           <Link to="/" className="text-xl">
             <Logo />
           </Link>
-        </div>
+        
 
         <ul className="hidden lg:flex items-center gap-2">{NavLinks()}</ul>
-
+</div>
         <div className="flex items-center gap-3">
           <button className="btn btn-primary btn-sm hidden md:inline-flex">
             Prendre Contact
