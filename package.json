@@ -1,5 +1,8 @@
 {
-  "name": "portfolio",
+  "name": "Nkounga exaucé portfolio",
+  "author": "nkounga exauce",
+  "mail": "nkoungagil@gmail.com",
+  "homepage": "https://Nkounga42.github.io/portfolio/",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -7,13 +10,16 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "@fontsource/pacifico": "^5.2.5",
     "@splidejs/react-splide": "^0.7.12",
     "@splidejs/splide": "^4.1.4",
     "@tailwindcss/vite": "^4.1.7",
+    "gh-pages": "^6.3.0",
     "lucide-react": "^0.511.0",
     "motion": "^12.15.0",
     "react": "^19.1.0",

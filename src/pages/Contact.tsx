@@ -3,7 +3,7 @@ const Contact = () => {
   return (
     <>
     <UI.Getintouch/>
-    <UI.HeroSection />
+    {/* <UI.HeroSection /> */}
     <UI.Newsletter/>
     <UI.Footer/>
     </>

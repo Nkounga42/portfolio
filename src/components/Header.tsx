@@ -1,14 +1,14 @@
 import { Flame, Github, Search } from "lucide-react";
 import * as UI from "./UICompoents";
 import { Link, useLocation } from "react-router-dom";
-
+import Logo from '../assets/logo'
 const pages = {
   Home: "/",
   About: "/about",
   Projects: "/projects",
   Skills: "/skills",
   Experience: "/experience",
-  Education: "/education",
+  // Education: "/education",
   // Blog: "/blog",
   Contact: "/contact",
 };
@@ -21,7 +21,7 @@ const Header = () => {
       <div className="max-w-5xl mx-auto flex items-center justify-between w-full">
         <div className="text-base flex items-center gap-2">
           <Link to="/" className="text-xl mr-2 transition-all duration-200">
-            <Flame className="w-6 h-6" />
+             <Logo/>
           </Link>
 
           {Object.entries(pages).map(([page, url], index) => (

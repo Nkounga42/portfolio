@@ -27,8 +27,7 @@ a{
   cursor: pointer;
 }
 
-
-
+ 
  @plugin "daisyui/theme" {
   name: "dark";
   default: true;
@@ -64,7 +63,7 @@ a{
   --noise: 0;
 }
 
- 
+
 
 
   @plugin "daisyui/theme" {

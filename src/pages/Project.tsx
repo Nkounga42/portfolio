@@ -81,13 +81,13 @@ export default function ProjetsPage() {
                 </Link>
                   <button
                   onClick={prevImage}
-                  className="backdrop-blur-md h-12 w-12 border border-base-content/30 hover:border-primary/80 btn-circle mr-2 "
+                  className="backdrop-blur-md h-12 w-12 border border-base-content/30 hover:border-primary/80 btn-circle hover:text-primary mr-2 "
                 >
                   ❮
                 </button>
                 <button
                   onClick={nextImage}
-                  className="backdrop-blur-md h-12 w-12 border border-base-content/30 hover:border-primary/80 btn-circle "
+                  className="backdrop-blur-md h-12 w-12 border border-base-content/30 hover:border-primary/80 btn-circle hover:text-primary "
                 >
                   ❯
                 </button>
@@ -149,13 +149,13 @@ export default function ProjetsPage() {
           {/* Boutons du carousel projets */}
           <button
             onClick={prevProjet}
-            className=" backdrop-blur-md h-12 w-12 border border-base-content/30 hover:border-primary/80 btn-circle absolute -left-5 top-1/2 -translate-y-1/2 z-10"
+            className=" backdrop-blur-md h-12 w-12 border border-base-content/30 hover:border-primary/80 btn-circle hover:text-primary absolute -left-5 top-1/2 -translate-y-1/2 z-10"
           >
             ❮
           </button>
           <button
             onClick={nextProjet}
-            className="backdrop-blur-md h-12 w-12 border border-base-content/30 hover:border-primary/80 btn-circle absolute -right-5 top-1/2 -translate-y-1/2 z-10"
+            className="backdrop-blur-md h-12 w-12 border border-base-content/30 hover:border-primary/80 btn-circle hover:text-primary absolute -right-5 top-1/2 -translate-y-1/2 z-10"
           >
             ❯
           </button>

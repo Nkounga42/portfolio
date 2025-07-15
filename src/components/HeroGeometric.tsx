@@ -78,7 +78,7 @@ export default function HeroGeometric({
   return (
     <div className="relative min-h-[80vh] w-full  flex items-center justify-center mb-5 pb-20 space-y-3">
 
-      <div className="absolute inset-0 z-[-1] w-[80%] ml-40 ">
+      <div className="absolute inset-0 z-[-1] w-[80%] ml-40 hidden" >
         <ElegantShape
           delay={0.3}
           width={600}

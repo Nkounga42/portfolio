@@ -75,7 +75,61 @@ const Skills = () => {
           ))}
         </div>
       </div>
+      {/* <Skill/> */}
     </section>
   );
 };
 export default Skills;
+
+
+// import {
+//   SiReact,
+//   SiBlazor,
+//   SiExpo,
+//   SiDotnet,
+//   SiPython,
+//   SiCsharp,
+//   SiCplusplus,
+//   SiHtml5,
+//   SiCss3,
+//   SiJavascript,
+//   SiTypescript,
+//   SiMysql,
+// } from "react-icons/si";
+// import { DiReact } from "react-icons/di"; // exemple si on préfère Devicons
+// import { IconType } from "react-icons";
+
+// export  function Skill() {
+//   const skills: { name: string; icon: IconType; color: string }[] = [
+//     { name: "React", icon: SiReact, color: "#61DAFB" },
+//     { name: "Blazor", icon: SiBlazor, color: "#512BD4" },
+//     { name: "Expo", icon: SiExpo, color: "#000020" },
+//     { name: ".NET", icon: SiDotnet, color: "#512BD4" },
+//     { name: "Python", icon: SiPython, color: "#3776AB" },
+//     { name: "C#", icon: SiCsharp, color: "#239120" },
+//     { name: "C++", icon: SiCplusplus, color: "#00599C" },
+//     { name: "HTML", icon: SiHtml5, color: "#E34F26" },
+//     { name: "CSS", icon: SiCss3, color: "#1572B6" },
+//     { name: "JavaScript", icon: SiJavascript, color: "#F7DF1E" },
+//     { name: "TypeScript", icon: SiTypescript, color: "#3178C6" },
+//     { name: "MySQL", icon: SiMysql, color: "#4479A1" },
+//   ];
+
+//   return (
+//     <section className="p-10 max-w-6xl mx-auto">
+//       <h2 className="text-4xl font-bold mb-8 text-center">💡 Mes Compétences</h2>
+//       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
+//         {skills.map(({ name, icon: Icon, color }, i) => (
+//           <div
+//             key={i}
+//             className="flex flex-col items-center justify-center bg-base-100 shadow-md p-6 rounded-lg hover:shadow-xl transition-transform hover:scale-105"
+//           >
+//             <Icon className="w-12 h-12" style={{ color }} />
+//             <h3 className="text-lg font-semibold mt-2">{name}</h3>
+//           </div>
+//         ))}
+//       </div>
+//     </section>
+//   );
+// }
+

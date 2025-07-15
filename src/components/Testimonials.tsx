@@ -47,16 +47,15 @@ export default function Testimonials() {
 
   return (
     <section className=" text-base-content   m-50">
-      <div className="max-w-6xl  h-50 mx-auto grid md:grid-cols-2 gap-12 items-start">
+      <div className="max-w-6xl  h-60 mx-auto grid md:grid-cols-2 gap-12 items-start">
         {/* Left */}
         <div>
           <p className="text-secondary font-medium mb-2">TESTIMONIALS</p>
           <h2 className="text-4xl font-bold mb-4 leading-tight">
-            What others say
+            Ce que les autres disent
           </h2>
           <p className="text-base-content/80 text-lg">
-            I’ve worked with some amazing people over the years. Here is what
-            they have to say about me.
+            J’ai travaillé avec des gens extraordinaires au fil des ans. Voici ce qu’ils ont à dire sur moi.
           </p>
         </div>
 
@@ -90,17 +89,17 @@ export default function Testimonials() {
         <div className="flex items-center gap-4 text-base-content ">
 
           <button
-            className="btn btn-circle btn-sm border border-gray-600"
+            className="backdrop-blur-md h-12 w-12 border border-base-content/30 hover:border-primary/80 btn-circle hover:text-primary flex justify-center items-center"
             onClick={prev}
           >
-            <ArrowLeft className="w-4 h-4" />
+            <ArrowLeft size="16" />
           </button>
           <span className="text-sm">{index + 1} / {total}</span>
           <button
-            className="btn btn-circle btn-sm border border-gray-600"
+            className="backdrop-blur-md h-12 w-12 border border-base-content/30 hover:border-primary/80 btn-circle hover:text-primary flex justify-center items-center"
             onClick={next}
           >
-            <ArrowRight className="w-4 h-4" />
+            <ArrowRight size="16" />
           </button>
         </div>
       </div>
