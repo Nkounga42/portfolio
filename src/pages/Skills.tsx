@@ -16,7 +16,7 @@ const Skills = () => {
               category: "Frontend",
               skills: [
                 "React",
-                "Next.js",
+                "Expo",
                 "TypeScript",
                 "Tailwind CSS",
                 "HTML/CSS",
@@ -26,7 +26,7 @@ const Skills = () => {
             },
             {
               category: "Backend",
-              skills: ["Node.js", "Express", "Python", "Django", "API REST"],
+              skills: ["Node.js", "Express", "Python", "API REST"],
               level: "Intermédiaire",
               color: "badge-secondary",
             },
@@ -38,19 +38,19 @@ const Skills = () => {
             },
             {
               category: "Outils & DevOps",
-              skills: ["Git", "GitHub", "Docker", "Vercel", "VS Code"],
+              skills: ["Git", "GitHub", "Docker",  "VS Code"],
               level: "Avancé",
               color: "badge-info",
             },
             {
               category: "Mobile",
-              skills: ["React Native", "Expo", "Flutter (débutant)"],
+              skills: ["React Native", "Expo", "Blazor (débutant)"],
               level: "Débutant",
               color: "badge-warning",
             },
             {
               category: "Autres",
-              skills: ["Figma", "Photoshop", "Agile/Scrum", "Tests unitaires"],
+              skills: ["Figma", "Photoshop", "Lunacy",'curve', "Tests unitaires"],
               level: "Intermédiaire",
               color: "badge-success",
             },

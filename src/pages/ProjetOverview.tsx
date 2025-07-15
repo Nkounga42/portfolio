@@ -20,7 +20,7 @@ export default function ProjetOverview() {
         }}
       >
         <div className=" w-full h-[60vh] overflow-hidden rounded-b-2xl inset-0 flex justify-center items-end bg-gradient-to-t from-base-200/90 to-transparent ">
-          <div className="text-white space-y-2 w-[75%] mb-10  ">
+          <div className="text-base-content space-y-2 w-[75%] mb-10  ">
             <h1 className="text-4xl   font-semibold flex items-center gap-2">
               {projet.nom}
             </h1>

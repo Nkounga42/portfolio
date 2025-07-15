@@ -25,7 +25,8 @@ if (root) {
   ReactDOM.createRoot(root).render(
     <>
       <BrowserRouter>
-        {href === route.Contact.path && <UI.Navbar />}
+        {href.includes(route.Contact.path) && <UI.Navbar />}
+
         {href !== route.Page404.path && <UI.Header />}
         <Routes>
           {Object.values(route).map((page) => (
