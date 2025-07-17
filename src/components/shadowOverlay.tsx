@@ -6,7 +6,7 @@
  * @returns {JSX.Element} Un élément div avec un style de superposition de flou dégradé
  */
 
-const shadowOverlay = ({direction = "toTop", position = "bottom", type = "fixed", index = "88"}:{direction?:string; type?:string; position?: string; index?:string})=>{
+const ShadowOverlay = ({direction = "toTop", position = "bottom", type = "fixed", index = "88"}:{direction?:string; type?:string; position?: string; index?:string})=>{
 
   return(
     <div className=
@@ -18,4 +18,4 @@ const shadowOverlay = ({direction = "toTop", position = "bottom", type = "fixed"
   )
 }
 
-export default shadowOverlay;
+export default ShadowOverlay;

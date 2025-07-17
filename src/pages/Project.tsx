@@ -1,33 +1,34 @@
 import { useState, useRef } from "react";
 import { projets } from "../libs/data";
 import { Calendar } from "lucide-react";
-import { Link } from "react-router";
-import * as UI from "../components/UICompoents";
+import { Link, useNavigate } from "react-router";
+
+
 export default function ProjetsPage() {
+  const navigate = useNavigate();
+   
   const [activeIndex, setActiveIndex] = useState(0);
   const [imageIndex, setImageIndex] = useState(0);
-const carouselRef = useRef<HTMLDivElement>(null);
+  const carouselRef = useRef<HTMLDivElement>(null);
   const scrollToItem = (index: number) => {
-  const carousel = carouselRef.current as HTMLDivElement;
+    const carousel = carouselRef.current as HTMLDivElement;
 
-  if (carousel && carousel.children[index]) {
-    carousel.children[index].scrollIntoView({
-      behavior: "smooth",
-      inline: "center",
-    });
+    if (carousel && carousel.children[index]) {
+      carousel.children[index].scrollIntoView({
+        behavior: "smooth",
+        inline: "center",
+      });
 
-    setActiveIndex(index);
-    setImageIndex(0);
-
-    // Scroll le carousel au centre vertical de l'écran
-    scrollCarouselToCenter();
-  }
-};
-
+      setActiveIndex(index);
+      setImageIndex(0);
+ 
+      scrollCarouselToCenter();
+    }
+  };
 
   const nextProjet = () => scrollToItem((activeIndex + 1) % projets.length);
-  const prevProjet = () =>
-    scrollToItem((activeIndex - 1 + projets.length) % projets.length);
+  const prevProjet = () => scrollToItem((activeIndex - 1 + projets.length) % projets.length);
+  
   const nextImage = () => {
     const total = projets[activeIndex].imagesIllustration.length;
     setImageIndex((imageIndex + 1) % total);
@@ -38,20 +39,19 @@ const carouselRef = useRef<HTMLDivElement>(null);
   };
 
   const projetActif = projets[activeIndex];
-const scrollCarouselToCenter = () => {
-  const carousel = carouselRef.current as HTMLDivElement;
-  if (carousel) {
-    const rect = carousel.getBoundingClientRect();
-    const offsetTop = window.scrollY + rect.top;
-    const centerY = offsetTop - window.innerHeight / 2 + rect.height / 2;
+  const scrollCarouselToCenter = () => {
+    const carousel = carouselRef.current as HTMLDivElement;
+    if (carousel) {
+      const rect = carousel.getBoundingClientRect();
+      const offsetTop = window.scrollY + rect.top;
+      const centerY = offsetTop - window.innerHeight / 2 + rect.height / 2;
 
-    window.scrollTo({
-      top: centerY,
-      behavior: "smooth",
-    });
-  }
-};
-
+      window.scrollTo({
+        top: centerY,
+        behavior: "smooth",
+      });
+    }
+  };
 
   return (
     <>
@@ -65,12 +65,11 @@ const scrollCarouselToCenter = () => {
                   alt={projetActif.nom}
                   className="w-full h-full object-cover"
                   onError={(e) => {
-  const target = e.target as HTMLImageElement;
-  target.onerror = null;
-  target.src = "https://i.pinimg.com/736x/36/85/37/368537ab800464ee9b14d843e117ab01.jpg";
-}}
-
-                  
+                    const target = e.target as HTMLImageElement;
+                    target.onerror = null;
+                    target.src =
+                      "https://i.pinimg.com/736x/36/85/37/368537ab800464ee9b14d843e117ab01.jpg";
+                  }}
                 />
               </figure>
               <div className="absolute bottom-0 p-15 right-0 left-0 flex justify-between items-end z-10 text-white  bg-gradient-to-t  from-base-200 to-transparent">
@@ -145,6 +144,10 @@ const scrollCarouselToCenter = () => {
                 <div
                   key={projet.slug}
                   onClick={() => scrollToItem(index)}
+                  onDoubleClick={() => {navigate(`/projects/${projet.slug}`) ;window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });}} 
                   className={`carousel-item min-w-[250px] my-15 bg-base-200 sm:min-w-[280px] max-w-xs rounded-xl cursor-pointer transition-all duration-300 hover:border-primary/10 hover:shadow-xl border-2 ${
                     index === activeIndex
                       ? "border-primary bg-primary/40 shadow-2xl"
@@ -156,6 +159,12 @@ const scrollCarouselToCenter = () => {
                       <img
                         src={projet.imagesIllustration[0]}
                         alt={projet.nom}
+                        onError={(e) => {
+                          const target = e.target as HTMLImageElement;
+                          target.onerror = null;
+                          target.src =
+                            "https://i.pinimg.com/736x/36/85/37/368537ab800464ee9b14d843e117ab01.jpg";
+                        }}
                         className="h-36 sm:h-40 w-full object-cover"
                       />
                     </figure>
@@ -169,8 +178,7 @@ const scrollCarouselToCenter = () => {
                 </div>
               ))}
             </div>
-
-            {/* Boutons du carousel projets */}
+ 
             <button
               onClick={prevProjet}
               className=" backdrop-blur-md h-12 w-12 border border-base-content/30 hover:border-primary/80 btn-circle hover:text-primary absolute -left-5 top-1/2 -translate-y-1/2 z-10"
@@ -186,8 +194,6 @@ const scrollCarouselToCenter = () => {
           </div>
         </div>
       </div>
-
-      <UI.Footer />
     </>
   );
 }

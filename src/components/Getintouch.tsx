@@ -42,7 +42,8 @@ export default function Getintouch() {
   };
 
   return (
-    <div className="relative isolate overflow-hidden py-16 sm:py-24 lg:py-32 flex justify-center bg-base-200">
+    <div id='contactfield' className="relative isolate overflow-hidden py-16 sm:py-24 lg:py-32 flex justify-center bg-base-200">
+
       <div className="hero-content flex-col items-start pl-10 col-revers lg:flex-row gap-8 max-w-6xl">
         <div className="text-center lg:text-left max-w-xl">
           <h2 className="text-4xl font-bold">Entrer en contact</h2>

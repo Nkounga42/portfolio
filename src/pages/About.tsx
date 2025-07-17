@@ -3,12 +3,13 @@ import { motion } from "motion/react";
 import * as UI from "../components/UICompoents";
 import { Link } from "react-router-dom";
 import img from "../../public/image.jpg";
+import {SocialLogo} from "../components/customerLogo";
 
 export default function About() {
   return (
-    <div className=" bg-base-200">
+    <div className=" ">
       <ProfileCard />
-
+      <SocialLogo/>
       <div className="min-h-screen flex items-center flex-col">
         <UI.Objectif />
         <section className="py-20  ">
@@ -40,12 +41,16 @@ export default function About() {
                   N'hésitez pas à me contacter !
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                  <button className="rounded-full btn  text-base-content btn-lg hover:bg-base-content hover:text-base-200">
+                  <Link className="rounded-full btn  text-base-content btn-lg hover:bg-base-content hover:text-base-200"
+                  to='/contact#contactfield'
+                  >
                     Me Contacter
-                  </button>
-                  <button className="rounded-full btn btn-outline btn-lg text-base-content -primary-content hover:border-base-content hover:bg-base-content hover:text-base-200">
+                  </Link>
+                  <Link className="rounded-full btn btn-outline btn-lg text-base-content -primary-content hover:border-base-content hover:bg-base-content hover:text-base-200"
+                  to="https://www.linkedin.com/in/exauce-nkounga/"
+                  >
                     Voir LinkedIn
-                  </button>
+                  </Link>
                 </div>
               </div>
             </div>
@@ -54,8 +59,7 @@ export default function About() {
       </section>
       <div className=" flex items-center flex-col">
         {/* <InfiniteScroll items={Array.from({ length: 10 }, (v, i) => i)} /> */}
-      </div>
-      <UI.Footer />
+      </div> 
     </div>
   );
 }

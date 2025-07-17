@@ -1,6 +1,6 @@
 const Skills = () => {
   return (
-    <section className="py-20 bg-base-100 flex-col flex items-center">
+    <section className="pb-20 pt-15 bg-base-100 flex-col flex items-center">
       <div className="container mx-auto px-4 max-w-5xl ">
         <div className="text-left mb-16 ">
           <h2 className="text-4xl font-bold mb-4">Mes Compétences</h2>
@@ -32,7 +32,7 @@ const Skills = () => {
             },
             {
               category: "Base de Données",
-              skills: ["MongoDB", "PostgreSQL", "MySQL", "Prisma", "Supabase"],
+              skills: ["FireBase", "MySQL", ],
               level: "Intermédiaire",
               color: "badge-accent",
             },
@@ -44,7 +44,7 @@ const Skills = () => {
             },
             {
               category: "Mobile",
-              skills: ["React Native", "Expo", "Blazor (débutant)"],
+              skills: ["React Native", "Expo", "Blazor"],
               level: "Débutant",
               color: "badge-warning",
             },
@@ -75,44 +75,27 @@ const Skills = () => {
           ))}
         </div>
       </div>
-      {/* <Skill/> */}
+      {/* <Skill_/> */}
     </section>
   );
 };
 export default Skills;
 
-
-// import {
-//   SiReact,
-//   SiBlazor,
-//   SiExpo,
-//   SiDotnet,
-//   SiPython,
-//   SiCsharp,
-//   SiCplusplus,
-//   SiHtml5,
-//   SiCss3,
-//   SiJavascript,
-//   SiTypescript,
-//   SiMysql,
-// } from "react-icons/si";
-// import { DiReact } from "react-icons/di"; // exemple si on préfère Devicons
-// import { IconType } from "react-icons";
-
-// export  function Skill() {
+ 
+// export function Skill_() {
 //   const skills: { name: string; icon: IconType; color: string }[] = [
-//     { name: "React", icon: SiReact, color: "#61DAFB" },
-//     { name: "Blazor", icon: SiBlazor, color: "#512BD4" },
-//     { name: "Expo", icon: SiExpo, color: "#000020" },
-//     { name: ".NET", icon: SiDotnet, color: "#512BD4" },
-//     { name: "Python", icon: SiPython, color: "#3776AB" },
-//     { name: "C#", icon: SiCsharp, color: "#239120" },
-//     { name: "C++", icon: SiCplusplus, color: "#00599C" },
-//     { name: "HTML", icon: SiHtml5, color: "#E34F26" },
-//     { name: "CSS", icon: SiCss3, color: "#1572B6" },
-//     { name: "JavaScript", icon: SiJavascript, color: "#F7DF1E" },
-//     { name: "TypeScript", icon: SiTypescript, color: "#3178C6" },
-//     { name: "MySQL", icon: SiMysql, color: "#4479A1" },
+//     { name: "React", icon: },
+//     { name: "Blazor", icon:  },
+//     { name: "Expo", icon: },
+//     { name: ".NET", icon:  },
+//     { name: "Python", icon: },
+//     { name: "C#", icon: },
+//     { name: "C++", _icon: },
+//     { name: "HTML", icon: },
+//     { name: "CSS", icon: },
+//     { name: "JavaScript", icon: },
+//     { name: "TypeScript", icon: },
+//     { name: "MySQL", icon: },
 //   ];
 
 //   return (
@@ -122,7 +105,7 @@ export default Skills;
 //         {skills.map(({ name, icon: Icon, color }, i) => (
 //           <div
 //             key={i}
-//             className="flex flex-col items-center justify-center bg-base-100 shadow-md p-6 rounded-lg hover:shadow-xl transition-transform hover:scale-105"
+//             className="flex flex-col items-center justify-center bg-base-100 shadow-md p-6 rounded-lg hover:shadow-xl tranFation-transform hover:scale-105"
 //           >
 //             <Icon className="w-12 h-12" style={{ color }} />
 //             <h3 className="text-lg font-semibold mt-2">{name}</h3>
@@ -132,4 +115,3 @@ export default Skills;
 //     </section>
 //   );
 // }
-

@@ -1,62 +1,105 @@
 import { Github, Search, Menu } from "lucide-react";
 import * as UI from "./UICompoents";
 import { Link, useLocation } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
+import { motion } from "framer-motion";
 import Logo from "../assets/logo";
 
 const pages = {
   Home: "/",
-  About: "/about",
   Projects: "/projects",
   Skills: "/skills",
   Experience: "/experience",
+  About: "/about",
   Contact: "/contact",
 };
 
 const Header = () => {
   const location = useLocation();
- const scrollToTop=()=> {
-  window.scrollTo({ top: 0, behavior: "smooth" });
-}
+  const navRef = useRef<HTMLUListElement>(null);
+  const [indicatorStyle, setIndicatorStyle] = useState({ left: 0, width: 0 });
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    const nav = navRef.current;
+    if (!nav) return;
+
+    const activeLink = nav.querySelector(
+      `a[href="${location.pathname}"]`
+    ) as HTMLElement;
+
+    if (activeLink) {
+      setIndicatorStyle({
+        left: activeLink.offsetLeft,
+        width: activeLink.offsetWidth,
+      });
+    }
+  }, [location.pathname]);
   const NavLinks = () => (
-    <>
-      {Object.entries(pages).map(([page, url]) => (
-        <li key={url}>
-          <div
-            className={`text-sm px-2 h-[50px] flex items-center block ${
-              location.pathname === url && "border-primary" 
-            }`}
+    <> 
+
+      {Object.entries(pages).map(([page, url]) => {
+        const currentPath = location.pathname;
+        const isActive =    url === "/"
+          ? currentPath === "/"
+          : currentPath.startsWith(url); 
+        return (
+          <li key={url}>
+            <Link
+            to={url}
+            className={`text-sm px-2 h-[50px] flex items-center block transition-colors duration-300 ${
+  isActive
+    ? "text-primary"
+    : "text-base-content/70 hover:text-base-content"
+}`}
+
             onClick={scrollToTop}
           >
-            <Link
-             className={`text-sm px-2 h-[50px] flex items-center block ${
-              location.pathname === url
-                ? "font-semibold text-primary border-b"
-                : "text-base-content/70 hover:text-base-content"
-            }`} to={url}>{page}</Link>
-
-          </div>
-        </li>
-      ))}
+            {page}
+          </Link>
+          </li>
+        );
+      })}
     </>
   );
 
   return (
-    <div className="sticky top-0 z-50 bg-base-100/80 backdrop-blur border-b border-base-200">
-      <div className="max-w-6xl mx-auto px-4 flex items-center justify-between h-[50px] ">
+    <div className="fixed overflow-hidden top-2 left-0 right-0 z-50 flex justify-center items-center">
+      <div className="max-w-6xl rounded-full mx-auto px-4 flex items-center justify-between h-[50px] gap-15 border border-base-content/10 bg-base-100/60 backdrop-blur-[10px]">
         <div className="flex items-center gap-2">
           <Link to="/" className="text-xl">
             <Logo />
           </Link>
-        
 
-        <ul className="hidden lg:flex items-center gap-2">{NavLinks()}</ul>
-</div>
+          <ul
+            ref={navRef}
+            className="hidden lg:flex items-center justify-center relative"
+          >
+            {NavLinks()} 
+            <motion.div
+              className="absolute bottom-0 h-[2px] bg-primary rounded transition-all headerIndicator"
+              layout
+              transition={{ type: "spring", stiffness: 300, damping: 30 }}
+              style={{
+                left: indicatorStyle.left,
+                width: indicatorStyle.width,
+              }}
+            />
+          </ul>
+        </div>
+
         <div className="flex items-center gap-3">
-          <button className="btn btn-primary btn-sm hidden md:inline-flex">
+          <Link className="btn btn-primary btn-sm hidden md:inline-flex"
+            to="/contact#contactfield"
+          >
             Prendre Contact
-          </button>
-
-          <Search className="h-5 w-5 cursor-pointer" />
+          </Link>
+          <Link to="/search">
+            <Search className="h-5 w-5 cursor-pointer" />
+          </Link>
           <UI.ThemeControler />
           <Link
             to="https://github.com/Nkounga42"

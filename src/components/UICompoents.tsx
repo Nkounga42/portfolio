@@ -1,6 +1,6 @@
 import ScrollIndicator from "./ScrollIndicator";
 import Paragraph from "./Paragraph";
-import shadowOverlay from "./shadowOverlay";
+import ShadowOverlay from "./shadowOverlay";
 import Header from "./Header";
 import ThemeControler from "./ThemeControler";
 import HeroSection from "./HeroSection";
@@ -19,7 +19,7 @@ import Timeline from "./Timeline";
 export {
   ScrollIndicator,
   Paragraph,
-  shadowOverlay,
+  ShadowOverlay,
   ThemeControler,
   Header,
   HeroSection,

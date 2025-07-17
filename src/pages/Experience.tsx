@@ -1,6 +1,6 @@
 export default function Experience() {
   return (
-    <div className=" py-24 sm:py-32">
+    <div className=" pb-24  pt-20">
       <div className="mx-auto max-w-2xl px-6 lg:max-w-7xl lg:px-8">
          
           
