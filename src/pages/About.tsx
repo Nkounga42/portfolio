@@ -3,15 +3,47 @@ import { motion } from "motion/react";
 import * as UI from "../components/UICompoents";
 import { Link } from "react-router-dom";
 import img from "../../public/image.jpg";
-import {SocialLogo} from "../components/customerLogo";
+
+// import {SocialLogo} from "../components/customerLogo";
 
 export default function About() {
+  
+  const fadeUpVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: (i: number) => ({
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 1,
+        delay: 0.5 + i * 0.2,
+        ease: [0.25, 0.4, 0.25, 1],
+      },
+    }),
+  };
+
   return (
     <div className=" ">
+      <motion.div
+        custom={1}
+        variants={fadeUpVariants}
+        initial="hidden"
+        animate="visible"
+      >
       <ProfileCard />
-      <SocialLogo/>
+      </motion.div>
+
+      {/* <SocialLogo/> */}
       <div className="min-h-screen flex items-center flex-col">
+        <motion.div
+        custom={2}
+        variants={fadeUpVariants}
+        initial="hidden"
+        animate="visible"
+        className="w-full"
+      >
+
         <UI.Objectif />
+      </motion.div>
         <section className="py-20  ">
           <div className="container mx-auto px-4">
             <div className="text-center mb-16">

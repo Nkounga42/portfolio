@@ -99,20 +99,61 @@ export default function Skills() {
       url: socialLinks[key],
     }))
     .filter((skill) => !!skill.icon);
-
+  const fadeUpVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: (i: number) => ({
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 1,
+        delay: i * 0.05,
+        ease: [0.2, 0.4, 0.9, 1],
+      },
+    }),
+  };
+  const fadeVariants = {
+    hidden: { opacity: 0 },
+    visible: (i: number) => ({
+      opacity: 1,
+      transition: {
+        duration: 1,
+        delay: 0.03 + i * 0.2,
+        ease: [0.2, 0.4, 0.9, 1],
+      },
+    }),
+  };
   return (
     <section className="pb-20 pt-10 bg-base-100 flex flex-col items-center">
       <div className="container mx-auto px-4 max-w-5xl">
         <div className="text-left mb-6">
-          <h2 className="text-4xl font-bold mb-4">Mes Compétences</h2>
-          <p className="text-lg max-w-2xl opacity-80">
-            Voici les technologies et outils que j'ai appris et utilisés dans
-            mes projets académiques et personnels.
-          </p>
+          <motion.div
+            custom={1}
+            variants={fadeUpVariants}
+            initial="hidden"
+            animate="visible"
+          >
+            <h2 className="text-4xl font-bold mb-4">Mes Compétences</h2>
+          </motion.div>
+          <motion.div
+            custom={2}
+            variants={fadeUpVariants}
+            initial="hidden"
+            animate="visible"
+          >
+            <p className="text-lg max-w-2xl opacity-80">
+              Voici les technologies et outils que j'ai appris et utilisés dans
+              mes projets académiques et personnels.
+            </p>
+          </motion.div>
         </div>
 
         {/* Tabs */}
-        <div className="relative flex gap-3 pt-2 mb-6 border-b border-base-content/10 overflow-y-hidden overflow-x-visible">
+        <motion.div
+            custom={2}
+            variants={fadeUpVariants}
+            initial="hidden"
+            animate="visible"
+           className="relative flex gap-3 pt-2 mb-6 border-b border-base-content/10 overflow-y-hidden overflow-x-visible">
           {tabs.map((tab, i) => (
             <Link
               to={`#${tab}`}
@@ -127,7 +168,12 @@ export default function Skills() {
               }`}
               onClick={() => setActiveTab(tab)}
             >
-              {tab.replace(/_/g, " ").replace(/\b\w/g, (l) => l.toUpperCase())}
+              <div 
+              >
+                {tab
+                  .replace(/_/g, " ")
+                  .replace(/\b\w/g, (l) => l.toUpperCase())}
+              </div>
             </Link>
           ))}
           <motion.div
@@ -136,12 +182,16 @@ export default function Skills() {
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
             style={indicator}
           />
-        </div>
-
+         
+</motion.div>
         {/* Skills Grid */}
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
           {displayedSkills.map(({ name, icon, url }, i) => (
-            <div
+            <motion.div
+              custom={i / 3}
+              variants={fadeVariants}
+              initial="hidden"
+              animate="visible"
               key={i}
               className="flex flex-col items-center justify-center bg-base-100 bg-base-200/20  p-4 rounded-xl  transition-transform hover:scale-105"
             >
@@ -161,7 +211,7 @@ export default function Skills() {
                 />
               )}
               <p className="mt-2 text-center text-sm font-medium">{name}</p>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>

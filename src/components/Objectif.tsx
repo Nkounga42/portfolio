@@ -41,8 +41,8 @@ const goalList = [
 const goalContent = "Déterminé à acquérir une expérience professionnelle significative dans un environnement stimulant. Je désire contribuer activement à des projets tout en mettant à profit mes compétences dans le développement professionnel et personnel."
 const Objectif = () => {
   return (
-    <section className="py-20 pb-30 mt-10 my-0 w-full bg-base-300 ">
-      <div className="container mx-auto px-4">
+    <section className="py-20 flex items-center pb-30 mt-10 my-0 w-full bg-base-300 ">
+      <div className="container max-w-5xl mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className="text-4xl font-bold mb-4">Mes Objectifs</h2>
           <p className="text-lg max-w-2xl mx-auto opacity-80">

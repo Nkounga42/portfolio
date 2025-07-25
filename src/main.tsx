@@ -54,7 +54,7 @@ const BrowserDom = () => {
         <Suspense
           fallback={<div className="text-center p-10">Chargement...</div>}
         >
-          {location.pathname.includes(route.Contact.path) && <UI.Navbar />}
+          {/* {location.pathname.includes(route.Contact.path) && <UI.Navbar />} */}
           <Routes>
             <Route path={route.Home.path} element={route.Home.render()} />
 

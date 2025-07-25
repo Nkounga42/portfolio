@@ -10,7 +10,7 @@ const Contact = () => {
     if (location.hash) {
       const id = location.hash.replace("#", "");
       const el = document.getElementById(id);
-      if (el) {
+      if (el) { 
         // Attend que le DOM soit prêt
         setTimeout(() => {
           el.scrollIntoView({ behavior: "smooth" });

@@ -73,11 +73,11 @@ const Header = () => {
         className={`${
           headerFloat
             ? "max-w-6xl rounded-full backdrop-blur-[10px]  border-base-content/10 bg-base-100/80 "
-            : "min-w-4xl  "
+            : "lg:min-w-4xl  "
         }    px-4 flex items-center justify-between h-[50px] gap-15  `}
       >
         <div className="flex items-center gap-2">
-          <Link to="/" className="text-xl">
+          <Link to="/portfolio/" className="text-xl">
             <Logo />
           </Link>
 
@@ -101,7 +101,7 @@ const Header = () => {
         <div className="flex items-center gap-3">
           <Link
             className="btn btn-primary btn-sm hidden md:inline-flex"
-            to="/contact#contactfield"
+            to="/portfolio/contact#contactfield"
           >
             Prendre Contact
           </Link>

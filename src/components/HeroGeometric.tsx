@@ -84,7 +84,7 @@ const backgroundImage = theme === "dark" ? bgDark : bgLight;
         backgroundRepeat: "no-repeat", 
       }}
     >
-      <div className="absolute inset-0 z-[30] w-full h-screen top-0 left-0 xs:hidden sm:visible">
+      <div className="absolute inset-0 z-[30] w-full h-screen top-0 left-0 hidden lg:block">
         <ElegantShape delay={0.3} width={600} height={140} rotate={12} gradient="from-indigo-500/[0.15]" className="left-[60%] top-[15%]" />
         <ElegantShape delay={0.5} width={500} height={120} rotate={-15} gradient="from-rose-500/[0.15]" className="right-0 top-[75%]" />
         <ElegantShape delay={0.4} width={300} height={80} rotate={-8} gradient="from-violet-500/[0.15]" className="left-[10%] bottom-[10%]" />
