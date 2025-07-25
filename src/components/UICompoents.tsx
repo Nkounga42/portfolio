@@ -1,6 +1,6 @@
 import ScrollIndicator from "./ScrollIndicator";
 import Paragraph from "./Paragraph";
-import ShadowOverlay from "./shadowOverlay";
+import ShadowOverlay from "./ShadowOverlay";
 import Header from "./Header";
 import ThemeControler from "./ThemeControler";
 import HeroSection from "./HeroSection";

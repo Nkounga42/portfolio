@@ -78,7 +78,7 @@ const tabs = Object.keys(categories);
 
 export default function Skills() {
   const [activeTab, setActiveTab] = useState("Frontend");
-  const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  const tabRefs = useRef<(HTMLAnchorElement | null)[]>([]);
   const [indicator, setIndicator] = useState({ left: 0, width: 0 });
 
   useEffect(() => {
@@ -117,7 +117,9 @@ export default function Skills() {
             <Link
               to={`#${tab}`}
               key={tab}
-              ref={(el) => (tabRefs.current[i] = el)}
+              ref={(el) => {
+                tabRefs.current[i] = el;
+              }}
               className={`pb-2 px-4 text-sm font-medium transition-colors duration-300 whitespace-nowrap ${
                 tab === activeTab
                   ? "text-primary"

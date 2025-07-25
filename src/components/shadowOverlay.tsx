@@ -1,10 +1,10 @@
-/**
- * Un composant qui crée un effet de superposition de flou dégradé
- * @param {Object} props - Les props du composant
- * @param {string} [props.direction="toTop"] - La direction du flou dégradé ("toTop" ou "toBottom")
- * @param {string} [props.position="top"] - La position de la superposition ("top" ou "bottom")
- * @returns {JSX.Element} Un élément div avec un style de superposition de flou dégradé
- */
+// /**
+//  * Un composant qui crée un effet de superposition de flou dégradé
+//  * @param {Object} props - Les props du composant
+//  * @param {string} [props.direction="toTop"] - La direction du flou dégradé ("toTop" ou "toBottom")
+//  * @param {string} [props.position="top"] - La position de la superposition ("top" ou "bottom")
+//  * @returns {JSX.Element} Un élément div avec un style de superposition de flou dégradé
+//  */
 
 const ShadowOverlay = ({direction = "toTop", position = "bottom", type = "fixed", index = "88"}:{direction?:string; type?:string; position?: string; index?:string})=>{
 

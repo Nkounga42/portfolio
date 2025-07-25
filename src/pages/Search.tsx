@@ -1,16 +1,11 @@
 import { Search } from "lucide-react";
-import { useState } from "react";
-import { useTheme } from "../hooks/useTheme";
-
-import bgDark from "../assets/bg-dark.png";
-import bgLight from "../assets/bg-light.png";
-
+import { useState } from "react"; 
+ 
 export default function SearchPage() {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<string[]>([]);
-  const { theme } = useTheme();
-
-  const backgroundImage = theme === "dark" ? bgDark : bgLight;
+ 
+ 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
 

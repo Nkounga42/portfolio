@@ -1,4 +1,3 @@
-import { motion } from "motion/react";
 import LetsWorkTogether from "../components/LetsWorkTogether";
 import * as UI from "../components/UICompoents";
 import { useEffect } from "react";
