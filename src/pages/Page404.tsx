@@ -3,7 +3,7 @@ import { Link } from "react-router";
 export default function Page404() {
   return (
     <>
-      <main className="h-screen hero bg-base-200 ov">
+      <main className="h-screen hero bg-base-200 ">
         <div className="flex flex-col gap-2 items-center ">
           <div className="hero-content flex gap-20 items-start justify-start">
             <p className="text-9xl font-bold text-primary font-medium">404</p>

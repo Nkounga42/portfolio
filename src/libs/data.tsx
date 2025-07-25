@@ -10,6 +10,10 @@ const projets = [
     technologies: ["React", "Node", "Express", "MySQL"],
     Client: "Personnel",
     dateCreation: "2025-07-10",
+    links: {
+      repository: "https://github.com/Nkounga42/fency-in-the-univers",
+      page: "https://nkounga42.github.io/fency-in-the-univers/",
+    },
     imagesIllustration: [
       "https://i.pinimg.com/736x/94/44/d6/9444d6152ee921c58a78ead3725e5c11.jpg",
       "https://i.pinimg.com/736x/84/fe/01/84fe017678e0801a1d03a06f0d83bc76.jpg",
@@ -79,6 +83,25 @@ const projets = [
     imagesIllustration: [
       "https://i.pinimg.com/736x/4c/3d/e4/4c3de4d7f82c3e8a0e4a7ea2ebd6c847.jpg",
       "https://i.pinimg.com/736x/f6/5c/67/f65c67ebad497746a83a51ffad0ac083.jpg",
+    ],
+  },
+  {
+    id: 6,
+    nom: "fency in the univers",
+    description:
+      "Marketplace universitaire pour acheter, vendre, réserver des événements et accéder aux ressources scolaires.",
+    slug: "/fency-in-the-univers",
+    Roles: "UI/UX Designer & Front-end Developer.",
+    cathegorie: "Web App",
+    technologies: ["html", "js"],
+    Client: "Personnel",
+    dateCreation: "2025-07-10",
+    links: {
+      repository: "https://github.com/Nkounga42/fency-in-the-univers",
+      page: "https://nkounga42.github.io/fency-in-the-univers/",
+    },
+    imagesIllustration: [
+      "https://i.pinimg.com/736x/94/44/d6/9444d6152ee921c58a78ead3725e5c11.jpg",
     ],
   },
 ];

@@ -6,12 +6,12 @@ import { motion } from "framer-motion";
 import Logo from "../assets/logo";
 
 const pages = {
-  Home: "/",
-  Projects: "/projects",
-  Skills: "/skills",
-  Experience: "/experience",
-  About: "/about",
-  Contact: "/contact",
+  Home: "/portfolio/",
+  Projects: "/portfolio/projects",
+  Skills: "/portfolio/skills",
+  // Experience: "/portfolio/experience",
+  About: "/portfolio/about",
+  Contact: "/portfolio/contact",
 };
 
 const Header = () => {
@@ -39,36 +39,43 @@ const Header = () => {
     }
   }, [location.pathname]);
   const NavLinks = () => (
-    <> 
-
+    <>
       {Object.entries(pages).map(([page, url]) => {
         const currentPath = location.pathname;
-        const isActive =    url === "/"
-          ? currentPath === "/"
-          : currentPath.startsWith(url); 
+        const isActive =
+          url === "/portfolio/" ? currentPath === "/" : currentPath.startsWith(url);
         return (
           <li key={url}>
             <Link
-            to={url}
-            className={`text-sm px-2 h-[50px] flex items-center block transition-colors duration-300 ${
-  isActive
-    ? "text-primary"
-    : "text-base-content/70 hover:text-base-content"
-}`}
-
-            onClick={scrollToTop}
-          >
-            {page}
-          </Link>
+              to={url}
+              className={`text-sm px-2 h-[50px] flex items-center block transition-colors duration-300 ${
+                isActive
+                  ? "text-primary"
+                  : "text-base-content/70 hover:text-base-content"
+              }`}
+              onClick={scrollToTop}
+            >
+              {page}
+            </Link>
           </li>
         );
       })}
     </>
   );
-
+  const headerFloat = true;
   return (
-    <div className="fixed overflow-hidden top-2 left-0 right-0 z-50 flex justify-center items-center">
-      <div className="max-w-6xl rounded-full mx-auto px-4 flex items-center justify-between h-[50px] gap-15 border border-base-content/10 bg-base-100/60 backdrop-blur-[10px]">
+    <div
+      className={`${
+        headerFloat ? "fixed top-2 " : "sticky top-0 bg-base-100/80  "
+      } w-full overflow-hidden left-0 right-0 z-50 flex justify-center items-center `}
+    >
+      <div
+        className={`${
+          headerFloat
+            ? "max-w-6xl rounded-full backdrop-blur-[10px]  border-base-content/10 bg-base-100/80 "
+            : "min-w-4xl  "
+        }    px-4 flex items-center justify-between h-[50px] gap-15  `}
+      >
         <div className="flex items-center gap-2">
           <Link to="/" className="text-xl">
             <Logo />
@@ -78,7 +85,7 @@ const Header = () => {
             ref={navRef}
             className="hidden lg:flex items-center justify-center relative"
           >
-            {NavLinks()} 
+            {NavLinks()}
             <motion.div
               className="absolute bottom-0 h-[2px] bg-primary rounded transition-all headerIndicator"
               layout
@@ -92,7 +99,8 @@ const Header = () => {
         </div>
 
         <div className="flex items-center gap-3">
-          <Link className="btn btn-primary btn-sm hidden md:inline-flex"
+          <Link
+            className="btn btn-primary btn-sm hidden md:inline-flex"
             to="/contact#contactfield"
           >
             Prendre Contact
