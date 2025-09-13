@@ -134,6 +134,11 @@ export default function Projects() {
                 <img
                   src={projet.imagesIllustration?.[0] || "https://via.placeholder.com/400x200"}
                   alt={projet.nom}
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    target.onerror = null;
+                    target.src = "https://i.pinimg.com/736x/36/85/37/368537ab800464ee9b14d843e117ab01.jpg";
+                  }}
                   className="w-full h-full object-cover group-hover:scale-100 scale-105 transition-transform duration-300"
                 />
                 {/* Technologies */}

@@ -65,7 +65,7 @@ export default function LetsWorkTogether() {
     }),
   };
   return (
-    <div className="min-h-[80%] pt-10 pb-15 flex flex-col items-center justify-center px-4 text-center space-y-6 bg-content-base">
+    <div className="min-h-[80vh] pt-6 sm:pt-10 pb-10 sm:pb-15 flex flex-col items-center justify-center px-2 sm:px-4 text-center space-y-4 sm:space-y-6 bg-content-base">
       <motion.div
         custom={1}
         variants={fadeUpVariants}
@@ -73,13 +73,13 @@ export default function LetsWorkTogether() {
         animate="visible"
         style={{ perspective: "1000px" }}
       >
-        <h1 className="text-5xl sm:text-6xl font-bold leading-tight">
+        <h1 className="text-3xl sm:text-5xl lg:text-6xl font-bold leading-tight">
           Travaillons <br className="sm:hidden" />
           <span className="text-base-content/700"> Ensemble</span>
         </h1>
       </motion.div>
       <div
-        className="flex items-center justify-center gap-4 mt-6"
+        className="flex items-center justify-center gap-2 sm:gap-4 mt-4 sm:mt-6"
       >
         <motion.div
           custom={2}
@@ -90,7 +90,7 @@ export default function LetsWorkTogether() {
         >
           <div
             ref={cardRef1}
-            className="w-40 h-60 overflow-hidden rounded-3xl transition-transform duration-300 [transform-style:preserve-3d] hover:shadow-xl relative z-10"
+            className="w-28 h-40 sm:w-32 sm:h-48 md:w-40 md:h-60 overflow-hidden rounded-2xl sm:rounded-3xl transition-transform duration-300 [transform-style:preserve-3d] hover:shadow-xl relative z-10"
           >
             <img
               src="https://i.pinimg.com/736x/ae/94/97/ae94977fe94c32d093f156476a9890c1.jpg"
@@ -108,8 +108,8 @@ export default function LetsWorkTogether() {
         style={{ perspective: "2500px" }}
 
         >
-        <div className="p-3 rounded-2xl">
-          <RefreshCcw className="w-6 h-6 text-base-content/80" />
+        <div className="p-2 sm:p-3 rounded-xl sm:rounded-2xl">
+          <RefreshCcw className="w-4 h-4 sm:w-6 sm:h-6 text-base-content/80" />
         </div>
 </motion.div>
         <motion.div
@@ -120,7 +120,7 @@ export default function LetsWorkTogether() {
         >
           <div
             ref={cardRef2}
-            className="w-40 h-60 overflow-hidden rounded-3xl transition-transform duration-300 [transform-style:preserve-3d] hover:shadow-xl relative z-10"
+            className="w-28 h-40 sm:w-32 sm:h-48 md:w-40 md:h-60 overflow-hidden rounded-2xl sm:rounded-3xl transition-transform duration-300 [transform-style:preserve-3d] hover:shadow-xl relative z-10"
           >
             <img
               src="https://i.pinimg.com/1200x/f8/5b/11/f85b11a77e9694bd0b033d472f7163d9.jpg"
@@ -136,7 +136,7 @@ export default function LetsWorkTogether() {
         initial="hidden"
         animate="visible"
       >
-        <p className="text-base-content/600 max-w-md text-base">
+        <p className="text-base-content/600 max-w-xs sm:max-w-md text-sm sm:text-base px-2">
           Je vais vous aider à obtenir le site web dont vous rêvez. Réserve
           juste un appel 👇
         </p>
@@ -148,10 +148,10 @@ export default function LetsWorkTogether() {
         animate="visible"
       >
         <Link
-          className="btn btn-soft flex items-center gap-2 mt-2 text-base-content/100 p-5"
+          className="btn btn-soft flex items-center gap-2 mt-2 text-base-content/100 px-4 py-3 sm:p-5 text-sm sm:text-base"
           to="#contactfield"
         >
-          Réserver un appel <ArrowDown className="w-4 h-4" />
+          Réserver un appel <ArrowDown className="w-3 h-3 sm:w-4 sm:h-4" />
         </Link>
       </motion.div>
     </div>

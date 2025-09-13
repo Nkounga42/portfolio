@@ -47,15 +47,15 @@ const Contact = () => {
         animate="visible"
         className="py-16 bg-base-100"
       >
-        <div className="container mx-auto px-4 max-w-4xl">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4">Retrouvez-moi sur</h2>
-            <p className="text-lg opacity-80">
+        <div className="container mx-auto px-4 sm:px-6 max-w-4xl">
+          <div className="text-center mb-8 sm:mb-12">
+            <h2 className="text-2xl sm:text-3xl font-bold mb-3 sm:mb-4">Retrouvez-moi sur</h2>
+            <p className="text-base sm:text-lg opacity-80 px-2">
               Connectons-nous sur les réseaux sociaux et plateformes professionnelles
             </p>
           </div>
           
-          <div className="flex flex-wrap justify-center gap-6">
+          <div className="flex flex-wrap justify-center gap-4 sm:gap-6">
             {categories.Social.map((socialKey, i) => {
               const icon = icons[socialKey as keyof typeof icons];
               const url = socialLinks[socialKey];
@@ -81,7 +81,7 @@ const Contact = () => {
                   }}
                   initial="hidden"
                   animate="visible"
-                  className="flex flex-col items-center justify-center bg-base-200/30 hover:bg-base-200/50 p-6 rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-lg min-w-[120px]"
+                  className="flex flex-col items-center justify-center bg-base-200/30 hover:bg-base-200/50 p-4 sm:p-6 rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-lg min-w-[100px] sm:min-w-[120px] w-[100px] sm:w-[120px]"
                 >
                   {url ? (
                     <a 
@@ -93,9 +93,9 @@ const Contact = () => {
                       <img
                         src={icon}
                         alt={name}
-                        className="w-12 h-12 object-contain mb-3"
+                        className="w-10 h-10 sm:w-12 sm:h-12 object-contain mb-2 sm:mb-3"
                       />
-                      <p className="text-center text-sm font-medium text-base-content/80 hover:text-primary transition-colors">
+                      <p className="text-center text-xs sm:text-sm font-medium text-base-content/80 hover:text-primary transition-colors">
                         {name}
                       </p>
                     </a>
@@ -104,9 +104,9 @@ const Contact = () => {
                       <img
                         src={icon}
                         alt={name}
-                        className="w-12 h-12 object-contain mb-3"
+                        className="w-10 h-10 sm:w-12 sm:h-12 object-contain mb-2 sm:mb-3"
                       />
-                      <p className="text-center text-sm font-medium text-base-content/80">
+                      <p className="text-center text-xs sm:text-sm font-medium text-base-content/80">
                         {name}
                       </p>
                     </>

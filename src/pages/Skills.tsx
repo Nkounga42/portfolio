@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import * as icons from "../components/skills-icons";
 import { Link } from "react-router-dom";
+import { ChevronDown } from "lucide-react";
 import { categories , socialLinks } from "../libs/data";
  
 
@@ -78,13 +79,13 @@ export default function Skills() {
           </motion.div>
         </div>
 
-        {/* Tabs */}
+        {/* Desktop Tabs */}
         <motion.div
             custom={2}
             variants={fadeUpVariants}
             initial="hidden"
             animate="visible"
-           className="relative flex gap-3 pt-2 mb-6 border-b border-base-content/10 overflow-y-hidden overflow-x-visible">
+           className="relative hidden lg:flex gap-3 pt-2 mb-6 border-b border-base-content/10 overflow-y-hidden overflow-x-visible">
           {tabs.map((tab, i) => (
             <Link
               to={`#${tab}`}
@@ -99,8 +100,7 @@ export default function Skills() {
               }`}
               onClick={() => setActiveTab(tab)}
             >
-              <div 
-              >
+              <div>
                 {tab
                   .replace(/_/g, " ")
                   .replace(/\b\w/g, (l) => l.toUpperCase())}
@@ -113,8 +113,48 @@ export default function Skills() {
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
             style={indicator}
           />
-         
-</motion.div>
+        </motion.div>
+
+        {/* Mobile Dropdown */}
+        <motion.div
+          custom={2}
+          variants={fadeUpVariants}
+          initial="hidden"
+          animate="visible"
+          className="lg:hidden mb-6"
+        >
+          <div className="dropdown dropdown-bottom w-full">
+            <label tabIndex={0} className="btn btn-outline w-full justify-between">
+              <span>
+                {activeTab
+                  .replace(/_/g, " ")
+                  .replace(/\b\w/g, (l) => l.toUpperCase())}
+              </span>
+              <ChevronDown className="w-4 h-4" />
+            </label>
+            <ul
+              tabIndex={0}
+              className="dropdown-content menu p-2 shadow-lg bg-base-100 rounded-box w-full mt-2 border border-base-content/10 z-10"
+            >
+              {tabs.map((tab) => (
+                <li key={tab}>
+                  <button
+                    className={`w-full text-left ${
+                      tab === activeTab
+                        ? "text-primary bg-primary/10"
+                        : "text-base-content/70 hover:text-base-content hover:bg-base-200"
+                    }`}
+                    onClick={() => setActiveTab(tab)}
+                  >
+                    {tab
+                      .replace(/_/g, " ")
+                      .replace(/\b\w/g, (l) => l.toUpperCase())}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </motion.div>
         {/* Skills Grid */}
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
           {displayedSkills.map(({ name, icon, url }, i) => (

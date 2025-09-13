@@ -38,17 +38,21 @@ const Header = () => {
       });
     }
   }, [location.pathname]);
-  const NavLinks = () => (
+  const NavLinks = ({ isMobile = false }) => (
     <>
       {Object.entries(pages).map(([page, url]) => {
         const currentPath = location.pathname;
         const isActive =
-          url === "/portfolio/" ? currentPath === "/" : currentPath.startsWith(url);
+          url === "/portfolio/" ? currentPath === "/portfolio/" : currentPath.startsWith(url);
         return (
           <li key={url}>
             <Link
               to={url}
-              className={`text-sm px-2 h-[50px] flex items-center block transition-colors duration-300 ${
+              className={`text-sm transition-colors duration-300 ${
+                isMobile 
+                  ? "px-4 py-2 block hover:bg-base-200 rounded-lg" 
+                  : "px-2 h-[50px] flex items-center"
+              } ${
                 isActive
                   ? "text-primary"
                   : "text-base-content/70 hover:text-base-content"
@@ -66,26 +70,26 @@ const Header = () => {
   return (
     <div
       className={`${
-        headerFloat ? "fixed top-2 " : "sticky top-0 bg-base-100/80  "
-      } w-full overflow-hidden left-0 right-0 z-50 flex justify-center items-center `}
+        headerFloat ? "fixed top-1 sm:top-2 " : "sticky top-0 bg-base-100/80  "
+      } w-full left-0 right-0 z-50 flex justify-center items-center px-1 sm:px-2 md:px-4`}
     >
       <div
         className={`${
           headerFloat
-            ? "min-w-5xl rounded-full backdrop-blur-[10px]  border-base-content/10 bg-base-100/80 "
-            : "lg:min-w-5xl  "
-        }    px-4 flex items-center justify-between h-[50px] gap-15  `}
+            ? "w-full max-w-5xl mx-2 sm:mx-0 rounded-full backdrop-blur-[10px] border border-base-content/10 bg-base-100/80 "
+            : "w-full max-w-5xl  "
+        } px-2 sm:px-3 md:px-4 flex items-center justify-between h-[50px]`}
       >
-        <div className="flex items-center gap-2">
-          <Link to="/portfolio/" className="text-xl">
+        <div className="flex items-center gap-1 sm:gap-2 flex-1 min-w-0">
+          <Link to="/portfolio/" className="text-lg sm:text-xl flex-shrink-0">
             <Logo />
           </Link>
 
           <ul
             ref={navRef}
-            className="hidden lg:flex items-center justify-center relative"
+            className="hidden lg:flex items-center justify-center relative ml-2 xl:ml-4"
           >
-            {NavLinks()}
+            <NavLinks />
             <motion.div
               className="absolute bottom-0 h-[2px] bg-primary rounded transition-all headerIndicator"
               layout
@@ -98,38 +102,67 @@ const Header = () => {
           </ul>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-1 sm:gap-2 md:gap-3 flex-shrink-0">
           <Link
-            className="btn btn-primary btn-sm hidden md:inline-flex"
+            className="btn btn-primary btn-sm hidden md:inline-flex text-xs md:text-sm"
             to="/portfolio/contact#contactfield"
           >
-            Prendre Contact
+            <span className="hidden lg:inline">Prendre Contact</span>
+            <span className="lg:hidden">Contact</span>
           </Link>
-          <Link to="/search">
-            <Search className="h-5 w-5 cursor-pointer" />
+          <Link to="/search" className="hidden sm:block p-1">
+            <Search className="h-4 w-4 sm:h-5 sm:w-5 cursor-pointer" />
           </Link>
-          <UI.ThemeControler />
+          <div className="scale-90 sm:scale-100">
+            <UI.ThemeControler />
+          </div>
           <Link
             to="https://github.com/Nkounga42"
             target="_blank"
             rel="noreferrer"
+            className="hidden sm:block p-1"
           >
-            <Github className="h-5 w-5" />
+            <Github className="h-4 w-4 sm:h-5 sm:w-5" />
           </Link>
 
           <div className="dropdown dropdown-end lg:hidden">
-            <label tabIndex={0} className="btn btn-ghost btn-sm">
-              <Menu className="h-5 w-5" />
+            <label tabIndex={0} className="btn btn-ghost btn-sm p-1.5">
+              <Menu className="h-4 w-4" />
             </label>
             <ul
               tabIndex={0}
-              className="dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
+              className="dropdown-content  menu mt-4 z-[1] p-2 shadow-xl bg-base-100 rounded-box w-56 sm:w-64 border border-base-content/10 -right-4"
             >
-              {NavLinks()}
-              <li className="block md:hidden">
-                <button className="btn btn-primary btn-sm w-full mt-2">
+              <NavLinks isMobile={true} />
+              <div className="divider my-1"></div>
+              <li>
+                <Link 
+                  to="/portfolio/contact#contactfield"
+                  className="btn btn-primary btn-sm w-full justify-center"
+                  onClick={scrollToTop}
+                >
                   Prendre Contact
-                </button>
+                </Link>
+              </li>
+              <div className="divider my-1"></div>
+              <li>
+                <div className="flex items-center justify-around gap-2">
+                  <Link 
+                    to="/search" 
+                    className="btn btn-ghost btn-sm btn-square flex-1"
+                    onClick={scrollToTop}
+                  >
+                    <Search className="h-4 w-4" />
+                  </Link>
+                  <Link
+                    to="https://github.com/Nkounga42"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="btn btn-ghost btn-sm btn-square flex-1"
+                  >
+                    <Github className="h-4 w-4" />
+                  </Link>
+                </div>
               </li>
             </ul>
           </div>

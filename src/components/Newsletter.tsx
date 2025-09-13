@@ -2,51 +2,51 @@ import { Calendar, HandMetal } from "lucide-react";
 
 export default function Newsletter() {
   return (
-    <div className="relative isolate flex justify-center py-16 sm:py-24 lg:py-32 min-h-[4  00px] bg-base-200">
-      <div className="hero-content flex- col items-start col-revers lg:flex-row max-w-5xl gap-8">
-        <div className="text-center lg:text-left max-w-xl">
-          <h2 className="text-4xl font-bold">
+    <div className="relative isolate flex justify-center py-8 sm:py-16 lg:py-24 xl:py-32 min-h-[300px] sm:min-h-[400px] bg-base-200">
+      <div className="hero-content flex-col items-start col-revers lg:flex-row max-w-5xl gap-6 sm:gap-8 px-4 sm:px-6 w-full">
+        <div className="text-center lg:text-left max-w-xl w-full">
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold">
             Abonnez-vous à notre newsletter
           </h2>
-          <p className="py-6 text-base-content/70">
+          <p className="py-4 sm:py-6 text-sm sm:text-base text-base-content/70">
             Recevez directement dans votre boîte mail mes derniers articles,
             projets et réflexions sur le développement, le design et les idées
-            qui m'inspirent. Un concentré d’actualités, d’astuces et de
-            nouveautés <br /> <br />{" "}
+            qui m'inspirent. Un concentré d'actualités, d'astuces et de
+            nouveautés <br className="hidden sm:block" /> <br className="hidden sm:block" />{" "}
             <b>– Sans spam, juste du contenu authentique</b>.
           </p>
-          <div className="join">
+          <div className="join w-full sm:w-auto">
             <input
               type="email"
-              placeholder="Enter votre email"
-              className="input input-bordered join-item"
+              placeholder="Entrez votre email"
+              className="input input-bordered join-item w-full sm:w-auto text-sm sm:text-base"
               required
             />
-            <button className="btn btn-primary join-item">S'Abonner</button>
+            <button className="btn btn-primary join-item text-sm sm:text-base px-3 sm:px-4">S'Abonner</button>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-xl">
-          <div className="  ">
-            <div className="">
-              <div className="rounded-md flex gap-2 mb-4">
-                <Calendar className="w-6 h-6" />
-                <h3 className="card-title">Articles hebdomadaires</h3>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 max-w-xl w-full">
+          <div className="p-2 sm:p-0">
+            <div>
+              <div className="rounded-md flex gap-2 mb-3 sm:mb-4">
+                <Calendar className="w-5 h-5 sm:w-6 sm:h-6 flex-shrink-0" />
+                <h3 className="card-title text-sm sm:text-base">Articles hebdomadaires</h3>
               </div>
-              <p className="text-base-content/70">
+              <p className="text-xs sm:text-sm lg:text-base text-base-content/70">
                 Chaque semaine, découvrez un nouvel article sur mes projets,
                 idées et explorations créatives. Court. Inspirant. Direct.
               </p>
             </div>
           </div>
 
-          <div className=" ">
-            <div className="">
-              <div className="rounded-md flex gap-2 mb-4">
-                <HandMetal className="w-6 h-6" />
-                <h3 className="card-title">Zero spam</h3>
+          <div className="p-2 sm:p-0">
+            <div>
+              <div className="rounded-md flex gap-2 mb-3 sm:mb-4">
+                <HandMetal className="w-5 h-5 sm:w-6 sm:h-6 flex-shrink-0" />
+                <h3 className="card-title text-sm sm:text-base">Zero spam</h3>
               </div>
-              <p className="text-base-content/70">
+              <p className="text-xs sm:text-sm lg:text-base text-base-content/70">
                 Juste du contenu pertinent, quand il le faut.
               </p>
             </div>

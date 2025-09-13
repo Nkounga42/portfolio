@@ -4,7 +4,9 @@ const formatNumber = (n: number): string => {
   }
   return n.toString();
 }
+const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
 
 export {
-  formatNumber
+  formatNumber,
+  scrollToTop
 }

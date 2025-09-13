@@ -1,6 +1,7 @@
 import { ContactRound,  MapPinned } from "lucide-react";
 import { useState } from "react";
 import type { FormEvent } from "react";
+import { Link } from "react-router-dom";
 
 export default function Getintouch() {
   const [formData, setFormData] = useState({
@@ -42,19 +43,34 @@ export default function Getintouch() {
   };
 
   return (
-    <div id='contactfield' className="relative isolate overflow-hidden py-16 sm:py-24 lg:py-32 flex justify-center bg-base-200">
+    <div id='contactfield' className="relative isolate overflow-hidden py-8 sm:py-16 lg:py-24 xl:py-32 flex justify-center bg-base-200">
 
-      <div className="hero-content flex-col items-start pl-10 col-revers lg:flex-row gap-8 max-w-6xl">
-        <div className="text-center lg:text-left max-w-xl">
-          <h2 className="text-4xl font-bold">Entrer en contact</h2>
-          <p className="py-6 text-base-content/70">
+      <div className="hero-content flex-col items-start px-4 sm:px-6 lg:px-10 col-revers lg:flex-row gap-6 sm:gap-8 max-w-6xl w-full">
+        <div className="max-w-xl w-full">
+        <div className="text-center lg:text-left w-full">
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold">Entrer en contact</h2>
+          <p className="py-4 sm:py-6 text-sm sm:text-base text-base-content/70">
             N'hésitez pas à me contacter pour discuter de vos projets ou pour
             toute question. Je suis toujours ravi d'échanger et de collaborer
             sur de nouvelles opportunités.
           </p>
         </div>
+        
+        <div className="my-8">
+          <iframe
+            src="https://maps.app.goo.gl/M9mkrEVGitUPioCu9"
+            width="100%"
+            height="300"
+            style={{ border: 0 , borderRadius: "1rem" }}
+            allowFullScreen
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+          ></iframe>
+        </div>
+
+        </div>
         <div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-xl">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 max-w-xl w-full">
             <div className="mb-5">
               <div>
                 <div className="rounded-md flex mb-2 gap-2">
@@ -77,16 +93,16 @@ export default function Getintouch() {
                   <h3 className="card-title">Localisation</h3>
                 </div>
                 <p className="text-base-content/70">République du Congo</p>
-                <a href="tel:+242064493007" className="text-base-content/70">
+                <Link to="https://maps.app.goo.gl/M9mkrEVGitUPioCu9" className="text-base-content/70">
                   Pointe Noire - Tchimbamba
-                </a>
+                </Link>
               </div>
             </div>
           </div>
           <div className="w-full mb-5">
             <div className="w-full mb-5">
-              <form onSubmit={handleSubmit} className="mx-auto mt-16 max-w-xl sm:mt-20">
-                <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
+              <form onSubmit={handleSubmit} className="mx-auto mt-8 sm:mt-12 lg:mt-16 xl:mt-20 max-w-xl w-full">
+                <div className="grid grid-cols-1 gap-x-4 sm:gap-x-8 gap-y-4 sm:gap-y-6 sm:grid-cols-2">
                   <div>
                     <label htmlFor="firstName" className="block text-sm/6 font-semibold text-base-content">
                       Prénom
@@ -166,7 +182,7 @@ export default function Getintouch() {
                           id="phone"
                           value={formData.phone}
                           onChange={handleChange}
-                          className="block min-w-0 grow py-1.5 pr-3 pl-3 text-base text-base-content placeholder:text-base-400 focus:outline-none sm:text-sm/6"
+                          className="block min-w-0 grow py-1.5 pr-2 sm:pr-3 pl-2 sm:pl-3 text-sm sm:text-base text-base-content placeholder:text-base-400 focus:outline-none"
                           placeholder="123-456-7890"
                         />
                       </div>
@@ -182,34 +198,36 @@ export default function Getintouch() {
                         id="message"
                         value={formData.message}
                         onChange={handleChange}
-                        className="block w-full rounded-md bg-base-300 px-3.5 py-2 text-base text-base-content placeholder:text-base-400 focus:outline-1 focus:-outline-offset-2 focus:outline-primary"
+                        className="block w-full rounded-md bg-base-300 px-2.5 sm:px-3.5 py-1.5 sm:py-2 text-sm sm:text-base text-base-content placeholder:text-base-400 focus:outline-1 focus:-outline-offset-2 focus:outline-primary min-h-[80px] sm:min-h-[100px]"
                         required
                       />
                     </div>
                   </div>
-                  <div className="flex gap-x-4 sm:col-span-2">
-                    <fieldset className="fieldset w-64">
-                      <label className="label">
+                  <div className="flex gap-x-2 sm:gap-x-4 sm:col-span-2">
+                    <fieldset className="fieldset w-full">
+                      <label className="label text-xs sm:text-sm cursor-pointer">
                         <input
                           type="checkbox"
                           name="acceptPolicy"
                           checked={formData.acceptPolicy}
                           onChange={handleChange}
-                          className="toggle"
+                          className="toggle toggle-sm sm:toggle-md mr-2"
                           required
                         />
-                        En cochant cette case, vous acceptez notre{" "}
-                        <a href="#" className="font-semibold text-primary">
-                          politique de confidentialité
-                        </a>
+                        <span className="label-text text-xs sm:text-sm">
+                          En cochant cette case, vous acceptez notre <br/>
+                          <a href="#" className="font-semibold text-primary">
+                            politique de confidentialité
+                          </a>
+                        </span>
                       </label>
                     </fieldset>
                   </div>
                 </div>
-                <div className="mt-10">
+                <div className="mt-6 sm:mt-8 lg:mt-10">
                   <button
                     type="submit"
-                    className="block w-full rounded-full bg-primary/50 px-3.5 py-2.5 text-center text-sm font-semibold text-base-content/70 hover:text-base-content shadow-xs hover:bg-primary focus-visible:outline-1 focus-visible:outline-offset-2 focus-visible:outline-primary"
+                    className="block w-full rounded-full bg-primary/50 px-3 sm:px-3.5 py-2 sm:py-2.5 text-center text-sm sm:text-base font-semibold text-base-content/70 hover:text-base-content shadow-xs hover:bg-primary focus-visible:outline-1 focus-visible:outline-offset-2 focus-visible:outline-primary transition-colors"
                   >
                     Envoyer le message
                   </button>

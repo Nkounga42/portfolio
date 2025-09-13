@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { projets } from "../libs/data";
 import { ArrowLeft, ArrowRight, CalendarDays, X } from "lucide-react";
 import ReactMarkdown from "react-markdown";
+import { scrollToTop } from "../tools/tools";
 
 export default function ProjetOverview() {
   const { slug } = useParams();
@@ -25,7 +26,6 @@ export default function ProjetOverview() {
   const projetPrecedent = projets[indexActuel - 1];
   const projetSuivant = projets[indexActuel + 1];
 
-  const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
 
   const previousProject = () => {
     scrollToTop();
