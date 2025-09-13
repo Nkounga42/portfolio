@@ -13,6 +13,7 @@ const ProjetOverview = lazy(() => import("./ProjetOverview"));
 const ProjectPreview = lazy(() => import("./ProjectPreview"));
 const Search = lazy(() => import("./Search"));
 const Home = lazy(() => import("./Home"));
+const Gallery = lazy(() => import("./Gallery"));
 
 
 export {
@@ -28,5 +29,6 @@ export {
   ProjectPreview,
   Blog,
   Skills,
-  Search
+  Search,
+  Gallery
 };

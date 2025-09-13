@@ -33,6 +33,7 @@ const route = {
   },
 
   Skills: { path: "/portfolio/skills", component: <Screen.Skills /> },
+  Gallery: { path: "/portfolio/gallery", component: <Screen.Gallery /> },
   Page404: { path: "/portfolio/404", component: <Screen.Page404 /> },
 
   Article: { path: "/portfolio/article", component: <Screen.Article /> },

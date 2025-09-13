@@ -3,7 +3,7 @@
 @plugin "daisyui";
 
 :root {
-  --font-family: "SuisseIntl-Medium";
+  --font-family: "SuisseIntl-Medium", inter, arial;
 }
 
 .font-medium {

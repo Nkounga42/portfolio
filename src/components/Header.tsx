@@ -9,6 +9,7 @@ const pages = {
   Home: "/portfolio/",
   Projects: "/portfolio/projects",
   Skills: "/portfolio/skills",
+  Gallery: "/portfolio/gallery",
   // Experience: "/portfolio/experience",
   About: "/portfolio/about",
   Contact: "/portfolio/contact",
