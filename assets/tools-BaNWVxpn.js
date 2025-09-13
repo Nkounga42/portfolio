@@ -1,0 +1,1 @@
+const r=o=>o<10?`0${o}`:o.toString(),t=()=>window.scrollTo({top:0,behavior:"smooth"}),s=()=>{window.location.href="https://drive.google.com/file/d/16gRaEVVXpH_kSEK1x3MISM-og4zXeGza/view?usp=sharing"};export{r as f,s as h,t as s};
