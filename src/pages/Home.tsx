@@ -7,13 +7,13 @@ function Home() {
   return (
     <>
       <HeroGeometric />
-      {/* <CustomerLogo/> */}
-      {/* <InfiniteScroll items={Array.from({ length: 10 }, (_, i) => i.toString())} /> */}
-      {/* <UI.HeroSection /> */}
-      {/* <UI.Objectif/>  */}
-      {/* <UI.IdeasGrid /> */}
-      {/* <UI.Newsletter /> */}
-      {/* <UI.Testimonials />  */}
+      {/* <CustomerLogo/> 
+      <InfiniteScroll items={Array.from({ length: 10 }, (_, i) => i.toString())} /> 
+      <UI.HeroSection /> 
+      <UI.Objectif/>  
+      <UI.IdeasGrid /> 
+      <UI.Newsletter /> 
+      <UI.Testimonials />  */}
     </>
   );
 }

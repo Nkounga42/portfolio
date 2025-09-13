@@ -4,7 +4,6 @@ import {
   Routes,
   Route,
   useLocation,
-  Navigate,
 } from "react-router-dom";
 
 import { Suspense } from "react";
@@ -57,7 +56,7 @@ const BrowserDom = () => {
           fallback={<div className="text-center p-10">Chargement...</div>}
         >
           {/* {location.pathname.includes(route.Contact.path) && <UI.Navbar />} */}
-          <div className="min-h-screen mt-14">
+          <div className={`${location.pathname !== route.Home.path && 'mt-14' } min-h-screen `}>
           <Routes>
             <Route path={route.Home.path} element={route.Home.render()} />
 
@@ -75,8 +74,11 @@ const BrowserDom = () => {
           </Routes>
           </div>
           <UI.ShadowOverlay direction="toTop" position="bottom" />
-          {location.pathname !== route.Skills.path &&
-            location.pathname !== route.Search.path && <UI.Footer />}
+          {
+            location.pathname !== route.Home.path &&
+            location.pathname !== route.Skills.path &&
+            location.pathname !== route.Search.path && <UI.Footer />
+          }
         </Suspense>
       </div>
 

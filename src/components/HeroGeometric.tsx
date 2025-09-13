@@ -77,7 +77,7 @@ const backgroundImage = theme === "dark" ? bgDark : bgLight;
   return (
     <div
     key={theme} 
-      className="relative min-h-[80vh] w-full"
+      className="relative min-h-[100vh] w-full"
       style={{
         background: `url(${backgroundImage})`,
         backgroundSize: "cover",
@@ -85,16 +85,16 @@ const backgroundImage = theme === "dark" ? bgDark : bgLight;
       }}
     >
       <div className="absolute inset-0 z-[30] w-full h-screen top-0 left-0 hidden lg:block">
-        <ElegantShape delay={0.3} width={600} height={140} rotate={12} gradient="from-indigo-500/[0.15]" className="left-[60%] top-[15%]" />
-        <ElegantShape delay={0.5} width={500} height={120} rotate={-15} gradient="from-rose-500/[0.15]" className="right-0 top-[75%]" />
-        <ElegantShape delay={0.4} width={300} height={80} rotate={-8} gradient="from-violet-500/[0.15]" className="left-[10%] bottom-[10%]" />
-        <ElegantShape delay={0.6} width={200} height={60} rotate={20} gradient="from-amber-500/[0.15]" className="right-[10%] top-[15%]" />
-        <ElegantShape delay={0.7} width={150} height={40} rotate={-25} gradient="from-cyan-500/[0.15]" className="left-[25%] top-[10%]" />
+        <ElegantShape delay={0.3} width={600} height={140} rotate={12}  gradient="from-indigo-500/[0.15]" className="left-[60%] top-[15%]" />
+        <ElegantShape delay={0.5} width={500} height={120} rotate={-15} gradient="from-rose-500/[0.15]"   className="right-0 top-[75%]" />
+        <ElegantShape delay={0.4} width={300} height={80}  rotate={-8}  gradient="from-violet-500/[0.15]" className="left-[10%] bottom-[10%]" />
+        <ElegantShape delay={0.6} width={200} height={60}  rotate={20}  gradient="from-amber-500/[0.15]"  className="right-[10%] top-[15%]" />
+        <ElegantShape delay={0.7} width={150} height={40}  rotate={-25} gradient="from-cyan-500/[0.15]"   className="left-[25%] top-[10%]" />
       </div>
 
       <div className="bg-gradient-to-t absolute inset-0 z-[1] left-0 right-0 from-base-300 to-base-100/10" />
 
-      <div className="relative z-10 px-6 pb-25 pt-15 w-full  h-full backdrop-blur-3xl ">
+      <div className="relative z-10 px-6 pb-25 pt-15 w-full min-h-[100vh]  backdrop-blur-3xl ">
         <div className="max-w-3xl mx-auto text-center">
           <motion.div custom={1} variants={fadeUpVariants} initial="hidden" animate="visible">
             <h1 className="text-3xl sm:text-8xl font-bold my-6 mb-8 tracking-tight">

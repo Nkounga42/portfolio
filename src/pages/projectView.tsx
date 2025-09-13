@@ -1,6 +1,5 @@
 import React from 'react';
 import { projets } from '../libs/data';
-import ReactMarkdown from "react-markdown";
  
 
 const ProjectView: React.FC = () => {

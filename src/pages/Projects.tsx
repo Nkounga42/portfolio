@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { projets } from "../libs/data";
-import { CalendarDays, ExternalLink, Github } from "lucide-react";
+import { ExternalLink, Github } from "lucide-react";
 
 const categories = {
   All: projets,
@@ -45,6 +45,8 @@ export default function Projects() {
       },
     }),
   };
+
+  
 
   const fadeVariants = {
     hidden: { opacity: 0 },
@@ -122,12 +124,12 @@ export default function Projects() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {displayedProjects.map((projet, i) => (
             <motion.div
-              custom={i / 4}
+              custom={i / 3}
               variants={fadeVariants}
               initial="hidden"
               animate="visible"
               key={projet.id}
-              className="bg-base-200/20  border border-base-content/10 rounded-xl overflow-hidden transition-transform hover:scale-102 group  cursor-pointer transition-all duration-300 hover:border-primary/10 hover:shadow-xl"
+              className="bg-base-200/20  border border-base-content/10 rounded-xl overflow-hidden transition-transform hover:scale-102 group  cursor-pointer transition-all hover:border-primary/10 hover:shadow-xl"
             >
               {/* Project Image */}
               <div className="relative h-38 overflow-hidden">

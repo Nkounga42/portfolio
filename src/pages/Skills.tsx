@@ -31,6 +31,7 @@ export default function Skills() {
       url: socialLinks[key],
     }))
     .filter((skill) => !!skill.icon);
+
   const fadeUpVariants = {
     hidden: { opacity: 0, y: 30 },
     visible: (i: number) => ({
@@ -155,13 +156,14 @@ export default function Skills() {
             </ul>
           </div>
         </motion.div>
+        
         {/* Skills Grid */}
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
           {displayedSkills.map(({ name, icon, url }, i) => (
             <motion.div
               custom={i / 3}
               variants={fadeVariants}
-              initial="hidden"
+              initial="hidden" 
               animate="visible"
               key={i}
               className="flex flex-col items-center justify-center bg-base-100 bg-base-200/20  p-4 rounded-xl  transition-transform hover:scale-105"

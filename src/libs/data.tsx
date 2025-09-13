@@ -53,7 +53,6 @@ const socialLinks: Record<string, string> = {
 };
 
 
-
 const projets = [
   {
     id: 1,
@@ -144,5 +143,41 @@ MIT Lisence`,
     ],
   }
 ];
-
-export { projets, categories, socialLinks, };
+const experience = [
+  {
+    date: "2025 ",
+    illustraction: "",
+    title: "Stage a Wilkaî",
+    content: `The Apple Macintosh—later rebranded as the Macintosh 128K—is the original Apple Macintosh
+    personal computer. It played a pivotal role in establishing desktop publishing as a general
+    office function. The motherboard, a 9 in (23 cm) CRT monitor, and a floppy drive were housed
+    in a beige case with integrated carrying handle; it came with a keyboard and single-button mouse.`,
+    position: "start",
+  },
+  {
+    date: "2025",
+    illustraction: "",
+    title: "Développeur Backend – Projet Universitaire ESCIC",
+    content: `ESCIC – École Supérieure de Commerce et d’Industrie du Congo
+Janvier 2025 – Aujourd’hui 
+Développement du backend complet d’une marketplace dans le cadre d’un projet académique. Mise en place d’une architecture RESTful, Implémentation de l’authentification, gestion des rôles utilisateurs, Intégration de Nodemailer pour les notifications par email
+`,
+    position: "end",
+  },
+  {
+    date: "2024",
+    illustraction: "",
+    title: "Consulting Informatique (Brazzaville)",
+    content: `Participation à la conception et au développement de sites web dynamiques en collaboration avec une équipe de développeurs pour optimiser l’expérience utilisateur et améliorer les performances des sites. `,
+    position: "start",
+  },
+  {
+    date: "2023",
+    illustraction: "",
+    title: "BAC D - CL Pointe-Noire ",
+    content: `Passage en classe de Terminale D après des résultats solides en Première. Participation à des ateliers de préparation
+  au baccalauréat, exposés scientifiques et concours interscolaires de mathématiques.`,
+    position: "end",
+  },
+];
+export { projets, categories, socialLinks, experience };

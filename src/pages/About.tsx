@@ -3,6 +3,7 @@ import { motion } from "motion/react";
 import * as UI from "../components/UICompoents";
 import { Link } from "react-router-dom";
 import img from "../../public/image.jpg";
+import { handleDowload } from "../tools/tools";
 
 // import {SocialLogo} from "../components/customerLogo";
 
@@ -29,7 +30,7 @@ export default function About() {
         initial="hidden"
         animate="visible"
       >
-      <ProfileCard />
+        <ProfileCard />
       </motion.div>
 
       {/* <SocialLogo/> */}
@@ -97,10 +98,8 @@ export default function About() {
 }
 
 const ProfileCard = () => {
-  const viableToWork = false;
-  const handleDowload = () => {
-    window.location.href = "https://drive.google.com/file/d/16gRaEVVXpH_kSEK1x3MISM-og4zXeGza/view?usp=sharing";
-  }
+  const viableToWork = false;  
+
   return (
     <div className="max-w-4xl mx-auto p-6  rounded-xl flex flex-col gap-4">
       <div className="flex flex-col sm:flex-row  sm:items-start items-center  justify-center gap-6 mt-6">

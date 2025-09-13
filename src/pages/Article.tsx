@@ -6,34 +6,10 @@ const articles = [
   {
     title: "Les bienfaits du café",
     text: "Le café est une boisson appréciée dans le monde entier pour ses effets stimulants et ses arômes riches."
-  },
-  {
-    title: "L'importance du sommeil", 
-    text: "Dormir suffisamment chaque nuit est crucial pour la santé mentale et physique."
-  },
-  {
-    title: "Apprendre à coder",
-    text: "La programmation est une compétence de plus en plus recherchée dans le monde professionnel."
-  },
-  {
-    title: "Voy ager en Europe",
-    text: "L'Europe offre une grande variété de cultures, de paysages et de cuisines à découvrir."
-  },
-  {
-    title: "Les bienfaits du café",
-    text: "Le café est une boisson appréciée dans le monde entier pour ses effets stimulants et ses arômes riches."
-  },
+  }, 
   {
     title: "mportance du sommeil", 
     text: "Dormir suffisamment chaque nuit est crucial pour la santé mentale et physique."
-  },
-  {
-    title: "Appr  oder",
-    text: "La programmation est une compétence de plus en plus recherchée dans le monde professionnel."
-  },
-  {
-    title: "Voyag er en Europe",
-    text: "L'Europe offre une grande variété de cultures, de paysages et de cuisines à découvrir."
   }
 ];
 
@@ -61,7 +37,7 @@ const Article = () => {
 
     window.addEventListener('scroll', handleScroll);
     window.addEventListener('resize', handleScroll);
-    // Initial check
+    
     handleScroll();
     return () => {
       window.removeEventListener('scroll', handleScroll);
