@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 
 import { projets } from "../libs/data";
 import { ArrowLeft, ArrowRight, CalendarDays, X } from "lucide-react";
+import ReactMarkdown from "react-markdown";
 
 export default function ProjetOverview() {
   const { slug } = useParams();
@@ -28,12 +29,12 @@ export default function ProjetOverview() {
 
   const previousProject = () => {
     scrollToTop();
-    if (projetPrecedent) navigate(`/projects/${projetPrecedent.slug}`);
+    if (projetPrecedent) navigate(`/projets/${projetPrecedent.slug}`);
   };
 
   const nextProject = () => {
     scrollToTop();
-    if (projetSuivant) navigate(`/projects/${projetSuivant.slug}`);
+    if (projetSuivant) navigate(`/projets/${projetSuivant.slug}`);
   };
 
   const openViewer = (index: number) => {
@@ -113,7 +114,7 @@ export default function ProjetOverview() {
             <h1 className="text-4xl font-semibold flex items-center gap-2">{projet.nom}</h1>
             <div className="text-sm breadcrumbs">
               <ul>
-                <li><Link to={"/projects"}>Project</Link></li>
+                <li><Link to={"/projets"}>Project</Link></li>
                 <li>{projet.cathegorie}</li>
                 <li>{projet.Client}</li>
                 <li>{projet.Roles}</li>
@@ -124,9 +125,10 @@ export default function ProjetOverview() {
       </div>
 
       <div className="max-w-6xl mx-auto p-6 space-y-8">
-        <p className="text-sm text-base-content-100/80 max-w-3xl">
-          {projet.description}
-        </p>
+        
+      
+          <ReactMarkdown>{projet.description}</ReactMarkdown>
+     
 
         <div className="flex items-center gap-2 text-sm">
           <CalendarDays className="w-4 h-4" />

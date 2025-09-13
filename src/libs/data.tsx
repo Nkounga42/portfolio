@@ -1,109 +1,148 @@
+const categoriesBase = {
+  Frontend: [
+    "react_native",
+    "javascript",
+    "typescript",
+    "bootstrap",
+    "tailwindcss",
+    "html",
+    "css",
+    "expo",
+    "radzen_og",
+    "chromium",
+    "blazor",
+  ],
+  Backend: ["dotnet", "nodejs", "express_js", "python", "c_sharp"],
+  UI_UX: ["figma", "adobe_xd", "lunacy"],
+  Base_de_donnees: ["mysql", "firebase", "mongo_db"],
+  Design: ["adobe_illustrator", "adobe_photoshop", "adobe_premiere_pro"],
+  DevOps: ["google_colab", "git", "codepen"],
+  Social: [
+    "x",
+    "facebook",
+    "instagram",
+    "linkedin_circled",
+    "pinterest",
+    "whatsapp",
+    "behance",
+  ],
+};
+
+const categories = {
+  All: [
+    ...categoriesBase.Frontend,
+    ...categoriesBase.Backend,
+    ...categoriesBase.UI_UX,
+    ...categoriesBase.Base_de_donnees,
+    ...categoriesBase.Design,
+    ...categoriesBase.DevOps,
+    // ...categoriesBase.Social,
+  ],
+  ...categoriesBase,
+};
+
+const socialLinks: Record<string, string> = {
+  x: "https://x.com",
+  facebook: "https://facebook.com",
+  instagram: "https://instagram.com",
+  linkedin_circled: "https://linkedin.com",
+  pinterest: "https://pinterest.com",
+  ios_logo: "https://apple.com/ios",
+  whatsapp: "https://whatsapp.com",
+  behance: "https://behance.net",
+};
+
+
+
 const projets = [
   {
     id: 1,
-    nom: "Marketplace Étudiant",
-    description:
-      "Marketplace universitaire pour acheter, vendre, réserver des événements et accéder aux ressources scolaires.",
-    slug: "marketplace-etudiant",
-    Roles: "UI/UX Designer & Front-end Developer.",
+    nom: "ColorVerse",
+    description: ` ColorVerse est une application web interactive pour la création et l'édition d'images.`,
+    readme: `# ColorVerse  
+
+ColorVerse est une application web interactive pour la création et l'édition d'images. Elle offre une interface utilisateur intuitive avec des outils de dessin avancés basés sur Fabric.js.
+
+
+
+![ColorVerse Interface](https://github.com/Nkounga42/colorize/blob/main/colorize%20screen%20shot.png)
+
+## Fonctionnalités
+
+- Outils de dessin variés (crayon, formes géométriques, texte)
+- Importation et manipulation d'images
+- Gestion des calques
+- Personnalisation des propriétés visuelles (couleur, taille, rotation, etc.)
+- Interface réactive et moderne
+
+## Structure du Projet
+
+Le projet est organisé comme suit dans le dossier \`src\`:
+
+- \`components/\`: Contient les composants réutilisables de l'interface utilisateur
+  - \`ImageDropZone.tsx\`: Zone de dépôt pour l'importation d'images
+  - \`SecondaryToolbar.tsx\`: Barre d'outils secondaire pour les ajustements fins
+- \`fabric/\`: Contient les fichiers liés à l'intégration de Fabric.js
+  - \`canvasActions.tsx\`: Définit les actions et outils disponibles sur le canvas
+- \`pages/\`: Contient les pages principales de l'application
+  - \`drawing.tsx\`: Page principale de dessin et d'édition
+
+## Technologies Utilisées
+
+- React
+- TypeScript
+- Fabric.js
+- Tailwind CSS (présumé basé sur les classes utilisées)
+
+## Installation
+
+1. Clonez ce dépôt
+2. Installez les dépendances avec \`npm install\`
+3. Lancez l'application en mode développement avec \`npm run dev\`
+
+## Utilisation
+
+1. Ouvrez l'application dans votre navigateur
+2. Utilisez les outils de la barre latérale pour dessiner ou ajouter des formes
+3. Importez des images en les faisant glisser dans la zone de dépôt
+4. Ajustez les propriétés des objets sélectionnés avec la barre d'outils secondaire
+
+## Image Description Metadata
+
+This project includes an interactive canvas where users can create and manipulate images. The main visual elements include:
+
+- A drawing canvas powered by Fabric.js
+- Toolbars for selecting drawing tools and adjusting object properties
+- An image drop zone for importing external images into the canvas
+
+These elements combine to provide a rich user experience for image creation and editing.
+
+## Contribution
+
+Les contributions sont les bienvenues ! N'hésitez pas à ouvrir une issue ou à soumettre une pull request.
+
+## Licence
+
+MIT Lisence`,
+    badge: ["https://img.shields.io/badge/React-18.0.0-blue?logo=react&logoColor=white",
+      "https://img.shields.io/badge/TypeScript-5.0-blue?logo=typescript&logoColor=white",
+      "https://img.shields.io/badge/Fabric.js-Canvas-orange",
+      "https://img.shields.io/badge/TailwindCSS-3.0-06B6D4?logo=tailwindcss&logoColor=white",
+      "https://img.shields.io/badge/License-MIT-green"],
+    slug: "colorverse",
+    Roles: "UI/UX & Front-end Developement ",
     cathegorie: "Web App",
-    technologies: ["React", "Node", "Express", "MySQL"],
-    Client: "Personnel",
-    dateCreation: "2025-07-10",
+    technologies: ["React", "TypeScript", "Fabric.js", "Tailwind CSS"],
+    Client: "",
+    dateCreation: "2025-07-04",
     links: {
-      repository: "https://github.com/Nkounga42/fency-in-the-univers",
-      page: "https://nkounga42.github.io/fency-in-the-univers/",
+      repository: "https://github.com/Nkounga42/colorize/",
+      page: "https://nkounga42.github.io/colorize/",
     },
     imagesIllustration: [
-      "https://i.pinimg.com/736x/94/44/d6/9444d6152ee921c58a78ead3725e5c11.jpg",
-      "https://i.pinimg.com/736x/84/fe/01/84fe017678e0801a1d03a06f0d83bc76.jpg",
-      "https://i.pinimg.com/736x/72/d2/d7/72d2d7d4c0a3f7baeae647d3f44a5476.jpg",
-      "https://i.pinimg.com/736x/21/7e/be/217ebe78850843de2d4565102117a509.jpg",
-      "https://i.pinimg.com/736x/a7/c6/8f/a7c68fb790f692ea25d86343529c4dd3.jpg",
+      "https://raw.githubusercontent.com/Nkounga42/colorize/main/colorize%20screen%20shot.png",
     ],
-  },
-  {
-    id: 2,
-    nom: "Bibliothèque Numérique",
-    description:
-      "Plateforme de gestion de bibliothèque permettant l’emprunt, le retour et la recherche de livres par les étudiants.",
-    slug: "bibliotheque-numerique",
-    Roles: "Full-stack Developer",
-    cathegorie: "Desktop",
-    technologies: ["Electron", "SQLite", "React"],
-    Client: "Étudiant",
-    dateCreation: "2025-06-15",
-    imagesIllustration: [
-      "https://i.pinimg.com/736x/14/23/67/1423670a59431ac8a4793b7cb48b5be2.jpg",
-      "https://i.pinimg.com/736x/d4/c3/66/d4c36683c6499bceec1590a4a6f8323f.jpg",
-    ],
-  },
-  {
-    id: 3,
-    nom: "Gestion Scolaire Mobile",
-    description:
-      "Application mobile pour consulter les emplois du temps, notes, notifications et calendriers d'examen.",
-    slug: "gestion-scolaire-mobile",
-    Roles: "Mobile Developer",
-    cathegorie: "Mobile",
-    technologies: ["Flutter", "Firebase"],
-    Client: "Freelance",
-    dateCreation: "2025-05-28",
-    imagesIllustration: [
-      "https://i.pinimg.com/736x/60/e4/4e/60e44e0f8f6efc24b3983196848328d9.jpg",
-      "https://i.pinimg.com/736x/26/4d/18/264d18fd2e3e901a0ce1a8eb54f46c69.jpg",
-    ],
-  },
-  {
-    id: 4,
-    nom: "API de Réservation",
-    description:
-      "API REST sécurisée pour gérer les réservations de salles, événements et ressources partagées.",
-    slug: "api-reservation",
-    Roles: "Back-end Developer",
-    cathegorie: "API",
-    technologies: ["Node.js", "Express", "MongoDB", "JWT"],
-    Client: "Entreprise",
-    dateCreation: "2025-04-05",
-    imagesIllustration: [
-      "https://i.pinimg.com/736x/fb/3b/83/fb3b83891be3b610f6a8d2b165a1ae2d.jpg",
-    ],
-  },
-  {
-    id: 5,
-    nom: "Illustration Portfolio",
-    description:
-      "Projet de portfolio illustratif pour exposer des œuvres graphiques, des couvertures de livres et des affiches artistiques.",
-    slug: "illustration-portfolio",
-    Roles: "Illustrateur & Designer",
-    cathegorie: "Illustration",
-    technologies: ["Figma", "Photoshop", "Canva"],
-    Client: "Personnel",
-    dateCreation: "2025-03-12",
-    imagesIllustration: [
-      "https://i.pinimg.com/736x/4c/3d/e4/4c3de4d7f82c3e8a0e4a7ea2ebd6c847.jpg",
-      "https://i.pinimg.com/736x/f6/5c/67/f65c67ebad497746a83a51ffad0ac083.jpg",
-    ],
-  },
-  {
-    id: 6,
-    nom: "fency in the univers",
-    description:
-      "Marketplace universitaire pour acheter, vendre, réserver des événements et accéder aux ressources scolaires.",
-    slug: "/fency-in-the-univers",
-    Roles: "UI/UX Designer & Front-end Developer.",
-    cathegorie: "Web App",
-    technologies: ["html", "js"],
-    Client: "Personnel",
-    dateCreation: "2025-07-10",
-    links: {
-      repository: "https://github.com/Nkounga42/fency-in-the-univers",
-      page: "https://nkounga42.github.io/fency-in-the-univers/",
-    },
-    imagesIllustration: [
-      "https://i.pinimg.com/736x/94/44/d6/9444d6152ee921c58a78ead3725e5c11.jpg",
-    ],
-  },
+  }
 ];
 
-export { projets };
+export { projets, categories, socialLinks, };

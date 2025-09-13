@@ -24,11 +24,13 @@ const route = {
   Contact: { path: "/portfolio/contact", component: <Screen.Contact /> },
   
   Experience: { path: "/portfolio/experience", component: <Screen.Experience /> },
-  Projects: { path: "/portfolio/projects", component: <Screen.Project /> },
+  // Project: { path: "/portfolio/projects", component: <Screen.Project /> },
+  Projects: { path: "/portfolio/projects", component: <Screen.Projects /> },
 
   ProjetOverview: {
     path: "/portfolio/projects/:slug",
-    component: <Screen.ProjetOverview />,
+    component: <Screen.ProjectPreview />,
+    // component: <Screen.ProjetOverview />,
   },
 
   Skills: { path: "/portfolio/skills", component: <Screen.Skills /> },
@@ -55,6 +57,7 @@ const BrowserDom = () => {
           fallback={<div className="text-center p-10">Chargement...</div>}
         >
           {/* {location.pathname.includes(route.Contact.path) && <UI.Navbar />} */}
+          <div className="min-h-screen mt-14">
           <Routes>
             <Route path={route.Home.path} element={route.Home.render()} />
 
@@ -68,9 +71,9 @@ const BrowserDom = () => {
                 />
               ))}
 
-            <Route path="*" element={<Navigate to={route.Page404.path} />} />
+            {/* <Route path="*" element={<Navigate to={route.Page404.path} />} /> */}
           </Routes>
-
+          </div>
           <UI.ShadowOverlay direction="toTop" position="bottom" />
           {location.pathname !== route.Skills.path &&
             location.pathname !== route.Search.path && <UI.Footer />}

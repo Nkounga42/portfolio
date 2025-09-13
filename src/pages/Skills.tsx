@@ -2,77 +2,8 @@ import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import * as icons from "../components/skills-icons";
 import { Link } from "react-router-dom";
-
-const categories = {
-  All: [
-    "react_native",
-    "javascript",
-    "c_sharp",
-    "expo",
-    "nodejs",
-    "python",
-    "typescript",
-    "bootstrap",
-    "tailwindcss",
-    "html",
-    "css",
-    "radzen_og",
-    "chromium",
-    "blazor",
-    "dotnet",
-    "express_js",
-    "firebase",
-    "mysql_logo",
-    "figma",
-    "adobe_xd",
-    "lunacy",
-    "adobe_illustrator",
-    "adobe_photoshop",
-    "adobe_premiere_pro",
-    "google_colab",
-    "git",
-    "codepen",
-  ],
-
-  Frontend: [
-    "react_native",
-    "javascript",
-    "typescript",
-    "bootstrap",
-    "tailwindcss",
-    "html",
-    "css",
-    "expo",
-    "radzen_og",
-    "chromium",
-    "blazor",
-  ],
-  Backend: ["dotnet", "nodejs", "express_js", "python", "c_sharp"],
-  UI_UX: ["figma", "adobe_xd", "lunacy"],
-  Base_de_donnees: ["mysql", "firebase"],
-  Design: ["adobe_illustrator", "adobe_photoshop", "adobe_premiere_pro"],
-  DevOps: ["google_colab", "git", "codepen"],
-  Social: [
-    "x",
-    "facebook",
-    "instagram",
-    "linkedin_circled",
-    "pinterest",
-    "whatsapp",
-    "behance",
-  ],
-};
-
-const socialLinks: Record<string, string> = {
-  x: "https://x.com",
-  facebook: "https://facebook.com",
-  instagram: "https://instagram.com",
-  linkedin_circled: "https://linkedin.com",
-  pinterest: "https://pinterest.com",
-  ios_logo: "https://apple.com/ios",
-  whatsapp: "https://whatsapp.com",
-  behance: "https://behance.net",
-};
+import { categories , socialLinks } from "../libs/data";
+ 
 
 const tabs = Object.keys(categories);
 

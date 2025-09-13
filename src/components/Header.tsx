@@ -72,8 +72,8 @@ const Header = () => {
       <div
         className={`${
           headerFloat
-            ? "max-w-6xl rounded-full backdrop-blur-[10px]  border-base-content/10 bg-base-100/80 "
-            : "lg:min-w-4xl  "
+            ? "min-w-5xl rounded-full backdrop-blur-[10px]  border-base-content/10 bg-base-100/80 "
+            : "lg:min-w-5xl  "
         }    px-4 flex items-center justify-between h-[50px] gap-15  `}
       >
         <div className="flex items-center gap-2">

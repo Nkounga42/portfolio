@@ -1,6 +1,11 @@
 import React from 'react';
+import { projets } from '../libs/data';
+import ReactMarkdown from "react-markdown";
+ 
 
-const S7AppNavigation: React.FC = () => {
+const ProjectView: React.FC = () => {
+  // Get the first project (ColorVerse) for now
+  const project = projets[0];
   return (
     <div style={styles.container}>
       <div style={styles.sidebar}>
@@ -16,38 +21,38 @@ const S7AppNavigation: React.FC = () => {
 
       <div style={styles.mainContent}>
         <div style={styles.imageWrapper}>
-          <img
-            src="https://via.placeholder.com/200x400" // à remplacer par ton image
-            alt="S7 App screen 1"
-            style={styles.image}
-          />
-          <img
-            src="https://via.placeholder.com/200x400" // à remplacer par ton image
-            alt="S7 App screen 2"
-            style={styles.image}
-          />
+          {project.imagesIllustration.map((image, index) => (
+            <img
+              key={index}
+              src={image}
+              alt={`${project.nom} screen ${index + 1}`}
+              style={styles.image}
+            />
+          ))}
         </div>
 
-        <h1>S7 App Navigation</h1>
+        <h1>{project.nom}</h1>
 
         <div style={styles.infoSection}>
           <div style={styles.description}>
-            <h3>Description</h3>
-            <p>
-              S7 Airlines is the largest private airline in the country with an app of millions of
-              monthly users. I led a team of 3 designers at the Techlab unit.
-            </p>
+          {/* <ReactMarkdown>{project.description}</ReactMarkdown> */}
           </div>
 
           <div style={styles.detailsBox}>
-            <p><strong>Client:</strong> ✈ S7 Airlines</p>
-            <p><strong>Year:</strong> 2022</p>
-            <p><strong>Goal:</strong> Make chat and notifications easier to find</p>
-            <p><strong>Results:</strong> Increased notifications & chat views by 3.5x</p>
+            <p><strong>Client:</strong> {project.Client}</p>
+            <p><strong>Année:</strong> {new Date(project.dateCreation).getFullYear()}</p>
+            <p><strong>Rôle:</strong> {project.Roles}</p>
+            <p><strong>Catégorie:</strong> {project.cathegorie}</p>
+            <p><strong>Technologies:</strong> {project.technologies.join(', ')}</p>
+            {project.links && (
+              <div>
+                <p><strong>Liens:</strong></p>
+                <p><a href={project.links.repository} target="_blank" rel="noopener noreferrer">Repository</a></p>
+                <p><a href={project.links.page} target="_blank" rel="noopener noreferrer">Live Demo</a></p>
+              </div>
+            )}
           </div>
         </div>
-
-        <div style={styles.views}>3.5× VIEWS</div>
       </div>
     </div>
   );
@@ -115,6 +120,9 @@ const styles: { [key: string]: React.CSSProperties } = {
     fontWeight: 'bold',
     color: '#888',
   },
+  markdownContent: {
+    lineHeight: '1.6',
+  },
 };
 
-export default S7AppNavigation;
+export default ProjectView;

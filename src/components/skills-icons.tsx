@@ -17,6 +17,7 @@ export { default as git } from "../../public/skills-icons/icons8-git-100.png";
 export { default as google_colab } from "../../public/skills-icons/icons8-google-colab-100.png";
 export { default as instagram } from "../../public/skills-icons/icons8-instagram-100.png";
 export { default as ios_logo } from "../../public/skills-icons/icons8-ios-logo-100.png";
+export { default as mongo_db } from "../../public/skills-icons/icons8-mongo-db.png";
 export { default as javascript } from "../../public/skills-icons/icons8-javascript-100.png";
 export { default as linkedin_circled } from "../../public/skills-icons/icons8-linkedin-circled-100.png";
 export { default as lunacy } from "../../public/skills-icons/icons8-lunacy-100.png";
