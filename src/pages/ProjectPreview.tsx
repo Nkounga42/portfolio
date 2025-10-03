@@ -1,6 +1,7 @@
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { projets } from "../libs/data";
 import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import { ArrowLeft, ExternalLink, Github, Calendar, User, Tag, ArrowRight } from "lucide-react";
 import { scrollToTop } from "../tools/tools";
 
@@ -46,7 +47,8 @@ export default function ProjectPreview() {
                     </div> */}
 
 
-      </div>
+      </div> 
+
 
       {/* Main Content */}
       <div className="container mx-auto px-4 pb-8 max-w-5xl">
@@ -55,6 +57,7 @@ export default function ProjectPreview() {
           <div className="lg:col-span-2">
             <div className="prose prose-lg max-w-none">
               <ReactMarkdown
+                remarkPlugins={[remarkGfm]}
                 components={{
                   h1: ({ children }) => (
                     <h1 className="text-3xl font-bold mb-4 text-base-content border-b border-base-content/20 pb-2">
@@ -114,8 +117,9 @@ export default function ProjectPreview() {
                       {children}
                     </blockquote>
                   ),
-                  img: ({ src }) => (
+                  img: ({ src, ...props }) => (
                     <img
+                      key={`img-${src}`}
                       src={src + '?raw=true'}
                       alt={src}
                       className="w-full h-auto rounded-lg border border-base-content/10 mb-4"
@@ -124,6 +128,20 @@ export default function ProjectPreview() {
                         target.onerror = null;
                         target.src = "https://i.pinimg.com/736x/36/85/37/368537ab800464ee9b14d843e117ab01.jpg";
                       }}
+                      {...props}
+                    />
+                  ),
+                  video: ({ src, ...props }) => (
+                    <video
+                      key={`video-${src}`}
+                      src={src + '?raw=true'}
+                      className="w-full h-[200px] rounded-lg border border-base-content/10 mb-4"
+                      onError={(e) => {
+                        const target = e.target as HTMLVideoElement;
+                        target.onerror = null;
+                        target.src = "https://i.pinimg.com/736x/36/85/37/368537ab800464ee9b14d843e117ab01.jpg";
+                      }}
+                      {...props}
                     />
                   ),
                   a: ({ href, children }) => (
@@ -135,6 +153,38 @@ export default function ProjectPreview() {
                     >
                       {children}
                     </a>
+                  ),
+                  table: ({ children }) => (
+                    <div className="overflow-x-auto mb-4">
+                      <table className="table table-zebra w-full border border-base-content/20">
+                        {children}
+                      </table>
+                    </div>
+                  ),
+                  thead: ({ children }) => (
+                    <thead className="bg-base-200">
+                      {children}
+                    </thead>
+                  ),
+                  tbody: ({ children }) => (
+                    <tbody>
+                      {children}
+                    </tbody>
+                  ),
+                  tr: ({ children }) => (
+                    <tr className="border-b border-base-content/10">
+                      {children}
+                    </tr>
+                  ),
+                  th: ({ children }) => (
+                    <th className="text-left p-3 font-semibold text-base-content">
+                      {children}
+                    </th>
+                  ),
+                  td: ({ children }) => (
+                    <td className="p-3 text-base-content/80">
+                      {children}
+                    </td>
                   ),
                 }}
               >

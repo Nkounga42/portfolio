@@ -1,4 +1,4 @@
-import { ContactRound,  MapPinned } from "lucide-react";
+import { ContactRound,  MapPinned, CheckCircle, AlertCircle } from "lucide-react";
 import { useState } from "react";
 import type { FormEvent } from "react";
 import { Link } from "react-router-dom";
@@ -14,23 +14,51 @@ export default function Getintouch() {
     acceptPolicy: false
   });
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitStatus('idle');
+
     try {
-      // Ici vous pouvez ajouter la logique d'envoi du formulaire
-      console.log('Données du formulaire:', formData);
-      // Réinitialiser le formulaire après l'envoi
-      setFormData({
-        firstName: '',
-        lastName: '',
-        company: '',
-        email: '',
-        phone: '',
-        message: '',
-        acceptPolicy: false
+      const response = await fetch('https://formspree.io/f/xovkwowr', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          company: formData.company,
+          email: formData.email,
+          phone: formData.phone,
+          message: formData.message,
+          _subject: `Nouveau message de ${formData.firstName} ${formData.lastName}`,
+        }),
       });
+
+      if (response.ok) {
+        setSubmitStatus('success');
+        // Réinitialiser le formulaire après l'envoi réussi
+        setFormData({
+          firstName: '',
+          lastName: '',
+          company: '',
+          email: '',
+          phone: '',
+          message: '',
+          acceptPolicy: false
+        });
+      } else {
+        setSubmitStatus('error');
+      }
     } catch (error) {
       console.error('Erreur lors de l\'envoi:', error);
+      setSubmitStatus('error');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -224,12 +252,29 @@ export default function Getintouch() {
                     </fieldset>
                   </div>
                 </div>
+
+                {/* Status Messages */}
+                {submitStatus === 'success' && (
+                  <div className="mt-4 p-3 bg-success/20 border border-success/30 rounded-lg flex items-center gap-2">
+                    <CheckCircle className="w-5 h-5 text-success" />
+                    <span className="text-success text-sm">Message envoyé avec succès ! Je vous répondrai bientôt.</span>
+                  </div>
+                )}
+                
+                {submitStatus === 'error' && (
+                  <div className="mt-4 p-3 bg-error/20 border border-error/30 rounded-lg flex items-center gap-2">
+                    <AlertCircle className="w-5 h-5 text-error" />
+                    <span className="text-error text-sm">Erreur lors de l'envoi. Veuillez réessayer.</span>
+                  </div>
+                )}
+
                 <div className="mt-6 sm:mt-8 lg:mt-10">
                   <button
                     type="submit"
-                    className="block w-full rounded-full bg-primary/50 px-3 sm:px-3.5 py-2 sm:py-2.5 text-center text-sm sm:text-base font-semibold text-base-content/70 hover:text-base-content shadow-xs hover:bg-primary focus-visible:outline-1 focus-visible:outline-offset-2 focus-visible:outline-primary transition-colors"
+                    disabled={isSubmitting}
+                    className="block w-full rounded-full bg-primary/50 px-3 sm:px-3.5 py-2 sm:py-2.5 text-center text-sm sm:text-base font-semibold text-base-content/70 hover:text-base-content shadow-xs hover:bg-primary focus-visible:outline-1 focus-visible:outline-offset-2 focus-visible:outline-primary transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    Envoyer le message
+                    {isSubmitting ? 'Envoi en cours...' : 'Envoyer le message'}
                   </button>
                 </div>
               </form>
