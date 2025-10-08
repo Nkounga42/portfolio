@@ -1,2 +1,1 @@
-![Static Badge](https://img.shields.io/badge/License-MIT-green)
-
+![YouTube Video Views](https://img.shields.io/youtube/views/:videoId)
