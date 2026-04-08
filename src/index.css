@@ -3,7 +3,7 @@
 @plugin "daisyui";
 
 :root {
-  --font-family: "SuisseIntl-Medium", inter, arial;
+  --font-family: "SuisseIntl-Medium", inter, arial, sans-serif;
 }
 
 .font-medium {
@@ -11,7 +11,7 @@
 }
 
 body {
-  font-family: "Inter";
+  font-family: "Inter", arial, sans-serif;
   height: 100vh;
   overflow-x: hidden;
   overflow-y: scroll;
