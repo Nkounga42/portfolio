@@ -80,7 +80,7 @@ export default function About() {
                     Me Contacter
                   </Link>
                   <Link className="rounded-full btn btn-outline btn-lg text-base-content -primary-content hover:border-base-content hover:bg-base-content hover:text-base-200"
-                  to="https://www.linkedin.com/in/exauce-nkounga/"
+                  to="www.linkedin.com/in/exaucé-nkounga-b99ab9401"
                   >
                     Voir LinkedIn
                   </Link>
