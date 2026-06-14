@@ -16,7 +16,7 @@ const Home = lazy(() => import("./Home"));
 const Gallery = lazy(() => import("./Gallery"));
 
 
-const CreateBlog = lazy(() => import("./CreateBlog"));
+const AdminBlog = lazy(() => import("./CreateBlog"));
 const ReadBlog = lazy(() => import("./ReadBlog"));
 
 
@@ -35,6 +35,6 @@ export {
   Skills,
   Search,
   Gallery,
-  CreateBlog,
+  AdminBlog,
   ReadBlog
 };
