@@ -12,6 +12,7 @@ import * as Screen from "./pages/Router";
 
 import "./index.css";
 import KeyboardShortcut from "./hooks/KeyboardShortcut";
+import { LanguageProvider } from "./hooks/useLanguage";
 
 const route = {
   Home: { path: "/portfolio/", render: () => <Screen.Home /> },
@@ -96,7 +97,9 @@ if (container) {
   
   root.render(
     <BrowserRouter>
-      <BrowserDom />
+      <LanguageProvider>
+        <BrowserDom />
+      </LanguageProvider>
     </BrowserRouter>
   );
 }

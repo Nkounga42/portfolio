@@ -12,6 +12,7 @@ import Carousel from "./Carousel";
 import Getintouch from "./Getintouch";
 import Testimonials from "./Testimonials";
 import Objectif from "./Objectif";
+import LanguageSwitcher from "./LanguageSwitcher";
 
 import Footer from "./Footer";
 import Timeline from "./Timeline";
@@ -32,5 +33,6 @@ export {
   Timeline,
   Getintouch, 
   Testimonials,
-  Objectif
-} 
+  Objectif,
+  LanguageSwitcher,
+}

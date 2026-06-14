@@ -840,7 +840,7 @@ Ce projet est sous licence MIT. Voir le fichier LICENSE pour plus de détails.
 ## 👨‍💻 Auteur
 
 **Gil Nkounga**
-- Email: nkoungagil@gmail.com
+- Email: exaucenkoungadivina@gmail.com
 - GitHub: [@Nkounga42](https://github.com/Nkounga42)
 
 ---

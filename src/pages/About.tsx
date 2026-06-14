@@ -4,11 +4,13 @@ import * as UI from "../components/UICompoents";
 import { Link } from "react-router-dom";
 import img from "../../public/image.jpg";
 import { handleDowload } from "../tools/tools";
+import { useLanguage } from "../hooks/useLanguage";
 
 // import {SocialLogo} from "../components/customerLogo";
 
 export default function About() {
-  
+  const { language } = useLanguage();
+
   const fadeUpVariants = {
     hidden: { opacity: 0, y: 30 },
     visible: (i: number) => ({
@@ -49,11 +51,12 @@ export default function About() {
           <div className="container mx-auto px-4">
             <div className="text-center mb-16">
               <h2 className="text-4xl font-bold mb-4">
-                Formation & Expérience
+                {language === "fr" ? "Formation & Expérience" : "Education & Experience"}
               </h2>
               <p className="text-lg max-w-2xl mx-auto opacity-80">
-                Mon parcours académique et mes expériences pratiques en
-                développement.
+                {language === "fr"
+                  ? "Mon parcours académique et mes expériences pratiques en développement."
+                  : "My academic journey and practical development experiences."}
               </p>
             </div>
             <UI.Timeline />
@@ -66,23 +69,23 @@ export default function About() {
             <div className="hero-content text-center text-base-content py-12">
               <div className="max-w-2xl">
                 <h2 className="text-4xl font-bold mb-4">
-                  Travaillons Ensemble !
+                  {language === "fr" ? "Travaillons Ensemble !" : "Let's Work Together!"}
                 </h2>
                 <p className="text-lg mb-8 opacity-90">
-                  Je suis toujours ouvert aux opportunités de stage, projets
-                  collaboratifs ou simplement pour discuter de technologie.
-                  N'hésitez pas à me contacter !
+                  {language === "fr"
+                    ? "Je suis toujours ouvert aux opportunités de stage, projets collaboratifs ou simplement pour discuter de technologie. N'hésitez pas à me contacter !"
+                    : "I'm always open to internship opportunities, collaborative projects, or simply to discuss technology. Feel free to reach out!"}
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                   <Link className="rounded-full btn  text-base-content btn-lg hover:bg-base-content hover:text-base-200"
                   to='/contact#contactfield'
                   >
-                    Me Contacter
+                    {language === "fr" ? "Me Contacter" : "Contact Me"}
                   </Link>
                   <Link className="rounded-full btn btn-outline btn-lg text-base-content -primary-content hover:border-base-content hover:bg-base-content hover:text-base-200"
                   to="www.linkedin.com/in/exaucé-nkounga-b99ab9401"
                   >
-                    Voir LinkedIn
+                    {language === "fr" ? "Voir LinkedIn" : "View LinkedIn"}
                   </Link>
                 </div>
               </div>
@@ -92,13 +95,14 @@ export default function About() {
       </section>
       <div className=" flex items-center flex-col">
         {/* <InfiniteScroll items={Array.from({ length: 10 }, (v, i) => i)} /> */}
-      </div> 
+      </div>
     </div>
   );
 }
 
 const ProfileCard = () => {
-  const viableToWork = false;  
+  const viableToWork = false;
+  const { language } = useLanguage();
 
   return (
     <div className="max-w-4xl mx-auto p-6  rounded-xl flex flex-col gap-4">
@@ -110,24 +114,22 @@ const ProfileCard = () => {
         </div>
         <div className="ml-5">
           <h1 className="text-xl font-semibold  mb-5">
-            Moi c'est Nkounga Exaucé -
+            {language === "fr" ? "Moi c'est Nkounga Exaucé" : "Hi, I'm Nkounga Exaucé"} -
             <span className="text-base-content/70 mx-1">
-              Je suis un développeur full-stack en formation à ESCIC , je crée
-              des solutions numériques complètes, du backend à l’interface
-              utilisateur. Je cherche à relever des défis concrets pour mettre
-              mes compétences en pratique.
+              {language === "fr"
+                ? "Je suis un développeur full-stack en formation à ESCIC , je crée des solutions numériques complètes, du backend à l'interface utilisateur. Je cherche à relever des défis concrets pour mettre mes compétences en pratique."
+                : "I'm a full-stack developer in training at ESCIC, building complete digital solutions from backend to user interface. I seek concrete challenges to put my skills into practice."}
             </span>
           </h1>
           <p className="text-gray-400 font-medium">
-            Actuellement chez{" "}
+            {language === "fr" ? "Actuellement chez" : "Currently at"}{" "}
             <Link to={"https://www.xn--wilka-gta.com/"}>Wilkaî</Link>.
           </p>
           {/* Description */}
           <p className="text-sm text-gray-500 mb-8">
-            Je m'intéresse à la création d'outils numériques utiles qui
-            améliorent l'expérience utilisateur et facilitent le travail des
-            créateurs. Curieux et motivé, je cherche à concevoir des solutions
-            qui allient efficacité et créativité.
+            {language === "fr"
+              ? "Je m'intéresse à la création d'outils numériques utiles qui améliorent l'expérience utilisateur et facilitent le travail des créateurs. Curieux et motivé, je cherche à concevoir des solutions qui allient efficacité et créativité."
+              : "I'm interested in building useful digital tools that improve user experience and empower creators. Curious and motivated, I seek to design solutions that combine efficiency and creativity."}
           </p>
 
           {/* Social Media Icons */}
@@ -153,7 +155,7 @@ const ProfileCard = () => {
                 }}
               >
                 <span className="text-sm text-base/90 tracking-wide">
-                  Disponible pour travailler
+                  {language === "fr" ? "Disponible pour travailler" : "Available for work"}
                 </span>
               </motion.div>
             )}
@@ -161,10 +163,10 @@ const ProfileCard = () => {
               className="flex text-sm text-base-content tracking-wide px-3 py-2 m x-3 rounded-full cursor-pointer hover:text-primary"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              onClick={handleDowload}
+              onClick={() => handleDowload(language)}
             >
               <Download className="h-5 w-5 mr-1" />
-              Voir mon CV
+              {language === "fr" ? "Voir mon CV" : "View my Resume"}
             </motion.div>
           </div>
         </div>

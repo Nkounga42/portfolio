@@ -11,7 +11,7 @@ const Footer = () => {
         </div>
         <div className="flex flex-col items-start  text-left max-w-xl sm:ml-10 pl-4">
           <div className="text-sm mb-4 font-medium">
-              Nkounga Exaucé is a designer driven by visual craft &amp; storytelling.
+            Nkounga Exaucé is a designer driven by visual craft &amp; storytelling.
             <br />
             Currently fullstack developer at Wilkaî.
           </div>
@@ -20,9 +20,9 @@ const Footer = () => {
             My 2026 portfolio is under construction—while that’s happening,
             <br />
             you can find me on <Link className="link link-hover" to="http://www.linkedin.com/in/exauce-nkounga">LinkedIn</Link>, or say
-            <Link className="link link-hover" to="mailto:nkoungagil@gmail.com"> nkoungagil@gmail.com</Link>.
+            <Link className="link link-hover" to="mailto:exaucenkoungadivina@gmail.com"> exaucenkoungadivina@gmail.com</Link>.
           </div>
-          
+
           <div className="mt-12 text-[10px] opacity-40 uppercase tracking-widest flex flex-col sm:flex-row gap-4 sm:gap-10">
             <span>© 2026 Nkounga Exaucé</span>
             <span>Dernière mise à jour : 14 Juin 2026</span>
