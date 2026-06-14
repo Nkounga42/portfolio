@@ -225,7 +225,7 @@ const SocialLogo = () => {
       <div className="py-8  mx-auto max-w-4xl px-4">
         {/* <h2 className="mb-8 lg:mb-16 text-3xl font-light tracking-tight leading-tight text-center text-base-content md:text-4xl">You’ll be in good company</h2> */}
         <div className="grid grid-cols-2 gap-8  sm:gap-12 md:grid-cols-3 lg:grid-cols-6 ">
-          <Link to="mailto:nkoungagil@gmail.com" className="flex justify-center items-center">
+          <Link to="mailto:exaucenkoungadivina@gmail.com" className="flex justify-center items-center">
             <svg
               className="h-9 "
               viewBox="0 0 86 29"
@@ -255,7 +255,7 @@ const SocialLogo = () => {
               />
             </svg>
           </Link>
-          
+
           <Link to="#" className="flex justify-center items-center">
             <svg
               className="h-8 "

@@ -4,21 +4,34 @@ import { Link, useLocation } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import Logo from "../assets/logo";
+import LanguageSwitcher from "./LanguageSwitcher";
+import { useLanguage } from "../hooks/useLanguage";
 
-const pages = {
-  Home: "/portfolio/",
-  Projects: "/portfolio/projects",
-  Blog: "/portfolio/blog",
-  Skills: "/portfolio/skills",
-  Gallery: "/portfolio/gallery",
-  About: "/portfolio/about",
-  Admin: "/portfolio/blog/create",
+const pagePaths = {
+  home: "/portfolio/",
+  projects: "/portfolio/projects",
+  blog: "/portfolio/blog",
+  skills: "/portfolio/skills",
+  gallery: "/portfolio/gallery",
+  about: "/portfolio/about",
+  admin: "/portfolio/blog/create",
 };
 
 const Header = () => {
   const location = useLocation();
   const navRef = useRef<HTMLUListElement>(null);
   const [indicatorStyle, setIndicatorStyle] = useState({ left: 0, width: 0 });
+  const { t } = useLanguage();
+
+  const pages = {
+    [t.nav.home]: pagePaths.home,
+    [t.nav.projects]: pagePaths.projects,
+    [t.nav.blog]: pagePaths.blog,
+    [t.nav.skills]: pagePaths.skills,
+    [t.nav.gallery]: pagePaths.gallery,
+    [t.nav.about]: pagePaths.about,
+    [t.nav.admin]: pagePaths.admin,
+  };
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -38,7 +51,8 @@ const Header = () => {
         width: activeLink.offsetWidth,
       });
     }
-  }, [location.pathname]);
+  }, [location.pathname, t]);
+
   const NavLinks = ({ isMobile = false }) => (
     <>
       {Object.entries(pages).map(([page, url]) => {
@@ -50,8 +64,8 @@ const Header = () => {
             <Link
               to={url}
               className={`text-sm transition-colors duration-300 ${
-                isMobile 
-                  ? "px-4 py-2 block hover:bg-base-200 rounded-lg" 
+                isMobile
+                  ? "px-4 py-2 block hover:bg-base-200 rounded-lg"
                   : "px-2 h-[50px] flex items-center"
               } ${
                 isActive
@@ -67,6 +81,7 @@ const Header = () => {
       })}
     </>
   );
+
   const headerFloat = true;
   return (
     <div
@@ -108,12 +123,16 @@ const Header = () => {
             className="btn btn-primary btn-sm hidden md:inline-flex text-xs md:text-sm"
             to="/portfolio/contact#contactfield"
           >
-            <span className="hidden lg:inline">Prendre Contact</span>
-            <span className="lg:hidden">Contact</span>
+            <span className="hidden lg:inline">{t.nav.contact}</span>
+            <span className="lg:hidden">{t.nav.contactShort}</span>
           </Link>
           <Link to="/portfolio/search" className="hidden sm:block p-1">
             <Search className="h-4 w-4 sm:h-5 sm:w-5 cursor-pointer" />
           </Link>
+
+          {/* Language Switcher */}
+          <LanguageSwitcher />
+
           <div className="scale-90 sm:scale-100">
             <UI.ThemeControler />
           </div>
@@ -137,19 +156,19 @@ const Header = () => {
               <NavLinks isMobile={true} />
               <div className="divider my-1"></div>
               <li>
-                <Link 
+                <Link
                   to="/portfolio/contact#contactfield"
                   className="btn btn-primary btn-sm w-full justify-center"
                   onClick={scrollToTop}
                 >
-                  Prendre Contact
+                  {t.nav.contact}
                 </Link>
               </li>
               <div className="divider my-1"></div>
               <li>
                 <div className="flex items-center justify-around gap-2">
-                  <Link 
-                    to="/portfolio/search" 
+                  <Link
+                    to="/portfolio/search"
                     className="btn btn-ghost btn-sm btn-square flex-1"
                     onClick={scrollToTop}
                   >
@@ -163,6 +182,10 @@ const Header = () => {
                   >
                     <Github className="h-4 w-4" />
                   </Link>
+                  {/* Language Switcher in mobile menu */}
+                  <div className="flex-1 flex justify-center">
+                    <LanguageSwitcher />
+                  </div>
                 </div>
               </li>
             </ul>

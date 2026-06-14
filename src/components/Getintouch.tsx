@@ -1,4 +1,4 @@
-import { ContactRound,  MapPinned, CheckCircle, AlertCircle } from "lucide-react";
+import { ContactRound, MapPinned, CheckCircle, AlertCircle } from "lucide-react";
 import { useState } from "react";
 import type { FormEvent } from "react";
 import { Link } from "react-router-dom";
@@ -75,26 +75,26 @@ export default function Getintouch() {
 
       <div className="hero-content flex-col items-start px-4 sm:px-6 lg:px-10 col-revers lg:flex-row gap-6 sm:gap-8 max-w-6xl w-full">
         <div className="max-w-xl w-full">
-        <div className="text-center lg:text-left w-full">
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold">Entrer en contact</h2>
-          <p className="py-4 sm:py-6 text-sm sm:text-base text-base-content/70">
-            N'hésitez pas à me contacter pour discuter de vos projets ou pour
-            toute question. Je suis toujours ravi d'échanger et de collaborer
-            sur de nouvelles opportunités.
-          </p>
-        </div>
-        
-        <div className="my-8">
-          <iframe
-            src="https://maps.app.goo.gl/M9mkrEVGitUPioCu9"
-            width="100%"
-            height="300"
-            style={{ border: 0 , borderRadius: "1rem" }}
-            allowFullScreen
-            loading="lazy"
-            referrerPolicy="no-referrer-when-downgrade"
-          ></iframe>
-        </div>
+          <div className="text-center lg:text-left w-full">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold">Entrer en contact</h2>
+            <p className="py-4 sm:py-6 text-sm sm:text-base text-base-content/70">
+              N'hésitez pas à me contacter pour discuter de vos projets ou pour
+              toute question. Je suis toujours ravi d'échanger et de collaborer
+              sur de nouvelles opportunités.
+            </p>
+          </div>
+
+          <div className="my-8">
+            <iframe
+              src="https://maps.app.goo.gl/M9mkrEVGitUPioCu9"
+              width="100%"
+              height="300"
+              style={{ border: 0, borderRadius: "1rem" }}
+              allowFullScreen
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+            ></iframe>
+          </div>
 
         </div>
         <div>
@@ -105,8 +105,8 @@ export default function Getintouch() {
                   <ContactRound className="w-6 h-6" />
                   <h3 className="card-title">Contact</h3>
                 </div>
-                <a href="mailto:nkoungagil@gmail.com" className="text-base-content/70">
-                  Nkoungagil@gmail.com
+                <a href="mailto:exaucenkoungadivina@gmail.com" className="text-base-content/70">
+                  exaucenkoungadivina@gmail.com
                 </a>
                 <br />
                 <a href="tel:+242064493007" className="text-base-content/70">
@@ -243,7 +243,7 @@ export default function Getintouch() {
                           required
                         />
                         <span className="label-text text-xs sm:text-sm">
-                          En cochant cette case, vous acceptez notre <br/>
+                          En cochant cette case, vous acceptez notre <br />
                           <a href="#" className="font-semibold text-primary">
                             politique de confidentialité
                           </a>
@@ -260,7 +260,7 @@ export default function Getintouch() {
                     <span className="text-success text-sm">Message envoyé avec succès ! Je vous répondrai bientôt.</span>
                   </div>
                 )}
-                
+
                 {submitStatus === 'error' && (
                   <div className="mt-4 p-3 bg-error/20 border border-error/30 rounded-lg flex items-center gap-2">
                     <AlertCircle className="w-5 h-5 text-error" />
