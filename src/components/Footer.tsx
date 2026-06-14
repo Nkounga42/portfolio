@@ -16,11 +16,16 @@ const Footer = () => {
             Currently fullstack developer at Wilkaî.
           </div>
 
-          <div className="text-xs text-base-content/70 border-t border-primary/70 pt-4">
-            My 2025 portfolio is under construction—while that’s happening,
+          <div className="text-xs text-base-content/70 border-t border-primary/70 pt-4 w-full">
+            My 2026 portfolio is under construction—while that’s happening,
             <br />
             you can find me on <Link className="link link-hover" to="http://www.linkedin.com/in/exauce-nkounga">LinkedIn</Link>, or say
             <Link className="link link-hover" to="mailto:nkoungagil@gmail.com"> nkoungagil@gmail.com</Link>.
+          </div>
+          
+          <div className="mt-12 text-[10px] opacity-40 uppercase tracking-widest flex flex-col sm:flex-row gap-4 sm:gap-10">
+            <span>© 2026 Nkounga Exaucé</span>
+            <span>Dernière mise à jour : 14 Juin 2026</span>
           </div>
         </div>
       </div>

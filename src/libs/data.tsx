@@ -42,7 +42,7 @@ const categories = {
 };
 
 const socialLinks: Record<string, string> = {
-  x: "https://x.com",
+  x: "https://x.com/Mr_Nkounga",
   facebook: "https://facebook.com",
   instagram: "https://instagram.com",
   linkedin_circled: "https://linkedin.com",
@@ -937,6 +937,7 @@ Ce projet est sous licence MIT. Voir le fichier LICENSE pour plus de détails.
     ],
   }
 ];
+
 const experience = [
   {
     date: "2025 ",

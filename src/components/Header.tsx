@@ -8,11 +8,11 @@ import Logo from "../assets/logo";
 const pages = {
   Home: "/portfolio/",
   Projects: "/portfolio/projects",
+  Blog: "/portfolio/blog",
   Skills: "/portfolio/skills",
   Gallery: "/portfolio/gallery",
-  // Experience: "/portfolio/experience",
   About: "/portfolio/about",
-  Contact: "/portfolio/contact",
+  Admin: "/portfolio/blog/create",
 };
 
 const Header = () => {

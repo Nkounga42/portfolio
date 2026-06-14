@@ -37,6 +37,8 @@ const route = {
   Page404: { path: "/portfolio/404", component: <Screen.Page404 /> },
 
   Article: { path: "/portfolio/article", component: <Screen.Article /> },
+  CreateBlog: { path: "/portfolio/blog/create", component: <Screen.CreateBlog /> },
+  ReadBlog: { path: "/portfolio/blog/:slug", component: <Screen.ReadBlog /> },
 };
 
 const BrowserDom = () => {
@@ -76,7 +78,6 @@ const BrowserDom = () => {
           </div>
           <UI.ShadowOverlay direction="toTop" position="bottom" />
           {
-            location.pathname !== route.Home.path &&
             location.pathname !== route.Skills.path &&
             location.pathname !== route.Search.path && <UI.Footer />
           }
