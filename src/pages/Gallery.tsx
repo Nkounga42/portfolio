@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, ZoomIn, Download, Share2, Heart, Eye } from "lucide-react";
-import { img } from "../libs/data";
+import { supabase } from "../tools/supabase";
 
 // Types pour les images de la galerie
 interface GalleryImage {
@@ -17,65 +17,53 @@ interface GalleryImage {
   date?: string;
 }
 
-// Génération des données de galerie à partir des images Pinterest
-const galleryImages: GalleryImage[] = img.map((src, index) => {
-  const categories = ["UI/UX", "Illustration", "Web Design", "Branding", "Photography", "Animation", "Print", "Digital Art", "Architecture"];
-  const titles = [
-    "Design UI/UX Mobile", "Illustration Vectorielle", "Web Design Moderne", "Branding & Identité",
-    "Photography Art", "Motion Graphics", "Print Design", "Digital Art", "Architecture Design",
-    "Fashion Photography", "Logo Design", "Abstract Art", "Creative Design", "Visual Identity",
-    "Graphic Design", "Art Direction", "Creative Concept", "Visual Art", "Design System", "Brand Design"
-  ];
-  const descriptions = [
-    "Design d'interface utilisateur pour application mobile avec approche minimaliste",
-    "Création d'illustrations vectorielles pour supports numériques",
-    "Conception de sites web modernes et responsifs",
-    "Création d'identités visuelles complètes pour entreprises",
-    "Photographie artistique et retouche créative",
-    "Création d'animations et motion graphics",
-    "Conception graphique pour supports imprimés",
-    "Créations artistiques numériques et expérimentales",
-    "Conception architecturale moderne et minimaliste",
-    "Photographie de mode et portrait artistique",
-    "Création de logos modernes et mémorables",
-    "Créations artistiques abstraites et expérimentales",
-    "Design créatif et innovant",
-    "Identité visuelle forte et mémorable",
-    "Design graphique professionnel",
-    "Direction artistique créative",
-    "Concept créatif original",
-    "Art visuel contemporain",
-    "Système de design cohérent",
-    "Design de marque impactant"
-  ];
-  const tagsList = [
-    ["Mobile", "UI", "Design"], ["Vector", "Illustration", "Creative"], ["Web", "Responsive", "Modern"],
-    ["Branding", "Logo", "Identity"], ["Photo", "Art", "Creative"], ["Animation", "Motion", "Graphics"],
-    ["Print", "Graphic", "Design"], ["Digital", "Art", "Experimental"], ["Architecture", "Modern", "Design"],
-    ["Fashion", "Portrait", "Photography"], ["Logo", "Branding", "Identity"], ["Abstract", "Art", "Digital"],
-    ["Creative", "Design", "Modern"], ["Visual", "Identity", "Brand"], ["Graphic", "Design", "Print"],
-    ["Art", "Direction", "Creative"], ["Concept", "Creative", "Design"], ["Visual", "Art", "Contemporary"],
-    ["Design", "System", "UI"], ["Brand", "Design", "Visual"]
-  ];
-
-  return {
-    id: index + 1,
-    title: titles[index % titles.length],
-    category: categories[index % categories.length],
-    src: src,
-    alt: `${titles[index % titles.length]} - Image ${index + 1}`,
-    description: descriptions[index % descriptions.length],
-    tags: tagsList[index % tagsList.length],
-    likes: Math.floor(Math.random() * 100) + 20,
-    views: Math.floor(Math.random() * 400) + 100,
-    date: `2024-${String(Math.floor(Math.random() * 12) + 1).padStart(2, '0')}-${String(Math.floor(Math.random() * 28) + 1).padStart(2, '0')}`
-  };
-});
-
-
 export default function Gallery() {
   const [selectedImage, setSelectedImage] = useState<GalleryImage | null>(null);
   const [likedImages, setLikedImages] = useState<Set<number>>(new Set());
+  const [galleryImages, setGalleryImages] = useState<GalleryImage[]>([]);
+  const [zoomLevel, setZoomLevel] = useState(1);
+  const [pan, setPan] = useState({ x: 0, y: 0 });
+  const [isDragging, setIsDragging] = useState(false);
+  const dragStart = { x: 0, y: 0 };
+
+  const handleZoomIn    = () => setZoomLevel(prev => Math.min(prev + 0.25, 3));
+  const handleZoomOut   = () => { setZoomLevel(prev => { const next = Math.max(prev - 0.25, 0.5); if (next === 1) setPan({ x: 0, y: 0 }); return next; }); };
+  const handleZoomReset = () => { setZoomLevel(1); setPan({ x: 0, y: 0 }); };
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    if (zoomLevel <= 1) return;
+    e.preventDefault();
+    setIsDragging(true);
+    dragStart.x = e.clientX - pan.x;
+    dragStart.y = e.clientY - pan.y;
+  };
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDragging) return;
+    setPan({ x: e.clientX - dragStart.x, y: e.clientY - dragStart.y });
+  };
+  const handleMouseUp = () => setIsDragging(false);
+
+  useEffect(() => {
+    const fetchGallery = async () => {
+      const { data, error } = await supabase
+        .from('gallery')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      if (error) console.error('Erreur Supabase:', error);
+
+      if (data) {
+        const mappedData = data.map((item: any) => ({
+          ...item,
+          src: item.image_url,
+          alt: item.alt ?? item.title,
+          date: item.created_at
+        }));
+        setGalleryImages(mappedData);
+      }
+    };
+    fetchGallery();
+  }, []);
 
   const displayedImages = galleryImages;
 
@@ -179,7 +167,7 @@ export default function Gallery() {
             animate="visible"
           >
             <p className="text-xl opacity-80">
-              Découvrez mes créations à travers différents domaines : design UI/UX, 
+              Découvrez mes créations à travers différents domaines : design UI/UX,
               illustrations, photographie et bien plus encore.
             </p>
           </motion.div>
@@ -187,9 +175,8 @@ export default function Gallery() {
 
 
         {/* Bento Grid Gallery */}
-        <motion.div 
+        <motion.div
           className="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-6 space-y-6"
-          layout
         >
           <AnimatePresence mode="wait">
             {displayedImages.map((image, i) => (
@@ -200,7 +187,6 @@ export default function Gallery() {
                 initial="hidden"
                 animate="visible"
                 exit="hidden"
-                layout
                 className="group relative bg-base-200/30 rounded-2xl overflow-hidden cursor-pointer hover:shadow-2xl transition-all duration-300 hover:scale-[1.02] break-inside-avoid mb-6"
                 onClick={() => setSelectedImage(image)}
               >
@@ -209,13 +195,13 @@ export default function Gallery() {
                   <img
                     src={image.src}
                     alt={image.alt}
-                    className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105"
+                    className="w-full h-auto block transition-transform duration-500 group-hover:scale-105"
                     loading="lazy"
                   />
-                  
+
                   {/* Overlay */}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                  
+
                   {/* Quick Actions */}
                   <div className="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     <button
@@ -223,11 +209,10 @@ export default function Gallery() {
                         e.stopPropagation();
                         handleLike(image.id);
                       }}
-                      className={`p-2 rounded-full backdrop-blur-sm transition-colors ${
-                        likedImages.has(image.id)
-                          ? "bg-red-500 text-white"
-                          : "bg-white/20 text-white hover:bg-white/30"
-                      }`}
+                      className={`p-2 rounded-full backdrop-blur-sm transition-colors ${likedImages.has(image.id)
+                        ? "bg-red-500 text-white"
+                        : "bg-white/20 text-white hover:bg-white/30"
+                        }`}
                     >
                       <Heart className="w-4 h-4" fill={likedImages.has(image.id) ? "currentColor" : "none"} />
                     </button>
@@ -274,7 +259,7 @@ export default function Gallery() {
                   <p className="text-sm text-base-content/70 line-clamp-2 mb-3">
                     {image.description}
                   </p>
-                  
+
                   {/* Tags */}
                   {image.tags && (
                     <div className="flex flex-wrap gap-1">
@@ -319,7 +304,7 @@ export default function Gallery() {
             animate="visible"
             exit="exit"
             className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90 backdrop-blur-sm"
-            onClick={() => setSelectedImage(null)}
+            onClick={() => { setSelectedImage(null); setZoomLevel(1); }}
           >
             <motion.div
               variants={imageModalVariants}
@@ -331,19 +316,59 @@ export default function Gallery() {
             >
               {/* Close Button */}
               <button
-                onClick={() => setSelectedImage(null)}
+                onClick={() => { setSelectedImage(null); setZoomLevel(1); }}
                 className="absolute top-4 right-4 z-10 p-2 bg-black/50 text-white rounded-full hover:bg-black/70 transition-colors"
               >
                 <X className="w-6 h-6" />
               </button>
 
-              {/* Image */}
-              <div className="relative">
+              {/* Image + Zoom Controls */}
+              <div
+                className="relative overflow-hidden bg-black/20"
+                style={{ cursor: zoomLevel > 1 ? (isDragging ? 'grabbing' : 'grab') : 'default' }}
+                onMouseDown={handleMouseDown}
+                onMouseMove={handleMouseMove}
+                onMouseUp={handleMouseUp}
+                onMouseLeave={handleMouseUp}
+              >
                 <img
                   src={selectedImage.src}
                   alt={selectedImage.alt}
-                  className="w-full max-h-[60vh] object-contain"
+                  className="w-full max-h-[60vh] object-contain select-none"
+                  style={{
+                    transform: `scale(${zoomLevel}) translate(${pan.x / zoomLevel}px, ${pan.y / zoomLevel}px)`,
+                    transformOrigin: 'center',
+                    transition: isDragging ? 'none' : 'transform 0.2s ease',
+                  }}
+                  draggable={false}
                 />
+
+                {/* Zoom Buttons (sur l'image) */}
+                <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2 bg-black/60 backdrop-blur-sm rounded-full px-4 py-2">
+                  <button
+                    onClick={handleZoomOut}
+                    disabled={zoomLevel <= 0.5}
+                    className="w-8 h-8 flex items-center justify-center text-white rounded-full hover:bg-white/20 disabled:opacity-30 transition-colors text-lg font-bold"
+                    title="Zoom -"
+                  >
+                    −
+                  </button>
+                  <button
+                    onClick={handleZoomReset}
+                    className="px-3 py-1 text-white text-xs rounded-full hover:bg-white/20 transition-colors min-w-[3rem] text-center"
+                    title="Réinitialiser"
+                  >
+                    {Math.round(zoomLevel * 100)}%
+                  </button>
+                  <button
+                    onClick={handleZoomIn}
+                    disabled={zoomLevel >= 3}
+                    className="w-8 h-8 flex items-center justify-center text-white rounded-full hover:bg-white/20 disabled:opacity-30 transition-colors text-lg font-bold"
+                    title="Zoom +"
+                  >
+                    +
+                  </button>
+                </div>
               </div>
 
               {/* Content */}
@@ -388,9 +413,8 @@ export default function Gallery() {
                   <div className="flex gap-2">
                     <button
                       onClick={() => handleLike(selectedImage.id)}
-                      className={`btn btn-sm ${
-                        likedImages.has(selectedImage.id) ? "btn-error" : "btn-ghost"
-                      }`}
+                      className={`btn btn-sm ${likedImages.has(selectedImage.id) ? "btn-error" : "btn-ghost"
+                        }`}
                     >
                       <Heart className="w-4 h-4" fill={likedImages.has(selectedImage.id) ? "currentColor" : "none"} />
                     </button>

@@ -77,14 +77,14 @@ const backgroundImage = theme === "dark" ? bgDark : bgLight;
   return (
     <div
     key={theme} 
-      className="relative min-h-[100vh] w-full"
+      className="relative min-h-[85vh] w-full flex items-center"
       style={{
         background: `url(${backgroundImage})`,
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat", 
       }}
     >
-      <div className="absolute inset-0 z-[30] w-full h-screen top-0 left-0 hidden lg:block">
+      <div className="absolute inset-0 z-[30] w-full h-full top-0 left-0 hidden lg:block">
         <ElegantShape delay={0.3} width={600} height={140} rotate={12}  gradient="from-indigo-500/[0.15]" className="left-[60%] top-[15%]" />
         <ElegantShape delay={0.5} width={500} height={120} rotate={-15} gradient="from-rose-500/[0.15]"   className="right-0 top-[75%]" />
         <ElegantShape delay={0.4} width={300} height={80}  rotate={-8}  gradient="from-violet-500/[0.15]" className="left-[10%] bottom-[10%]" />
@@ -94,37 +94,49 @@ const backgroundImage = theme === "dark" ? bgDark : bgLight;
 
       <div className="bg-gradient-to-t absolute inset-0 z-[1] left-0 right-0 from-base-300 to-base-100/10" />
 
-      <div className="relative z-10 px-6 pb-25 pt-15 w-full min-h-[100vh]  backdrop-blur-3xl ">
-        <div className="max-w-3xl mx-auto text-center">
+      <div className="relative z-10 px-6 pb-20 pt-32 w-full min-h-[85vh] flex flex-col justify-center backdrop-blur-3xl ">
+        <div className="max-w-3xl mx-auto text-center mt-[-40px]">
+          {/* Section Photo de Profil */}
+          <motion.div 
+            custom={0} 
+            variants={fadeUpVariants} 
+            initial="hidden" 
+            animate="visible"
+            className="mb-10 relative inline-block"
+          >
+            <div className="relative w-32 h-32 sm:w-40 sm:h-40 mx-auto rounded-3xl overflow-hidden border-2 border-white/10 shadow-2xl transition-transform duration-500 hover:scale-105 rotate-3">
+              <img 
+                src="https://i.pinimg.com/736x/ae/94/97/ae94977fe94c32d093f156476a9890c1.jpg" 
+                alt="Nkounga Gil Exaucé" 
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-primary/30 to-transparent" />
+            </div>
+            {/* Décoration autour de la photo */}
+            <div className="absolute -bottom-2 -right-2 w-10 h-10 bg-secondary rounded-xl z-20 flex items-center justify-center shadow-lg -rotate-12">
+               <span className="text-xl">✨</span>
+            </div>
+          </motion.div>
+
           <motion.div custom={1} variants={fadeUpVariants} initial="hidden" animate="visible">
-            <h1 className="text-3xl sm:text-8xl font-bold my-6 mb-8 tracking-tight">
+            <h1 className="text-3xl sm:text-7xl font-bold my-4 mb-6 tracking-tight">
               <motion.div
-                className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gradient-to-r from-indigo-500/20 via-rose-500/20 to-amber-500/20 border border-white/[0.08] mb-8 cursor-pointer"
+                className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gradient-to-r from-indigo-500/10 via-rose-500/10 to-amber-500/10 border border-white/[0.05] mb-6 cursor-pointer"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 animate={{
-                  scale: [1, 1.05, 1],
                   boxShadow: [
-                    "0 0 10px rgba(99,102,241,0.2)",
-                    "0 0 20px rgba(244,114,182,0.2)",
-                    "0 0 20px rgba(251, 190, 36, 0.2)",
-                    "0 0 20px rgba(244,114,182,0.2)",
-                    "0 0 10px rgba(99,102,241,0.2)",
-                  ],
-                  background: [
-                    "linear-gradient(90deg, rgba(99, 101, 241, 0.66) 0%, rgba(244,114,182,0.35) 50%, rgba(251,191,36,0.35) 100%)",
-                    "linear-gradient(90deg, rgba(251,191,36,0.35) 0%, rgba(99,102,241,0.35) 50%, rgba(244,114,182,0.35) 100%)",
-                    "linear-gradient(90deg, rgba(244,114,182,0.35) 0%, rgba(251,191,36,0.35) 50%, rgba(99,102,241,0.35) 100%)",
-                    "linear-gradient(90deg, rgba(99,102,241,0.35) 0%, rgba(244,114,182,0.35) 50%, rgba(251,191,36,0.35) 100%)",
+                    "0 0 10px rgba(99,102,241,0.1)",
+                    "0 0 20px rgba(244,114,182,0.1)",
+                    "0 0 10px rgba(99,102,241,0.1)",
                   ],
                   transition: {
                     duration: 4,
                     repeat: Infinity,
-                    ease: "linear",
                   },
                 }}
               >
-                <span className="text-sm text-base-content/90 tracking-wide">
+                <span className="text-xs sm:text-sm text-base-content/80 tracking-wide">
                   Disponible pour travailler
                 </span>
               </motion.div>
@@ -136,16 +148,14 @@ const backgroundImage = theme === "dark" ? bgDark : bgLight;
           </motion.div>
 
           <motion.div custom={2} variants={fadeUpVariants} initial="hidden" animate="visible">
-            <p className="text-base sm:text-lg text-base-content/80 mb-8 leading-relaxed font-light tracking-wide max-w-xl mx-auto px-4">
+            <p className="text-base sm:text-lg text-base-content/70 mb-8 leading-relaxed font-light tracking-wide max-w-xl mx-auto px-4">
               Développeur full-stack en formation à{" "}
               <strong>
-                <Link to="/" className="text-base-content">
+                <Link to="/" className="text-base-content font-bold underline decoration-primary/30">
                   ESCIC
                 </Link>
               </strong>
-              , <br /> je crée des solutions numériques complètes, du backend à
-              l’interface utilisateur. Je cherche à relever des défis concrets
-              pour mettre mes compétences en pratique.
+              . Je conçois des écosystèmes digitaux performants, de l'infrastructure backend aux interfaces utilisateurs intuitives.
             </p>
           </motion.div>
         </div>
