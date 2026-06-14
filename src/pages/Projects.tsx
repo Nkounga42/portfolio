@@ -1,24 +1,33 @@
 import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { projets } from "../libs/data";
+import { supabase } from "../tools/supabase";
 import { ExternalLink, Github } from "lucide-react";
 
-const categories = {
-  All: projets,
-  "Web App": projets.filter(p => p.cathegorie === "Web App"),
-  Desktop: projets.filter(p => p.cathegorie === "Desktop"),
-  Mobile: projets.filter(p => p.cathegorie === "Mobile"),
-  API: projets.filter(p => p.cathegorie === "API"),
-  Illustration: projets.filter(p => p.cathegorie === "Illustration"),
-};
-
-const tabs = Object.keys(categories);
-
 export default function Projects() {
+  const [allProjects, setAllProjects] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState("All");
   const tabRefs = useRef<(HTMLAnchorElement | null)[]>([]);
   const [indicator, setIndicator] = useState({ left: 0, width: 0 });
+
+  const tabs = ["All", "Web App", "Desktop", "Mobile", "API", "Illustration"];
+
+  useEffect(() => {
+    const fetchProjects = async () => {
+      setLoading(true);
+      const { data, error } = await supabase
+        .from('projects')
+        .select('*')
+        .order('id', { ascending: false });
+      
+      if (!error && data) {
+        setAllProjects(data);
+      }
+      setLoading(false);
+    };
+    fetchProjects();
+  }, []);
 
   useEffect(() => {
     const index = tabs.indexOf(activeTab);
@@ -31,7 +40,9 @@ export default function Projects() {
     }
   }, [activeTab]);
 
-  const displayedProjects = categories[activeTab as keyof typeof categories];
+  const displayedProjects = activeTab === "All" 
+    ? allProjects 
+    : allProjects.filter(p => p.category === activeTab);
 
   const fadeUpVariants = {
     hidden: { opacity: 0, y: 30 },
@@ -61,7 +72,7 @@ export default function Projects() {
   };
 
   return (
-    <section className="pb-20 pt-10 bg-base-100 flex flex-col items-center">
+    <section className="pb-20 pt-10 bg-base-100 flex flex-col items-center min-h-screen">
       <div className="container mx-auto px-4 max-w-5xl">
         <div className="text-left mb-6">
           <motion.div
@@ -85,7 +96,13 @@ export default function Projects() {
           </motion.div>
         </div>
 
-        {/* Tabs */}
+        {loading ? (
+          <div className="flex justify-center py-20">
+            <span className="loading loading-spinner loading-lg text-primary"></span>
+          </div>
+        ) : (
+          <>
+            {/* Tabs */}
         <motion.div
           custom={2}
           variants={fadeUpVariants}
@@ -167,7 +184,7 @@ export default function Projects() {
                     {projet.nom}
                   </h3>
                    <span className="badge badge-soft badge-sm">
-                    {projet.cathegorie}
+                    {projet.category}
                   </span>  
                 </div>
 
@@ -195,9 +212,9 @@ export default function Projects() {
                   </Link>
                   
                   <div className="flex gap-2">
-                    {projet.links?.repository && (
+                    {projet.repository_link && (
                       <a
-                        href={projet.links.repository}
+                        href={projet.repository_link}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="btn btn-ghost btn-sm btn-square"
@@ -206,9 +223,9 @@ export default function Projects() {
                         <Github className="w-4 h-4" />
                       </a>
                     )}
-                    {projet.links?.page && (
+                    {projet.page_link && (
                       <a
-                        href={projet.links.page}
+                        href={projet.page_link}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="btn btn-ghost btn-sm btn-square"
@@ -232,8 +249,8 @@ export default function Projects() {
             </p>
           </div>
         )}
-
-        
+          </>
+        )}
       </div>
     </section>
   );

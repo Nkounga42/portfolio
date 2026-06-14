@@ -111,7 +111,7 @@ const Header = () => {
             <span className="hidden lg:inline">Prendre Contact</span>
             <span className="lg:hidden">Contact</span>
           </Link>
-          <Link to="/search" className="hidden sm:block p-1">
+          <Link to="/portfolio/search" className="hidden sm:block p-1">
             <Search className="h-4 w-4 sm:h-5 sm:w-5 cursor-pointer" />
           </Link>
           <div className="scale-90 sm:scale-100">
@@ -149,7 +149,7 @@ const Header = () => {
               <li>
                 <div className="flex items-center justify-around gap-2">
                   <Link 
-                    to="/search" 
+                    to="/portfolio/search" 
                     className="btn btn-ghost btn-sm btn-square flex-1"
                     onClick={scrollToTop}
                   >

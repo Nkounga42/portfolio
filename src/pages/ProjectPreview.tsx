@@ -1,5 +1,6 @@
 import { useParams, Link, useNavigate } from "react-router-dom";
-import { projets } from "../libs/data";
+import { supabase } from "../tools/supabase";
+import { useEffect, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { ArrowLeft, ExternalLink, Github, Calendar, User, Tag, ArrowRight } from "lucide-react";
@@ -8,25 +9,62 @@ import { scrollToTop } from "../tools/tools";
 export default function ProjectPreview() {
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
+  const [project, setProject] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+  const [navigation, setNavigation] = useState({ prev: null, next: null });
 
-  // Find the project by slug
+  useEffect(() => {
+    const fetchProjectAndNav = async () => {
+      setLoading(true);
+      
+      // Fetch current project
+      const { data, error } = await supabase
+        .from('projects')
+        .select('*')
+        .eq('slug', slug)
+        .single();
 
-  // If project not found, redirect to projects page
-  // if (!project) {
-  //     return <Navigate to="/portfolio/projects" replace />;
-  // }
-  const indexActuel = projets.findIndex((p) => p.slug === slug);
-  const project = projets[indexActuel];
-  const projetPrecedent = projets[indexActuel - 1];
-  const projetSuivant = projets[indexActuel + 1];
+      if (!error && data) {
+        setProject(data);
+        
+        // Fetch prev/next based on ID
+        const { data: all } = await supabase
+          .from('projects')
+          .select('slug, nom')
+          .order('id', { ascending: true });
+        
+        if (all) {
+          const index = all.findIndex(p => p.slug === slug);
+          setNavigation({
+            prev: all[index - 1] || null,
+            next: all[index + 1] || null
+          });
+        }
+      }
+      setLoading(false);
+    };
+
+    fetchProjectAndNav();
+  }, [slug]);
+
+  if (loading) return <div className="min-h-screen flex items-center justify-center"><span className="loading loading-spinner loading-lg text-primary"></span></div>;
+  if (!project) return <div className="min-h-screen flex flex-col items-center justify-center gap-4">
+    <h2 className="text-2xl font-bold">Projet non trouvé</h2>
+    <Link to="/portfolio/projects" className="btn btn-primary">Retour aux projets</Link>
+  </div>;
+
   const previousProject = () => {
-    scrollToTop();
-    if (projetPrecedent) navigate(`/portfolio/projets/${projetPrecedent.slug}`);
+    if (navigation.prev) {
+      scrollToTop();
+      navigate(`/portfolio/projects/${(navigation.prev as any).slug}`);
+    }
   };
 
   const nextProject = () => {
-    scrollToTop();
-    if (projetSuivant) navigate(`/portfolio/projets/${projetSuivant.slug}`);
+    if (navigation.next) {
+      scrollToTop();
+      navigate(`/portfolio/projects/${(navigation.next as any).slug}`);
+    }
   };
   return (
     <div className="min-h-screen mx-auto bg-base-100 mt-20">
@@ -234,7 +272,7 @@ export default function ProjectPreview() {
                 </div>
                 <div className="flex items-center gap-2">
                   <Tag className="w-4 h-4" />
-                  <span>{project.cathegorie}</span>
+                  <span>{project.category}</span>
                 </div>
               </div>
 
@@ -243,7 +281,7 @@ export default function ProjectPreview() {
                   <h3 className="text-lg font-semibold mb-4">Technologies utilisées</h3>
                   <div className="flex flex-wrap gap-2">
                     {
-                      project.technologies.map((tech) => (
+                      project.technologies.map((tech: string) => (
                         <Link to={"/portfolio/projects#" + tech} key={tech} className="badge badge-soft badge-primary badge-outline">
                           {tech}
                         </Link>
@@ -255,9 +293,9 @@ export default function ProjectPreview() {
 
               {/* Action Links */}
               <div className="flex gap-3 mt-6">
-                {project.links?.page && (
+                {project.page_link && (
                   <a
-                    href={project.links.page}
+                    href={project.page_link}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="btn btn-primary btn-sm"
@@ -266,9 +304,9 @@ export default function ProjectPreview() {
                     Voir le projet
                   </a>
                 )}
-                {project.links?.repository && (
+                {project.repository_link && (
                   <a
-                    href={project.links.repository}
+                    href={project.repository_link}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="btn btn-outline btn-sm"
@@ -286,18 +324,18 @@ export default function ProjectPreview() {
         <div className="flex justify-between mt-30 mb-20">
           <button
             className="btn p-5 btn-soft tooltip tooltip-info"
-            data-tip={projetPrecedent ? projetPrecedent.nom : "Aucun précédent"}
+            data-tip={navigation.prev ? (navigation.prev as any).nom : "Aucun précédent"}
             onClick={previousProject}
-            disabled={!projetPrecedent}
+            disabled={!navigation.prev}
           >
             <ArrowLeft /> Précédent
           </button>
 
           <button
             className="btn p-5 btn-soft tooltip tooltip-info"
-            data-tip={projetSuivant ? projetSuivant.nom : "Aucun suivant"}
+            data-tip={navigation.next ? (navigation.next as any).nom : "Aucun suivant"}
             onClick={nextProject}
-            disabled={!projetSuivant}
+            disabled={!navigation.next}
           >
             Suivant <ArrowRight />
           </button>

@@ -1,163 +1,298 @@
-import { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useParams, Link } from 'react-router-dom';
+import { supabase } from '../tools/supabase';
 
-const mockPost = {
-  id: 1,
-  title: "L'art de coder des interfaces élégantes",
-  slug: "art-coder-interfaces-elegantes",
-  summary: "Comment allier performance technique et esthétique visuelle dans vos projets Web.",
-  content: `
-    <p>Le design ne se limite pas à ce à quoi ressemble un produit, mais à la façon dont il fonctionne. Dans le développement web moderne, cette philosophie est plus pertinente que jamais.</p>
-    <h2>La typographie est la clé</h2>
-    <p>Une bonne typographie améliore non seulement la lisibilité mais définit également le ton de votre application. Utilisez des polices qui respirent et des hauteurs de ligne généreuses.</p>
-    <blockquote>"Le design est le silence qui permet au contenu de crier."</blockquote>
-    <p>Ensuite, parlons de la hiérarchie visuelle. Vos yeux doivent être guidés naturellement à travers la page par l'utilisation judicieuse de l'espace blanc et des contrastes.</p>
-  `,
-  cover_image: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&q=80&w=2072",
-  published_at: "2025-06-14",
-  author: "Gil Nkounga",
-  views_count: 1240,
-  likes_count: 85,
-  tags: ["Design", "React", "Frontend"]
-};
+interface BlogPost {
+  id: number;
+  title: string;
+  slug: string;
+  summary: string;
+  content: string;
+  cover_image: string;
+  category: string;
+  tags: string;
+  created_at: string;
+}
 
 const ReadBlog = () => {
-  const { slug } = useParams();
-  console.log('Lecture de l\'article:', slug);
-  const [likes, setLikes] = useState(mockPost.likes_count);
+  const { slug } = useParams<{ slug: string }>();
+  const [post, setPost] = useState<BlogPost | null>(null);
+  const [loading, setLoading] = useState(true);
   const [isLiked, setIsLiked] = useState(false);
-  const [comments] = useState([
-    { id: 1, author: "Alice", content: "Super article ! Très instructif.", date: "Il y a 2 heures", replies: [] },
-    { id: 2, author: "Bob", content: "J'aimerais en savoir plus sur la gestion des couleurs.", date: "Il y a 5 heures", replies: [
-        { id: 3, author: "Gil", content: "C'est prévu pour le prochain article Bob !", date: "Il y a 1 heure" }
-    ] },
-  ]);
+  const [likes, setLikes] = useState(0);
+  const [comments, setComments] = useState<any[]>([]);
+  const [newComment, setNewComment] = useState("");
+  const [authorName, setAuthorName] = useState("");
+  const [isSubmittingComment, setIsSubmittingComment] = useState(false);
 
-  const handleLike = () => {
+  // Identifiant unique pour le visiteur (simulation simple)
+  const [visitorId] = useState(() => {
+    const saved = localStorage.getItem('visitor_id');
+    if (saved) return saved;
+    const id = 'v_' + Math.random().toString(36).substr(2, 9);
+    localStorage.setItem('visitor_id', id);
+    return id;
+  });
+
+  useEffect(() => {
+    const fetchPost = async () => {
+      setLoading(true);
+      const { data, error } = await supabase
+        .from('blog_posts')
+        .select('*')
+        .eq('slug', slug)
+        .single();
+
+      if (error) {
+        console.error('Erreur Supabase (ReadBlog):', error.message);
+      } else if (data) {
+        setPost(data as BlogPost);
+        await fetchEngagement(data.id);
+      }
+      setLoading(false);
+    };
+
+    const fetchEngagement = async (postId: number) => {
+      // Fetch Likes
+      const { count } = await supabase
+        .from('blog_post_likes')
+        .select('*', { count: 'exact', head: true })
+        .eq('post_id', postId);
+      
+      setLikes(count || 0);
+
+      // Check if user already liked
+      const { data: userLike } = await supabase
+        .from('blog_post_likes')
+        .select('*')
+        .eq('post_id', postId)
+        .eq('user_identifier', visitorId)
+        .maybeSingle();
+      
+      setIsLiked(!!userLike);
+
+      // Fetch Comments
+      const { data: commentsData } = await supabase
+        .from('blog_comments')
+        .select('*')
+        .eq('post_id', postId)
+        .order('created_at', { ascending: true });
+      
+      setComments(commentsData || []);
+    };
+
+    if (slug) fetchPost();
+  }, [slug, visitorId]);
+
+  const handleLike = async () => {
+    if (!post) return;
+
     if (!isLiked) {
       setLikes(prev => prev + 1);
       setIsLiked(true);
+      await supabase.from('blog_post_likes').insert({
+        post_id: post.id,
+        user_identifier: visitorId
+      });
     } else {
       setLikes(prev => prev - 1);
       setIsLiked(false);
+      await supabase.from('blog_post_likes')
+        .delete()
+        .eq('post_id', post.id)
+        .eq('user_identifier', visitorId);
     }
   };
+
+  const handleAddComment = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!post || !newComment.trim() || !authorName.trim()) return;
+
+    setIsSubmittingComment(true);
+    const { data, error } = await supabase
+      .from('blog_comments')
+      .insert({
+        post_id: post.id,
+        author_name: authorName,
+        content: newComment
+      })
+      .select()
+      .single();
+
+    if (!error && data) {
+      setComments(prev => [...prev, data]);
+      setNewComment("");
+    } else {
+      console.error("Erreur commentaire:", error);
+    }
+    setIsSubmittingComment(false);
+  };
+
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString('fr-FR', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center">
+        <span className="loading loading-spinner loading-lg text-primary"></span>
+        <p className="mt-4 opacity-50 italic">Chargement de l'article...</p>
+      </div>
+    );
+  }
+
+  if (!post) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center p-6 text-center">
+        <h2 className="text-3xl font-bold mb-4">Oups ! Article introuvable.</h2>
+        <p className="opacity-70 mb-8 text-lg">Cet article semble avoir disparu dans les méandres du web.</p>
+        <Link to="/portfolio/blog" className="btn btn-primary rounded-full">
+          Retour au blog
+        </Link>
+      </div>
+    );
+  }
+
+  const tagList = post.tags ? post.tags.split(',').map(t => t.trim()) : [];
 
   return (
     <div className="min-h-screen pb-20">
       {/* Hero Section */}
-      <div className="relative h-[50vh] w-full overflow-hidden">
+      <div className="relative h-[60vh] w-full overflow-hidden">
         <img 
-          src={mockPost.cover_image} 
-          alt={mockPost.title} 
+          src={post.cover_image || 'https://images.unsplash.com/photo-1499750310107-5fef28a66643?q=80&w=2070&auto=format&fit=crop'} 
+          alt={post.title} 
           className="w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-base-100 to-transparent"></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-base-100 via-base-100/40 to-transparent"></div>
         <div className="absolute bottom-0 left-0 right-0 p-8 max-w-4xl mx-auto">
-          <div className="flex gap-2 mb-4">
-            {mockPost.tags.map(tag => (
-              <span key={tag} className="px-3 py-1 rounded-full bg-primary/20 text-primary text-xs font-semibold backdrop-blur-md border border-primary/20">
-                {tag}
+          <div className="flex flex-wrap gap-2 mb-4">
+            <span className="px-3 py-1 rounded-full bg-primary/20 text-primary text-xs font-bold backdrop-blur-md border border-primary/20">
+              {post.category}
+            </span>
+            {tagList.map(tag => (
+              <span key={tag} className="px-3 py-1 rounded-full bg-base-content/10 text-base-content text-xs font-semibold backdrop-blur-md">
+                #{tag}
               </span>
             ))}
           </div>
-          <h1 className="text-4xl md:text-6xl font-bold text-base-content mb-4 leading-tight">
-            {mockPost.title}
+          <h1 className="text-4xl md:text-6xl font-bold text-base-content mb-6 leading-tight">
+            {post.title}
           </h1>
           <div className="flex items-center text-base-content/60 gap-6 text-sm">
-            <span>Par <span className="text-primary font-medium">{mockPost.author}</span></span>
+            <div className="flex items-center gap-2">
+              <img src="https://avatars.githubusercontent.com/u/104117820?v=4" className="w-6 h-6 rounded-full" alt="Gil Nkounga" />
+              <span>Par <span className="text-primary font-medium">Gil Nkounga</span></span>
+            </div>
             <span>•</span>
-            <span>{mockPost.published_at}</span>
-            <span>•</span>
-            <span>{mockPost.views_count} vues</span>
+            <span>{formatDate(post.created_at)}</span>
           </div>
         </div>
       </div>
 
       {/* Content Section */}
       <article className="max-w-3xl mx-auto px-6 py-12">
+        {/* Résumé/Intro */}
+        {post.summary && (
+           <p className="text-xl text-base-content/70 italic border-l-4 border-primary pl-6 mb-12 leading-relaxed">
+             {post.summary}
+           </p>
+        )}
+
         <div 
           className="prose prose-lg prose-base-content max-w-none 
-            prose-headings:text-base-content prose-p:text-base-content/80 
+            prose-headings:text-base-content prose-headings:font-bold
+            prose-p:text-base-content/80 prose-p:leading-relaxed
             prose-strong:text-base-content prose-blockquote:border-primary
-            prose-blockquote:text-base-content/70 prose-blockquote:bg-primary/5
-            prose-blockquote:py-1 prose-blockquote:px-6 prose-blockquote:rounded-r-xl"
-          dangerouslySetInnerHTML={{ __html: mockPost.content }}
+            prose-blockquote:text-base-content/70 prose-blockquote:bg-base-200/50
+            prose-blockquote:py-2 prose-blockquote:px-6 prose-blockquote:rounded-r-xl
+            prose-img:rounded-3xl prose-a:text-primary hover:prose-a:underline"
+          dangerouslySetInnerHTML={{ __html: post.content }}
         />
 
         {/* Engagement Bar */}
-        <div className="mt-16 flex items-center justify-between py-6 border-y border-base-content/10">
-          <button 
-            onClick={handleLike}
-            className={`flex items-center gap-2 px-4 py-2 rounded-full transition-all ${
-              isLiked ? 'bg-error text-error-content' : 'hover:bg-base-content/5'
-            }`}
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill={isLiked ? "currentColor" : "none"} viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-            </svg>
-            <span className="font-semibold">{likes} Likes</span>
-          </button>
-
+        <div className="mt-16 flex items-center justify-between py-8 border-y border-base-content/10">
           <div className="flex gap-4">
-            <button className="p-2 rounded-full hover:bg-base-content/5 transition-colors">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6 Lozl6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+            <button 
+              onClick={handleLike}
+              className={`flex items-center gap-2 px-6 py-3 rounded-full transition-all border ${
+                isLiked ? 'bg-error border-error text-error-content' : 'border-base-content/10 hover:bg-base-content/5'
+              }`}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill={isLiked ? "currentColor" : "none"} viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
               </svg>
+              <span className="font-bold">{likes} Likes</span>
             </button>
+          </div>
+
+          <div className="flex gap-2">
+             <Link to="/portfolio/blog" className="btn btn-ghost rounded-full">
+                Voir plus d'articles
+             </Link>
           </div>
         </div>
 
-        {/* Comments Section */}
-        <div className="mt-16">
-          <h3 className="text-2xl font-bold mb-8">Commentaires ({comments.length})</h3>
+        {/* Section Commentaires */}
+        <div className="mt-20">
+          <h3 className="text-2xl font-bold mb-10">Commentaires ({comments.length})</h3>
           
-          {/* New Comment Input */}
-          <div className="mb-10 flex gap-4">
-            <div className="w-10 h-10 rounded-full bg-primary/20 flex-shrink-0"></div>
-            <div className="flex-1 space-y-3">
-              <textarea 
-                placeholder="Écrire un commentaire..."
-                className="w-full p-4 rounded-2xl bg-base-200 border border-base-content/5 outline-none focus:border-primary transition-colors resize-none"
-                rows={3}
-              ></textarea>
-              <button className="px-6 py-2 rounded-xl bg-primary text-primary-content font-medium hover:opacity-90 transition-opacity">
-                Publier
-              </button>
+          {/* Formulaire de commentaire */}
+          <form onSubmit={handleAddComment} className="mb-12 bg-base-200/50 p-6 rounded-3xl border border-base-content/5">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+              <input 
+                type="text" 
+                placeholder="Votre nom" 
+                value={authorName}
+                onChange={(e) => setAuthorName(e.target.value)}
+                className="input input-bordered rounded-xl bg-base-100"
+                required
+              />
             </div>
-          </div>
+            <textarea 
+              placeholder="Ajouter un commentaire..." 
+              value={newComment}
+              onChange={(e) => setNewComment(e.target.value)}
+              className="textarea textarea-bordered w-full h-32 rounded-2xl bg-base-100 mb-4"
+              required
+            ></textarea>
+            <button 
+              type="submit" 
+              disabled={isSubmittingComment}
+              className="btn btn-primary rounded-xl px-8"
+            >
+              {isSubmittingComment ? 'Envoi...' : 'Publier le commentaire'}
+            </button>
+          </form>
 
-          {/* Comment List */}
-          <div className="space-y-8">
-            {comments.map(comment => (
-              <div key={comment.id} className="space-y-4">
-                <div className="flex gap-4">
-                  <div className="w-10 h-10 rounded-full bg-base-300"></div>
-                  <div>
-                    <div className="flex items-center gap-2">
-                      <span className="font-bold">{comment.author}</span>
-                      <span className="text-xs text-base-content/50">{comment.date}</span>
-                    </div>
-                    <p className="mt-1 text-base-content/80">{comment.content}</p>
-                    <button className="mt-2 text-xs font-semibold text-primary hover:underline">Répondre</button>
-                  </div>
-                </div>
-                
-                {/* Replies */}
-                {comment.replies.map(reply => (
-                  <div key={reply.id} className="ml-14 flex gap-4">
-                    <div className="w-8 h-8 rounded-full bg-primary/10"></div>
-                    <div>
-                      <div className="flex items-center gap-2">
-                        <span className="font-bold">{reply.author}</span>
-                        <span className="text-xs text-base-content/50">{reply.date}</span>
+          {/* Liste des commentaires */}
+          <div className="space-y-6">
+            {comments.length > 0 ? (
+              comments.map((comment) => (
+                <div key={comment.id} className="p-6 rounded-2xl bg-base-200/30 border border-base-content/5 group">
+                  <div className="flex justify-between items-start mb-4">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold">
+                        {comment.author_name.charAt(0).toUpperCase()}
                       </div>
-                      <p className="mt-1 text-base-content/80">{reply.content}</p>
+                      <div>
+                        <h4 className="font-bold text-base-content">{comment.author_name}</h4>
+                        <p className="text-xs opacity-50">{formatDate(comment.created_at)}</p>
+                      </div>
                     </div>
                   </div>
-                ))}
-              </div>
-            ))}
+                  <p className="text-base-content/80 leading-relaxed">
+                    {comment.content}
+                  </p>
+                </div>
+              ))
+            ) : (
+              <p className="text-center opacity-50 italic py-10">Aucun commentaire pour le moment. Soyez le premier à réagir !</p>
+            )}
           </div>
         </div>
       </article>

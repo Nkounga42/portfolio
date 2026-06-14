@@ -37,7 +37,7 @@ const route = {
   Page404: { path: "/portfolio/404", component: <Screen.Page404 /> },
 
   Article: { path: "/portfolio/article", component: <Screen.Article /> },
-  CreateBlog: { path: "/portfolio/blog/create", component: <Screen.CreateBlog /> },
+  AdminBlog: { path: "/portfolio/blog/create", component: <Screen.AdminBlog /> },
   ReadBlog: { path: "/portfolio/blog/:slug", component: <Screen.ReadBlog /> },
 };
 
@@ -89,9 +89,12 @@ const BrowserDom = () => {
   );
 };
 
-const root = document.getElementById("root");
-if (root) {
-  ReactDOM.createRoot(root).render(
+const container = document.getElementById("root");
+if (container) {
+  const root = (window as any)._root || ReactDOM.createRoot(container);
+  (window as any)._root = root;
+  
+  root.render(
     <BrowserRouter>
       <BrowserDom />
     </BrowserRouter>
