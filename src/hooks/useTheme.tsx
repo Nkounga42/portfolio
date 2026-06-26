@@ -15,9 +15,8 @@ export const useTheme = () => {
   useEffect(() => {
     // Update localStorage when theme changes
     localStorage.setItem('theme', theme);
-    // Update document root class for CSS theme switching
-    document.documentElement.classList.remove('light', 'dark');
-    document.documentElement.classList.add(theme);
+    // Update document root data-theme for DaisyUI theme switching
+    document.documentElement.setAttribute('data-theme', theme);
   }, [theme]);
 
   const toggleTheme = () => {

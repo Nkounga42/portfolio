@@ -4,20 +4,25 @@ import { useLanguage } from "../hooks/useLanguage";
 interface LanguageSwitcherProps {
   className?: string;
 }
-
+const FlagNode = (language: string) => {
+  return (
+    <div className="rounded-full bg-base-100 overflow-hidden border border-base-content/15">
+      <i className={`fi fi-${language === "fr" ? "gf" : "gb"} fis `}></i>
+    </div>
+  );
+};
 const LanguageSwitcher = ({ className = "" }: LanguageSwitcherProps) => {
   const { language, setLanguage } = useLanguage();
-
-  const flags: Record<string, string> = {
-    fr: "🇫🇷",
-    en: "🇬🇧",
+  
+  const flags: Record<string, React.ReactNode> = {
+    fr: FlagNode("fr"),
+    en: FlagNode("en"),
   };
 
   const labels: Record<string, string> = {
     fr: "FR",
     en: "EN",
-  };
-
+  }; 
   const nextLang = language === "fr" ? "en" : "fr";
 
   return (
@@ -26,7 +31,7 @@ const LanguageSwitcher = ({ className = "" }: LanguageSwitcherProps) => {
       aria-label={`Switch to ${nextLang === "fr" ? "French" : "English"}`}
       title={`Switch to ${nextLang === "fr" ? "Français" : "English"}`}
       onClick={() => setLanguage(nextLang)}
-      className={`relative flex items-center gap-1.5 px-2.5 py-1 rounded-full border border-base-content/15 bg-base-100/60 hover:bg-base-200/80 hover:border-primary/30 transition-all duration-200 cursor-pointer select-none ${className}`}
+      className={`relative flex items-center gap-1.5 pl-1.5 pr-2.5 py-1 rounded-full border border-base-content/15 bg-base-100/60 hover:bg-base-200/80 hover:border-primary/30 transition-all duration-200 cursor-pointer select-none ${className}`}
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
     >

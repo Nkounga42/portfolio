@@ -130,8 +130,6 @@ const Header = () => {
             <Search className="h-4 w-4 sm:h-5 sm:w-5 cursor-pointer" />
           </Link>
 
-          {/* Language Switcher */}
-          <LanguageSwitcher />
 
           <div className="scale-90 sm:scale-100">
             <UI.ThemeControler />
@@ -190,6 +188,7 @@ const Header = () => {
               </li>
             </ul>
           </div>
+          <LanguageSwitcher />
         </div>
       </div>
     </div>

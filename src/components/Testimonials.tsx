@@ -106,7 +106,7 @@ export default function testimonials() {
   }
 
   return (
-    <section className=" text-base-content space-y-10 m-50">
+    <section id="testimonials" className=" text-base-content space-y-10 m-50">
       <div className="max-w-6xl mx-auto flex flex-col md:flex-row gap-12 items-start">
         {/* Left */}
         <div>
