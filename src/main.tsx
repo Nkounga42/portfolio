@@ -22,7 +22,7 @@ const route = {
 
   About: { path: "/portfolio/about", component: <Screen.About /> },
   Contact: { path: "/portfolio/contact", component: <Screen.Contact /> },
-  
+
   Experience: { path: "/portfolio/experience", component: <Screen.Experience /> },
   // Project: { path: "/portfolio/projects", component: <Screen.Project /> },
   Projects: { path: "/portfolio/projects", component: <Screen.Projects /> },
@@ -30,7 +30,6 @@ const route = {
   ProjetOverview: {
     path: "/portfolio/projects/:slug",
     component: <Screen.ProjectPreview />,
-    // component: <Screen.ProjetOverview />,
   },
 
   Skills: { path: "/portfolio/skills", component: <Screen.Skills /> },
@@ -43,39 +42,32 @@ const route = {
 };
 
 const BrowserDom = () => {
-  const location = useLocation(); 
+  const location = useLocation();
   return (
     <Suspense fallback={<div className="text-center p-10">Chargement...</div>}>
       {location.pathname !== route.Page404.path && <UI.Header />}
-
       <div
-        className={
-          location.pathname === route.Home.path||
-          location.pathname === route.Projects.path || location.pathname.includes('projects')
-            ? ""
-            : "mt-17"
-        }
       >
         <Suspense
           fallback={<div className="text-center p-10">Chargement...</div>}
         >
           {/* {location.pathname.includes(route.Contact.path) && <UI.Navbar />} */}
-          <div className={`${location.pathname !== route.Home.path && 'mt-14' } min-h-screen `}>
-          <Routes>
-            <Route path={route.Home.path} element={route.Home.render()} />
+          <div className={` min-h-screen `}>
+            <Routes>
+              <Route path={route.Home.path} element={route.Home.render()} />
 
-            {Object.entries(route)
-              .filter(([key]) => key !== "Home" && key !== "Page404")
-              .map(([key, page]) => (
-                <Route
-                  key={key}
-                  path={page.path}
-                  element={"component" in page ? page.component : page.render()}
-                />
-              ))}
+              {Object.entries(route)
+                .filter(([key]) => key !== "Home" && key !== "Page404")
+                .map(([key, page]) => (
+                  <Route
+                    key={key}
+                    path={page.path}
+                    element={"component" in page ? page.component : page.render()}
+                  />
+                ))}
 
-            {/* <Route path="*" element={<Navigate to={route.Page404.path} />} /> */}
-          </Routes>
+              {/* <Route path="*" element={<Navigate to={route.Page404.path} />} /> */}
+            </Routes>
           </div>
           <UI.ShadowOverlay direction="toTop" position="bottom" />
           {
@@ -94,7 +86,7 @@ const container = document.getElementById("root");
 if (container) {
   const root = (window as any)._root || ReactDOM.createRoot(container);
   (window as any)._root = root;
-  
+
   root.render(
     <BrowserRouter>
       <LanguageProvider>
