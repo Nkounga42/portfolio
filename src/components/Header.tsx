@@ -86,13 +86,13 @@ const Header = () => {
   return (
     <div
       className={`${
-        headerFloat ? "fixed top-1 sm:top-2 " : "sticky top-0 bg-base-100/80  "
-      } w-full left-0 right-0 z-50 flex justify-center items-center px-1 sm:px-2 md:px-4`}
+        headerFloat ? "fixed -top-1  " : "sticky top-0 bg-base-100/80  "
+      } w-full left-0 right-0 z-50 flex justify-center items-center px-1 sm:px-2 md:px-4 backdrop-blur-[10px] border border-base-content/10 bg-base-100/80`}
     >
       <div
         className={`${
           headerFloat
-            ? "w-full max-w-5xl mx-2 sm:mx-0 rounded-full backdrop-blur-[10px] border border-base-content/10 bg-base-100/80 "
+            ? "w-full max-w-5xl mx-2 sm:mx-0 rounded-full  "
             : "w-full max-w-5xl  "
         } px-2 sm:px-3 md:px-4 flex items-center justify-between h-[50px]`}
       >

@@ -91,6 +91,10 @@ export const translations = {
       placeholder: "Votre adresse email",
       subscribe: "S'abonner",
       success: "Merci pour votre inscription !",
+      card1Title: "Articles hebdomadaires",
+      card1Text: "Chaque semaine, découvrez un nouvel article sur mes projets, idées et explorations créatives. Court. Inspirant. Direct.",
+      card2Title: "Zero spam",
+      card2Text: "Juste du contenu pertinent, quand il le faut.",
     },
 
     // Projects
@@ -137,6 +141,28 @@ export const translations = {
       back: "Retour",
       seeAll: "Voir tout",
       learnMore: "En savoir plus",
+    },
+
+    // Testimonials
+    testimonials: {
+      title: "testimonials",
+      heading: "Ce que les autres disent",
+      description: "J'ai travaillé avec des gens extraordinaires au fil des ans. Voici ce qu'ils ont à dire sur moi.",
+      checkLinkedIn: "Voir sur LinkedIn",
+      checkMail: "Voir sur Mail",
+      add: "Ajouter",
+      addTestimonial: "Ajouter un témoignage",
+      name: "Nom",
+      email: "Email",
+      message: "Message",
+      image: "Image",
+      orEnterUrl: "Ou entrez une URL d'image",
+      or: "ou",
+      linkedinUrl: "LinkedIn URL",
+      mailUrl: "Mail URL",
+      uploading: "Upload en cours...",
+      createTestimonial: "Créer le témoignage",
+      noTestimonials: "Aucun témoignage disponible",
     },
   },
 
@@ -229,6 +255,10 @@ export const translations = {
       placeholder: "Your email address",
       subscribe: "Subscribe",
       success: "Thanks for subscribing!",
+      card1Title: "Weekly articles",
+      card1Text: "Every week, discover a new article about my projects, ideas, and creative explorations. Short. Inspiring. Direct.",
+      card2Title: "Zero spam",
+      card2Text: "Just relevant content, when it matters.",
     },
 
     // Projects
@@ -275,6 +305,28 @@ export const translations = {
       back: "Back",
       seeAll: "See all",
       learnMore: "Learn more",
+    },
+
+    // Testimonials
+    testimonials: {
+      title: "testimonials",
+      heading: "What others say",
+      description: "I've worked with extraordinary people over the years. Here's what they have to say about me.",
+      checkLinkedIn: "Check it out on LinkedIn",
+      checkMail: "Check it out on Mail",
+      add: "Add",
+      addTestimonial: "Add a testimonial",
+      name: "Name",
+      email: "Email",
+      message: "Message",
+      image: "Image",
+      orEnterUrl: "Or enter an image URL",
+      or: "or",
+      linkedinUrl: "LinkedIn URL",
+      mailUrl: "Mail URL",
+      uploading: "Uploading...",
+      createTestimonial: "Create testimonial",
+      noTestimonials: "No testimonials available",
     },
   },
 };

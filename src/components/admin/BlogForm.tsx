@@ -35,7 +35,7 @@ const BlogForm: React.FC<BlogFormProps> = ({
     <form onSubmit={handleSubmit} className="space-y-8 bg-base-200/40 p-8 rounded-[2rem] border border-base-content/5 shadow-2xl animate-in fade-in zoom-in-95 duration-500">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="col-span-2 space-y-2">
-          <label className="text-sm font-bold opacity-70 ml-1">Titre de l'article</label>
+          <label className="text-sm font-bold opacity-70 ml-1">Titre de l'article *</label>
           <input type="text" name="title" placeholder="Ex: Maîtriser React en 2026" value={formData.title} onChange={handleChange} className="input input-bordered w-full rounded-2xl bg-base-100" required />
         </div>
 
@@ -88,7 +88,7 @@ const BlogForm: React.FC<BlogFormProps> = ({
         </div>
 
         <div className="col-span-2 space-y-2">
-          <label className="text-sm font-bold opacity-70 ml-1">Contenu (Markdown/HTML)</label>
+          <label className="text-sm font-bold opacity-70 ml-1">Contenu (Markdown/HTML) *</label>
           <textarea name="content" placeholder="# Titre..." value={formData.content} onChange={handleChange} className="textarea textarea-bordered w-full rounded-2xl bg-base-100 font-mono" rows={12} required />
         </div>
       </div>

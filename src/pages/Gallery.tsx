@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, ZoomIn, Download, Share2, Heart, Eye } from "lucide-react";
 import { supabase } from "../tools/supabase";
+import GalleryHero from "../components/GalleryHero";
 
 // Types pour les images de la galerie
 interface GalleryImage {
@@ -148,6 +149,7 @@ export default function Gallery() {
   return (
     <section className="pb-20 pt-10 bg-base-100 min-h-screen">
       <div className="container mx-auto px-4 max-w-5xl">
+        <GalleryHero/>
         {/* Header */}
         <div className="mb-12">
           <motion.div

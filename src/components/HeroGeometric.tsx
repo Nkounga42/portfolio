@@ -4,6 +4,7 @@ import { useLanguage } from "../hooks/useLanguage";
 import bgDark from "../assets/bg-dark.png";
 import bgLight from "../assets/bg-light.png";
 import img from "../../public/image.jpg";
+import RainbowCard from "./RainbowCard";
 interface MyProps {
   className?: string;
   delay?: number;
@@ -84,7 +85,7 @@ export default function HeroGeometric({
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
       }}
-    >  <div className="absolute inset-0 z-[30] w-full h-full top-0 left-0 hidden lg:block">
+    >  <div className="absolute inset-0 z-[30] w-full h-full top-0 left-0 hidden lg:block pointer-events-none ">
         <ElegantShape delay={0.3} width={600} height={140} rotate={12} gradient="from-indigo-500/[0.15]" className="left-[60%] top-[15%]" />
         <ElegantShape delay={0.5} width={500} height={120} rotate={-15} gradient="from-rose-500/[0.15]" className="right-0 top-[75%]" />
         <ElegantShape delay={0.4} width={300} height={80} rotate={-8} gradient="from-violet-500/[0.15]" className="left-[10%] bottom-[10%]" />
@@ -92,11 +93,9 @@ export default function HeroGeometric({
         <ElegantShape delay={0.7} width={150} height={40} rotate={-25} gradient="from-cyan-500/[0.15]" className="left-[25%] top-[10%]" />
       </div>
       <div className="bg-gradient-to-t absolute inset-0 z-[20] left-0 right-0 from-base-100 via-base-100/20 to-primary/50" />
-
-
       <div className="relative z-[20] px-6 pb-20 pt-32 w-full min-h-[50vh] flex flex-col justify-center   ">
         <div className="max-w-3xl mx-auto text-center mt-[-40px]">
-          {/* Section Photo de Profil */}
+
           <motion.div
             custom={0}
             variants={fadeUpVariants}
@@ -104,18 +103,20 @@ export default function HeroGeometric({
             animate="visible"
             className="mb-10 relative inline-block"
           >
-            <div className="relative mask mask-squircle w-50  sm:w-40 sm:h-40 mx-auto rounded-3xl overflow-hidden border-2 border-white/10 shadow-2xl transition-transform duration-500 hover:scale-105 ">
-              <img
-                src={img}
-                alt="Nkounga Gil Exaucé"
-                className="w-full h-full object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-primary/30 to-transparent" />
+            <div className="w-50 sm:w-40 sm:h-40 group rounded-[20px]">
+              <RainbowCard className="mask mask-squircle w-50 sm:w-40 sm:h-40 mx-auto ">
+                <img
+                  src={img}
+                  alt="Nkounga Gil Exaucé"
+                  className="block w-full h-full object-cover transition  duration-500 group-hover:scale-98 will-change-transform mask mask-squircle"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-primary/30 to-transparent pointer-events-none" />
+              </RainbowCard>
             </div>
-            {/* Décoration autour de la photo */}
-            <div className="absolute bottom-5 -right-5  backdrop-blur-md  rounded-xl z-20  -rotate-12  ">
+
+            <div className="absolute bottom-5 -right-5  backdrop-blur-md  rounded-xl z-20  -rotate-12 overflow-hidden ">
               <motion.div
-                className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gradient-to-r from-green-500/20 via-yellow-500/20 to-red-500/10border border-white/[0.05]  cursor-pointer"
+                className="inline-flex items-center gap-2 px-3 py-1  bg-gradient-to-r from-green-500/20 via-yellow-500/20 to-red-500/10border border-white/[0.05]  cursor-pointer"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 animate={{

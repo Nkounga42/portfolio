@@ -6,6 +6,7 @@ import { Code2, Sparkles, Terminal, Zap } from "lucide-react";
 import LetsWorkTogether from "../components/LetsWorkTogether";
 import { Link } from "react-router-dom";
 import { useLanguage } from "../hooks/useLanguage";
+import RainbowCard from "../components/RainbowCard";
 
 function Home() {
   const { t } = useLanguage();
@@ -26,9 +27,9 @@ function Home() {
       </section>
 
       {/* Section Exploration / Menu Professionnel - Navigation vers les autres pages */}
-      <section className="py-18 bg-base-300">
-        <div className="container mx-auto px-4">
-          <div className="max-w-3xl mb-16">
+      <section className="py-26 bg-base-300 ">
+        <div className="container mx-auto max-w-5xl px-4">
+          <div className="mb-16 text-center">
             <h2 className="text-4xl md:text-5xl font-bold mb-6">{h.explorationTitle}</h2>
             <p className="text-xl opacity-70 leading-relaxed">
               {h.explorationSubtitle}
@@ -44,7 +45,7 @@ function Home() {
                 {h.projectsTitle} <span className="text-sm font-normal opacity-50 px-3 py-1 rounded-full border border-base-300">{h.projectsLabel}</span>
               </h3>
               <p className="opacity-70 text-lg mb-8 max-w-sm">{h.projectsDesc}</p>
-              <div className="flex items-center gap-2 text-primary font-bold group-hover:gap-4 transition-all uppercase tracking-widest text-sm">
+              <div className="flex items-center gap-2 text-[#00c950] font-bold group-hover:gap-4 transition-all uppercase tracking-widest text-sm">
                 {h.projectsCta} <span>→</span>
               </div>
             </Link>
@@ -92,38 +93,10 @@ function Home() {
       </section>
 
 
-
-      {/* Aperçu de la Galerie */}
-      <section className="py-24 bg-base-100 overflow-hidden">
-        <div className="container mx-auto px-4 mb-12 flex justify-between items-end">
-          <div>
-            <h2 className="text-4xl font-bold mb-4 flex items-center gap-3">
-              {h.galleryTitle} <Sparkles className="text-warning" />
-            </h2>
-            <p className="opacity-70">{h.gallerySubtitle}</p>
-          </div>
-          <Link to="/portfolio/gallery" className="btn btn-ghost hover:bg-base-200 text-primary">{h.galleryViewAll}</Link>
-        </div>
-
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
-          {img.slice(0, 10).map((src, i) => (
-            <div key={i} className="aspect-[4/5] rounded-3xl overflow-hidden shadow-lg border border-base-300 group">
-              <img
-                src={src}
-                className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700 group-hover:scale-110"
-                alt={`Visual ${i}`}
-              />
-            </div>
-          ))}
-        </div>
-      </section>
-
+ 
       {/* Témoignages */}
       <UI.Testimonials />
-
-      {/* Lets Work Together - Section Interactive de CTA */}
-      <LetsWorkTogether />
-
+ 
       {/* Newsletter Section */}
       <UI.Newsletter />
 

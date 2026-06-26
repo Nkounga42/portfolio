@@ -36,7 +36,7 @@ const ProjectForm: React.FC<ProjectFormProps> = ({
       <h3 className="text-2xl font-bold ml-1">Ajouter un nouveau Projet</h3>
       <div className="space-y-6">
         <div className="space-y-2">
-          <label className="text-sm font-bold opacity-70 ml-1">Nom du projet</label>
+          <label className="text-sm font-bold opacity-70 ml-1">Nom du projet *</label>
           <input type="text" name="nom" value={projectData.nom} onChange={handleProjectChange} className="input input-bordered w-full rounded-md bg-base-100" required />
         </div>
         <div className="space-y-2">

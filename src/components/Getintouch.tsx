@@ -133,7 +133,7 @@ export default function Getintouch() {
                 <div className="grid grid-cols-1 gap-x-4 sm:gap-x-8 gap-y-4 sm:gap-y-6 sm:grid-cols-2">
                   <div>
                     <label htmlFor="firstName" className="block text-sm/6 font-semibold text-base-content">
-                      Prénom
+                      Prénom *
                     </label>
                     <div className="mt-2.5">
                       <input
@@ -150,7 +150,7 @@ export default function Getintouch() {
                   </div>
                   <div>
                     <label htmlFor="lastName" className="block text-sm/6 font-semibold text-base-content">
-                      Nom
+                      Nom *
                     </label>
                     <div className="mt-2.5">
                       <input
@@ -183,7 +183,7 @@ export default function Getintouch() {
                   </div>
                   <div className="sm:col-span-2">
                     <label htmlFor="email" className="block text-sm/6 font-semibold text-base-content">
-                      Email
+                      Email *
                     </label>
                     <div className="mt-2.5">
                       <input
@@ -218,7 +218,7 @@ export default function Getintouch() {
                   </div>
                   <div className="sm:col-span-2">
                     <label htmlFor="message" className="block text-sm/6 font-semibold text-base-content">
-                      Message
+                      Message *
                     </label>
                     <div className="mt-2.5">
                       <textarea
@@ -243,7 +243,7 @@ export default function Getintouch() {
                           required
                         />
                         <span className="label-text text-xs sm:text-sm">
-                          En cochant cette case, vous acceptez notre <br />
+                          En cochant cette case, vous acceptez notre * <br />
                           <a href="#" className="font-semibold text-primary">
                             politique de confidentialité
                           </a>
