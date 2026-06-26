@@ -246,7 +246,7 @@ const ReadBlog = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
               <input 
                 type="text" 
-                placeholder="Votre nom" 
+                placeholder="Votre nom *" 
                 value={authorName}
                 onChange={(e) => setAuthorName(e.target.value)}
                 className="input input-bordered rounded-xl bg-base-100"
@@ -254,7 +254,7 @@ const ReadBlog = () => {
               />
             </div>
             <textarea 
-              placeholder="Ajouter un commentaire..." 
+              placeholder="Ajouter un commentaire... *" 
               value={newComment}
               onChange={(e) => setNewComment(e.target.value)}
               className="textarea textarea-bordered w-full h-32 rounded-2xl bg-base-100 mb-4"

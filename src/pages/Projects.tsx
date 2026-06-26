@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { supabase } from "../tools/supabase";
 import { ExternalLink, Github } from "lucide-react";
+import HeroSection from "../components/HeroSection";
 
 export default function Projects() {
   const [allProjects, setAllProjects] = useState<any[]>([]);
@@ -72,43 +73,26 @@ export default function Projects() {
   };
 
   return (
-    <section className="pb-20 pt-10 bg-base-100 flex flex-col items-center min-h-screen">
-      <div className="container mx-auto px-4 max-w-5xl">
-        <div className="text-left mb-6">
-          <motion.div
-            custom={1}
-            variants={fadeUpVariants}
-            initial="hidden"
-            animate="visible"
-          >
-            <h2 className="text-4xl font-bold mb-4">Mes Projets</h2>
-          </motion.div>
-          <motion.div
-            custom={2}
-            variants={fadeUpVariants}
-            initial="hidden"
-            animate="visible"
-          >
-            <p className="text-lg max-w-2xl opacity-80">
-              Découvrez mes projets réalisés dans différents domaines : développement web, 
-              applications mobiles, APIs et design.
-            </p>
-          </motion.div>
-        </div>
-
-        {loading ? (
-          <div className="flex justify-center py-20">
-            <span className="loading loading-spinner loading-lg text-primary"></span>
-          </div>
-        ) : (
-          <>
-            {/* Tabs */}
+    <section className="pb-20  bg-base-100 flex flex-col items-center min-h-screen">
         <motion.div
+          custom={1}
+          variants={fadeUpVariants}
+          initial="hidden"
+          animate="visible"
+          className="mb-8 w-full border-b-2 border-base-300 "
+        >
+          <HeroSection
+            title="Mes Projets"
+            content="Découvrez mes réalisations, du design à la production, avec un focus sur l'expérience utilisateur et la qualité technique."
+            link="/portfolio/contact"
+            buttonText="Travaillons ensemble"
+          />
+          <motion.div
           custom={2}
           variants={fadeUpVariants}
           initial="hidden"
           animate="visible"
-          className="relative flex gap-3 pt-2 mb-6 border-b border-base-content/10 overflow-y-hidden overflow-x-visible"
+          className="relative mx-auto px-4 max-w-5xl flex gap-3 pt-2 "
         >
           {tabs.map((tab, i) => (
             <Link
@@ -136,6 +120,17 @@ export default function Projects() {
             style={indicator}
           />
         </motion.div>
+        </motion.div>
+      <div className="container mx-auto px-4 max-w-5xl">
+
+        {loading ? (
+          <div className="flex justify-center py-20">
+            <span className="loading loading-spinner loading-lg text-primary"></span>
+          </div>
+        ) : (
+          <>
+            {/* Tabs */}
+        
 
         {/* Projects Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">

@@ -1,38 +1,41 @@
 import { Calendar, HandMetal, CheckCircle, AlertCircle } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { FormEvent } from "react";
+import { subscribeToNewsletter } from "../tools/supabase";
+import { useLanguage } from "../hooks/useLanguage";
 
 export default function Newsletter() {
+  const { t } = useLanguage();
   const [email, setEmail] = useState('');
+  const [name, setName] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
 
+  useEffect(() => {
+    if (submitStatus === 'idle') return;
+
+    const timer = window.setTimeout(() => {
+      setSubmitStatus('idle');
+    }, 4000);
+
+    return () => window.clearTimeout(timer);
+  }, [submitStatus]);
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    if (!email) return;
+    const trimmedEmail = email.trim();
+    const trimmedName = name.trim();
+
+    if (!trimmedEmail) return;
 
     setIsSubmitting(true);
     setSubmitStatus('idle');
 
     try {
-      const response = await fetch('https://formspree.io/f/xovkwowr', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email: email,
-          _subject: 'Nouvelle inscription à la newsletter',
-          type: 'newsletter_subscription'
-        }),
-      });
-
-      if (response.ok) {
-        setSubmitStatus('success');
-        setEmail('');
-      } else {
-        setSubmitStatus('error');
-      }
+      await subscribeToNewsletter(trimmedEmail, trimmedName);
+      setSubmitStatus('success');
+      setEmail('');
+      setName('');
     } catch (error) {
       console.error('Erreur lors de l\'inscription:', error);
       setSubmitStatus('error');
@@ -45,46 +48,56 @@ export default function Newsletter() {
       <div className="hero-content flex-col items-start col-revers lg:flex-row max-w-5xl gap-6 sm:gap-8 px-4 sm:px-6 w-full">
         <div className="text-center lg:text-left max-w-xl w-full">
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold">
-            Abonnez-vous à notre newsletter
+            {t.newsletter.title}
           </h2>
           <p className="py-4 sm:py-6 text-sm sm:text-base text-base-content/70">
-            Recevez directement dans votre boîte mail mes derniers articles,
-            projets et réflexions sur le développement, le design et les idées
-            qui m'inspirent. Un concentré d'actualités, d'astuces et de
-            nouveautés <br className="hidden sm:block" /> <br className="hidden sm:block" />{" "}
-            <b>– Sans spam, juste du contenu authentique</b>.
+            {t.newsletter.subtitle}
           </p>
           <form onSubmit={handleSubmit} className="w-full sm:w-auto">
-            <div className="join w-full sm:w-auto">
-              <input
-                type="email"
-                placeholder="Entrez votre email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="input input-bordered join-item w-full sm:w-auto text-sm sm:text-base"
-                required
-              />
-              <button 
-                type="submit"
-                disabled={isSubmitting}
-                className="btn btn-primary join-item text-sm sm:text-base px-3 sm:px-4 disabled:opacity-50"
-              >
-                {isSubmitting ? 'Envoi...' : "S'Abonner"}
-              </button>
+            <div className="flex flex-col gap-3 w-full sm:w-auto">
+              
+              <div className="join w-full sm:w-auto">
+                <input
+                  type="text"
+                  placeholder={t.contact.namePlaceholder}
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  className="input input-bordered join-item w-2/5 sm:w-auto text-sm sm:text-base"
+                />
+                <input
+                  type="email"
+                  placeholder={t.contact.emailPlaceholder}
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="input input-bordered join-item w-3/5 sm:w-auto text-sm sm:text-base"
+                  required
+                />
+              </div>
+                <button 
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="btn btn-primary join-item text-sm sm:text-base px-3 sm:px-4 disabled:opacity-50"
+                >
+                  {isSubmitting ? (t.contact.sending) : t.newsletter.subscribe}
+                </button>
             </div>
             
             {/* Status Messages */}
             {submitStatus === 'success' && (
               <div className="mt-3 p-2 bg-success/20 border border-success/30 rounded-lg flex items-center gap-2">
                 <CheckCircle className="w-4 h-4 text-success" />
-                <span className="text-success text-sm">Inscription réussie ! Merci de vous être abonné.</span>
+                <span className="text-success text-sm">{t.newsletter.success}</span>
               </div>
             )}
             
             {submitStatus === 'error' && (
               <div className="mt-3 p-2 bg-error/20 border border-error/30 rounded-lg flex items-center gap-2">
                 <AlertCircle className="w-4 h-4 text-error" />
-                <span className="text-error text-sm">Erreur lors de l'inscription. Veuillez réessayer.</span>
+                <span className="text-error text-sm">
+                  {t.language === 'fr'
+                    ? 'Erreur lors de l\'inscription. Veuillez réessayer.'
+                    : 'Subscription failed. Please try again.'}
+                </span>
               </div>
             )}
           </form>
@@ -95,11 +108,10 @@ export default function Newsletter() {
             <div>
               <div className="rounded-md flex gap-2 mb-3 sm:mb-4">
                 <Calendar className="w-5 h-5 sm:w-6 sm:h-6 flex-shrink-0" />
-                <h3 className="card-title text-sm sm:text-base">Articles hebdomadaires</h3>
+                <h3 className="card-title text-sm sm:text-base">{t.newsletter.card1Title}</h3>
               </div>
               <p className="text-xs sm:text-sm lg:text-base text-base-content/70">
-                Chaque semaine, découvrez un nouvel article sur mes projets,
-                idées et explorations créatives. Court. Inspirant. Direct.
+                {t.newsletter.card1Text}
               </p>
             </div>
           </div>
@@ -108,10 +120,10 @@ export default function Newsletter() {
             <div>
               <div className="rounded-md flex gap-2 mb-3 sm:mb-4">
                 <HandMetal className="w-5 h-5 sm:w-6 sm:h-6 flex-shrink-0" />
-                <h3 className="card-title text-sm sm:text-base">Zero spam</h3>
+                <h3 className="card-title text-sm sm:text-base">{t.newsletter.card2Title}</h3>
               </div>
               <p className="text-xs sm:text-sm lg:text-base text-base-content/70">
-                Juste du contenu pertinent, quand il le faut.
+                {t.newsletter.card2Text}
               </p>
             </div>
           </div>

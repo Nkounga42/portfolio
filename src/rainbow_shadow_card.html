@@ -1,0 +1,247 @@
+
+<style>
+  .scene {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem 2rem;
+    background: transparent;
+  }
+
+  .card-wrapper {
+    position: relative;
+    border-radius: 20px;
+  }
+
+  .rainbow-ring {
+    position: absolute;
+    inset: -4px;
+    border-radius: 24px;
+    background: conic-gradient(
+      from var(--angle, 0deg),
+      #ff0000, #ff7700, #ffff00, #00ff00,
+      #0099ff, #6600ff, #ff00ff, #ff0000
+    );
+    animation: spin 3s linear infinite;
+    filter: blur(8px);
+    opacity: 0.9;
+  }
+
+  .rainbow-ring-sharp {
+    position: absolute;
+    inset: -3px;
+    border-radius: 23px;
+    background: conic-gradient(
+      from var(--angle, 0deg),
+      #ff0000, #ff7700, #ffff00, #00ff00,
+      #0099ff, #6600ff, #ff00ff, #ff0000
+    );
+    animation: spin 3s linear infinite;
+    opacity: 0.6;
+  }
+
+  @property --angle {
+    syntax: '<angle>';
+    initial-value: 0deg;
+    inherits: false;
+  }
+
+  @keyframes spin {
+    to { --angle: 360deg; }
+  }
+
+  .card {
+    position: relative;
+    z-index: 1;
+    width: 320px;
+    background: var(--surface-2);
+    border-radius: 20px;
+    padding: 2rem 1.75rem;
+    border: none;
+    overflow: hidden;
+  }
+
+  .card-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 1.25rem;
+  }
+
+  .avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #7f77dd, #d4537e);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 500;
+    font-size: 16px;
+    color: white;
+    flex-shrink: 0;
+  }
+
+  .card-title {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--text-primary);
+    margin: 0 0 3px;
+  }
+
+  .card-sub {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin: 0;
+  }
+
+  .card-body {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+  }
+
+  .card-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 1.5rem;
+  }
+
+  .stat {
+    background: var(--surface-1);
+    border-radius: 10px;
+    padding: 10px 8px;
+    text-align: center;
+  }
+
+  .stat-value {
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--text-primary);
+    display: block;
+  }
+
+  .stat-label {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 2px;
+    display: block;
+  }
+
+  .card-btn {
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    background: transparent;
+    border: 0.5px solid var(--border-strong);
+    color: var(--text-primary);
+    transition: background 0.15s;
+  }
+
+  .card-btn:hover {
+    background: var(--surface-1);
+  }
+
+  .controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .controls label {
+    font-size: 13px;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .controls input[type=range] {
+    width: 100px;
+  }
+
+  #speed-out, #blur-out {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-primary);
+    min-width: 32px;
+    display: inline-block;
+  }
+</style>
+
+<div class="scene">
+  <div class="card-wrapper">
+    <div class="rainbow-ring"></div>
+    <div class="rainbow-ring-sharp"></div>
+    <div class="card">
+      <div class="card-header">
+        <div class="avatar">AL</div>
+        <div>
+          <p class="card-title">Alex Laurent</p>
+          <p class="card-sub">Designer produit</p>
+        </div>
+      </div>
+      <p class="card-body">
+        Passionné par les interfaces qui combinent esthétique et fluidité. Spécialisé dans les micro-interactions et les systèmes de design.
+      </p>
+      <div class="card-stats">
+        <div class="stat">
+          <span class="stat-value">128</span>
+          <span class="stat-label">Projets</span>
+        </div>
+        <div class="stat">
+          <span class="stat-value">4.9</span>
+          <span class="stat-label">Note</span>
+        </div>
+        <div class="stat">
+          <span class="stat-value">3k</span>
+          <span class="stat-label">Abonnés</span>
+        </div>
+      </div>
+      <button class="card-btn">Voir le profil</button>
+    </div>
+  </div>
+</div>
+
+<div class="controls">
+  <label>
+    Vitesse
+    <input type="range" id="speed" min="0.5" max="10" step="0.5" value="3">
+    <span id="speed-out">3s</span>
+  </label>
+  <label>
+    Flou
+    <input type="range" id="blur" min="0" max="20" step="1" value="8">
+    <span id="blur-out">8px</span>
+  </label>
+</div>
+
+<script>
+  const speedSlider = document.getElementById('speed');
+  const blurSlider = document.getElementById('blur');
+  const speedOut = document.getElementById('speed-out');
+  const blurOut = document.getElementById('blur-out');
+  const ring = document.querySelector('.rainbow-ring');
+  const ringSharp = document.querySelector('.rainbow-ring-sharp');
+
+  speedSlider.addEventListener('input', () => {
+    const val = speedSlider.value;
+    speedOut.textContent = val + 's';
+    ring.style.animationDuration = val + 's';
+    ringSharp.style.animationDuration = val + 's';
+  });
+
+  blurSlider.addEventListener('input', () => {
+    const val = blurSlider.value;
+    blurOut.textContent = val + 'px';
+    ring.style.filter = `blur(${val}px)`;
+  });
+</script>
