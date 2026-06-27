@@ -145,9 +145,9 @@ export default function ProjetsPage() {
                   key={projet.slug}
                   onClick={() => scrollToItem(index)}
                   onDoubleClick={() => {navigate(`/projects/${projet.slug}`) ;window.scrollTo({
-        top: 0,
-        behavior: "smooth",
-      });}} 
+                  top: 0,
+                  behavior: "smooth",
+                });}} 
                   className={`carousel-item min-w-[250px] my-15 bg-base-200 sm:min-w-[280px] max-w-xs rounded-xl cursor-pointer transition-all duration-300 hover:border-primary/10 hover:shadow-xl border-2 ${
                     index === activeIndex
                       ? "border-primary bg-primary/40 shadow-2xl"

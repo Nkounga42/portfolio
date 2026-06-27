@@ -6,11 +6,13 @@ const HeroSection = ({
   content,
   link,
   buttonText = "Get Started",
+  children
 }: {
   title?: string;
   content?: string;
   link?: string;
   buttonText?: string;
+  children?: React.ReactNode;
 }) => {
   const navigate: ReturnType<typeof useNavigate> = useNavigate();
   const [activeImage, setActiveImage] = useState(0);
@@ -25,40 +27,39 @@ const HeroSection = ({
       setActiveImage((prev) => (prev + 1) % heroImages.length);
     }, 4000);
 
-  return () => window.clearInterval(interval);
+    return () => window.clearInterval(interval);
   }, [heroImages.length]);
 
   return (
-    <div className=" ">
-    <div className=" min-h-[60vh]  mx-auto max-w-7xl  overflow-hidden flex flex-col lg:flex-row-reverse justify-between items-center gap-6 lg:gap-10 rounded-[2rem] p-6 md:p-10 ">
-      {/* Conteneur de l'image ajusté pour le comportement responsive */}
-      <div className="relative w-full h-64 sm:h-80 lg:h-[400px]   overflow-hidden rounded-[1.5rem]">
+    <div className="relative  overflow-hidden ">
+      <div className=" min-h-[60vh]  mx-auto max-w-7xl flex flex-col lg:flex-row-reverse justify-between items-center gap-6 lg:gap-10 rounded-[2rem] p-6 md:p-10 ">
         {heroImages.map((image, index) => (
           <img
             key={image}
             src={image}
             alt={`Hero section ${index + 1}`}
-            className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out ${
-              index === activeImage ? "opacity-100" : "opacity-0"
-            }`}
+            className={`absolute inset-0 z-1 w-full h-full object-cover transition-opacity duration-1000 ease-in-out ${index === activeImage ? "opacity-100" : "opacity-0"
+              }`}
           />
         ))}
+        <div className="relative w-full h-64 sm:h-80 lg:h-[400px]   overflow-hidden rounded-[1.5rem]">
+        </div>
+        <div className="w-full absolute inset-0 z-101  max-w-[600px] lg:min-w-[360px] lg:pl-[32px]">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold max-w-[320px]">
+            {title || "Apprenez gratuitement les bases de Framer"}
+          </h1>
+          <p className="py-6 text-base-content/80 max-w-[460px]">
+            {content ||
+              "Initiez-vous au design interactif et au prototypage sans code avec Framer, l'outil préféré des designers modernes."}
+          </p>
+          {link && (
+            <button className="btn btn-primary" onClick={() => navigate(link)}>
+              {buttonText}
+            </button>
+          )}
+        </div>
       </div>
-      <div className="w-full max-w-[600px] lg:min-w-[360px] lg:pl-[32px]">
-        <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold max-w-[320px]">
-          {title || "Apprenez gratuitement les bases de Framer"}
-        </h1>
-        <p className="py-6 text-base-content/80 max-w-[460px]">
-          {content ||
-            "Initiez-vous au design interactif et au prototypage sans code avec Framer, l'outil préféré des designers modernes."}
-        </p>
-        {link && (
-          <button className="btn btn-primary" onClick={() => navigate(link)}>
-            {buttonText}
-          </button>
-        )}
-      </div>
-      </div>
+      {children}
     </div>
   );
 };
