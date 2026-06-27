@@ -4,6 +4,7 @@ import {
   Routes,
   Route,
   useLocation,
+  Navigate,
 } from "react-router-dom";
 
 import { Suspense } from "react";
@@ -66,7 +67,7 @@ const BrowserDom = () => {
                   />
                 ))}
 
-              {/* <Route path="*" element={<Navigate to={route.Page404.path} />} /> */}
+               <Route path="*" element={<Navigate to={route.Page404.path} />} /> 
             </Routes>
           </div>
           <UI.ShadowOverlay direction="toTop" position="bottom" />
