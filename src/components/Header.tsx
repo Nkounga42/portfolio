@@ -30,7 +30,6 @@ const Header = () => {
     [t.nav.gallery]: pagePaths.gallery,
     [t.nav.projects]: pagePaths.projects,
     [t.nav.blog]: pagePaths.blog,
-    [t.nav.admin]: pagePaths.admin,
     [t.nav.Ressources]: pagePaths.Ressources,
   };
 
