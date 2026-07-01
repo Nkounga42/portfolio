@@ -52,13 +52,13 @@ export default function Blog() {
   }
 
   return (
-    <div className="py-24 sm:py-32">
+    <div className=" mt-15">
       <div className="mx-auto max-w-5xl px-6 lg:px-8">
         <div className="mx-auto max-w-2xl lg:mx-0">
-          <h2 className="text-4xl font-semibold tracking-tight text-pretty text-base-content sm:text-5xl">Mon Blog</h2>
-          <p className="mt-2 text-lg/8 text-base-content/70">Partage d'expériences, tutoriels et nouveautés technologiques.</p>
+          <h2 className="text-2xl font-semibold tracking-tight text-pretty text-base-content  ">Mon Blog</h2>
+          <p className="mt-2 text-base-content/70">Partage d'expériences, tutoriels et nouveautés technologiques.</p>
         </div>
-        <div className="mx-auto mt-10 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 border-t border-gray-200 pt-10 sm:mt-16 sm:pt-16 lg:mx-0 lg:max-w-none lg:grid-cols-3">
+        <div className="mx-auto  grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16   sm:pt-16 lg:mx-0 lg:max-w-none lg:grid-cols-4">
           {posts.length > 0 ? (
             posts.map((post) => (
               <article key={post.id} className="flex max-w-xl flex-col items-start justify-between group">
@@ -72,8 +72,8 @@ export default function Blog() {
                   </div>
                 </Link>
                 <div className="flex items-center gap-x-4 text-xs">
-                  <time dateTime={post.created_at} className="text-base-content/70">
-                    {formatDate(post.created_at)}
+                  <time dateTime={post.published_at} className="text-base-content/70">
+                    {formatDate(post.published_at)}
                   </time>
                   <span
                     className="relative z-10 rounded-full bg-primary/10 px-3 py-1.5 font-medium text-primary"
@@ -88,9 +88,9 @@ export default function Blog() {
                       {post.title}
                     </Link>
                   </h3>
-                  <p className="mt-5 line-clamp-3 text-sm/6 text-base-content/70">{post.summary}</p>
+                  {/* <p className="mt-5 line-clamp-3 text-sm/6 text-base-content/70">{post.summary}</p> */}
                 </div>
-                <div className="relative mt-8 flex items-center gap-x-4 border-t border-base-content/5 pt-4 w-full">
+                {/* <div className="relative mt-8 flex items-center gap-x-4 border-t border-base-content/5 pt-4 w-full">
                   <img alt="Gil Nkounga" src="https://avatars.githubusercontent.com/u/104117820?v=4" className="size-10 rounded-full bg-gray-50" />
                   <div className="text-sm/6">
                     <p className="font-semibold text-base-content">
@@ -99,7 +99,7 @@ export default function Blog() {
                     </p>
                     <p className="text-base-content/70 text-xs">Développeur Full-Stack</p>
                   </div>
-                </div>
+                </div> */}
               </article>
             ))
           ) : (
