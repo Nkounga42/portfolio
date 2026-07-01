@@ -1,7 +1,5 @@
 import { LinkIcon } from 'lucide-react';
-import { motion } from 'motion/react';
-import React, { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
 
 // Base de données structurée de tes liens
 const ressourcesData = [
@@ -59,49 +57,33 @@ const ressourcesData = [
     { id: 53, logo: "", name: '21st.dev', url: 'https://21st.dev/s/hero', category: 'Templates & UI', desc: 'Composants vitrines et sections de héros.' }
 ];
 
-const categories = ['Tout', ...new Set(ressourcesData.map(item => item.category))];
+const categories = [...new Set(ressourcesData.map(item => item.category))];
 
 export default function Ressources() {
-    const [activeTab, setActiveTab] = useState('Tout');
     const [searchTerm, setSearchTerm] = useState('');
-    const [indicator, setIndicator] = useState({ left: 0, width: 0 });
-    const tabRefs = useRef<(HTMLAnchorElement | null)[]>([]);
-    useEffect(() => {
-        const index = categories.indexOf(activeTab);
-        const currentTab = tabRefs.current[index];
-        if (currentTab) {
-            setIndicator({
-                left: currentTab.offsetLeft,
-                width: currentTab.offsetWidth,
-            });
-        }
-    }, [activeTab]);
 
-    const filteredRessources = ressourcesData.filter(item => {
-        const matchesTab = activeTab === 'Tout' || item.category === activeTab;
-        const matchesSearch = item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            item.desc.toLowerCase().includes(searchTerm.toLowerCase());
-        return matchesTab && matchesSearch;
-    });
-    const fadeUpVariants = {
-        hidden: { opacity: 0, y: 30 },
-        visible: (i: number) => ({
-            opacity: 1,
-            y: 0,
-            transition: {
-                duration: 1,
-                delay: i * 0.02,
-                ease: [0.2, 0.4, 0.9, 1],
-            },
-        }),
-    };
+    // Group resources by category
+    const resourcesByCategory = categories.reduce((acc, category) => {
+        acc[category] = ressourcesData.filter(item => item.category === category);
+        return acc;
+    }, {} as Record<string, typeof ressourcesData>);
+
+    // Filter resources by search term
+    const filteredResourcesByCategory = Object.keys(resourcesByCategory).reduce((acc, category) => {
+        acc[category] = resourcesByCategory[category].filter(item => {
+            const matchesSearch = item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                item.desc.toLowerCase().includes(searchTerm.toLowerCase());
+            return matchesSearch;
+        });
+        return acc;
+    }, {} as Record<string, typeof ressourcesData>);
+
     return (
-        <div className="min-h-screen bg-base-200 text-base-content p-6 font-sans">
-
+        <div className="min-h-screen relative bg-base-200 text-base-content pt-12 font-sans">
             {/* Header */}
-            <div className="max-w-5xl mx-auto mb-8 flex flex-col md:flex-row justify-between items-center gap-4 bg-base-100 p-6 rounded-2xl shadow-sm">
+            <div className=" mx-auto mb-8 flex flex-col md:flex-row justify-between items-center gap-4 py-4 px-8  ">
                 <div>
-                    <h1 className="text-3xl font-black bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+                    <h1 className="text-xl font-semibold">
                         Hub de Ressources Pro
                     </h1>
                 </div>
@@ -117,71 +99,45 @@ export default function Ressources() {
                 </div>
             </div>
 
-            <motion.div
-                custom={2}
-                variants={fadeUpVariants}
-                initial="hidden"
-                animate="visible"
-                className="relative mx-auto overflow-x-auto px-4 max-w-5xl flex gap-3 pt-2 "
-            >
-                {categories.map((tab, i) => (
-                    <Link
-                        to={`#${tab}`}
-                        key={tab}
-                        ref={(el) => {
-                            tabRefs.current[i] = el;
-                        }}
-                        className={`pb-2 px-4 text-sm font-medium transition-colors duration-300 whitespace-nowrap ${tab === activeTab
-                            ? "text-primary"
-                            : "text-base-content/60 hover:text-base-content"
-                            }`}
-                        onClick={() => setActiveTab(tab)}
-                    >
-                        <div>
-                            {tab.replace(/_/g, " ")}
-                        </div>
-                    </Link>
-                ))}
-                <motion.div
-                    className="absolute bottom-0 h-[2px] bg-primary headerIndicator"
-                    layout
-                    transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                    style={indicator}
-                />
-            </motion.div>
-            <div className="max-w-5xl mt-10 mx-auto">
+            {/* Columns layout - one column per category */}
+            <div className="  mx-auto px-8 pb-10">
+                <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+                    {categories.map((category) => {
+                        const categoryResources = filteredResourcesByCategory[category] || [];
+                        if (categoryResources.length === 0) return null;
 
-
-
-
-                {/* Grille ajustée en 4 colonnes comme ton code initial */}
-                <div className="gr id grid-cols-1 md:grid-cols-4 gap-6">
-                    {filteredRessources.map((item, index) => {
-                        const isLast = index === filteredRessources.length - 1;
                         return (
-                            <div key={item.id} className={" bg-base-100  flex flex-col overflow-hidden border  " + isLast ? "border-b-0 " : "border-b-1 "}>
-                                {/* Contenu textuel et actions du haut */}
-                                <div className="p-5 flex space-x-4 border -b border-base-200 bg-base-100 z-10">
-                                    <img src={item.logo ? item.logo : "https://i.pinimg.com/1200x/1e/8d/c7/1e8dc780384f1cecbcfb6477f3c147ad.jpg"} className="object-cover h-16 w-16 rounded-md" />
-                                    <div className="flex flex-col gap-1 mb-2">
-                                        <h2 className="card-title text-lg font-bold text-base-content leading-tight">
-                                            {item.name}
-                                        <span className="badge badge-sm badge-outline opacity-60 w-fit">{item.category}</span>
-                                        </h2>
-                                        <p className="text-sm opacity-70 mb- 4 h-12 line-clamp-2">{item.desc}</p>
-                                    </div>
-                                    <div className="flex mt-2">
-                                        {/* Lien Externe direct */}
+                            <div key={category} className=" relative mb-12 rounded-xl overflow-hidden">
+                                <div className="mb-4 sticky ml-3">
+                                    <h2 className="text-lg font-bold text-base-content">{category}</h2>
+                                    <p className="text-xs text-base-content/60">{categoryResources.length} ressources</p>
+                                </div>
+                                <div className="max-h-[600px] overflow-y-auto ">
+                                    {categoryResources.map((item) => (
                                         <a
+                                            key={item.id}
                                             href={item.url}
                                             target="_blank"
                                             rel="noopener noreferrer"
-                                            className="btn btn-xs btn-outline btn-primary gap-1"
+                                            className="flex items-center gap-3 p-2 rounded-lg hover:bg-base-100 transition-colors cursor-pointer group"
                                         >
-                                            Ouvrir le site
-                                            <LinkIcon className="w-4 h-4" />
+                                            <div className="w-8 h-8 rounded bg-base-300 flex items-center justify-center overflow-hidden flex-shrink-0">
+                                                {item.logo ? (
+                                                    <img src={item.logo} alt={item.name} className="w-full h-full object-contain" />
+                                                ) : (
+                                                    <div className="w-full h-full  bg-primary/20 rounded flex items-center justify-center">
+                                                        <span className="text-primary text-xs font-bold">{item.name.charAt(0)}</span>
+                                                    </div>
+                                                )}
+                                            </div>
+                                            <div className="flex-1 min-w-0">
+                                                <h3 className="text-sm font-medium text-base-content truncate group-hover:text-primary transition-colors">
+                                                    {item.name}
+                                                </h3>
+                                            </div>
+                                            <LinkIcon className="w-4 h-4 text-base-content/40 group-hover:text-primary transition-colors flex-shrink-0" />
                                         </a>
-                                    </div>
+                                    ))}
                                 </div>
                             </div>
                         );
