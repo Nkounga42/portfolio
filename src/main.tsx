@@ -4,7 +4,6 @@ import {
   Routes,
   Route,
   useLocation,
-  Navigate,
 } from "react-router-dom";
 
 import { Suspense } from "react";
@@ -16,70 +15,79 @@ import KeyboardShortcut from "./hooks/KeyboardShortcut";
 import { LanguageProvider } from "./hooks/useLanguage";
 
 const route = {
-  Home: { path: "/portfolio/", render: () => <Screen.Home /> },
+  Home: { paths: ["/", "/portfolio", "/portfolio/"], render: () => <Screen.Home /> },
 
-  Blog: { path: "/portfolio/blog", component: <Screen.Blog /> },
-  Search: { path: "/portfolio/search", component: <Screen.Search /> },
+  Blog: { paths: ["/blog", "/portfolio/blog"], component: <Screen.Blog /> },
+  Search: { paths: ["/search", "/portfolio/search"], component: <Screen.Search /> },
 
-  About: { path: "/portfolio/about", component: <Screen.About /> },
-  Contact: { path: "/portfolio/contact", component: <Screen.Contact /> },
+  About: { paths: ["/about", "/portfolio/about"], component: <Screen.About /> },
+  Contact: { paths: ["/contact", "/portfolio/contact"], component: <Screen.Contact /> },
 
-  Experience: { path: "/portfolio/experience", component: <Screen.Experience /> },
-  // Project: { path: "/portfolio/projects", component: <Screen.Project /> },
-  Projects: { path: "/portfolio/projects", component: <Screen.Projects /> },
+  Experience: { paths: ["/experience", "/portfolio/experience"], component: <Screen.Experience /> },
+  Projects: { paths: ["/projects", "/portfolio/projects"], component: <Screen.Projects /> },
 
   ProjetOverview: {
-    path: "/portfolio/projects/:slug",
+    paths: ["/projects/:slug", "/portfolio/projects/:slug"],
     component: <Screen.ProjectPreview />,
   },
 
-  Skills: { path: "/portfolio/skills", component: <Screen.Skills /> },
-  Gallery: { path: "/portfolio/gallery", component: <Screen.Gallery /> },
-  GalleryWithSlug: { path: "/portfolio/gallery/:slug", component: <Screen.Gallery /> },
-  Page404: { path: "/portfolio/404", component: <Screen.Page404 /> },
+  Skills: { paths: ["/skills", "/portfolio/skills"], component: <Screen.Skills /> },
+  Gallery: { paths: ["/gallery", "/portfolio/gallery"], component: <Screen.Gallery /> },
+  GalleryWithSlug: { paths: ["/gallery/:slug", "/portfolio/gallery/:slug"], component: <Screen.Gallery /> },
+  Page404: { paths: ["/404", "/portfolio/404"], component: <Screen.Page404 /> },
 
-  Article: { path: "/portfolio/article", component: <Screen.Article /> },
-  AdminBlog: { path: "/portfolio/blog/create", component: <Screen.AdminBlog /> },
-  AdminSecretRoute: { path: "/ad/loggin=nk-117Gv12Cg", component: <Screen.AdminBlog /> },
-  AdminSecretRoutePortfolio: { path: "/portfolio/ad/loggin=nk-117Gv12Cg", component: <Screen.AdminBlog /> },
-  ReadBlog: { path: "/portfolio/blog/:slug", component: <Screen.ReadBlog /> },
-  Ressources: { path: "/portfolio/ressources", component: <Screen.Ressources /> },
+  Article: { paths: ["/article", "/portfolio/article"], component: <Screen.Article /> },
+  AdminBlog: { paths: ["/blog/create", "/portfolio/blog/create"], component: <Screen.AdminBlog /> },
+  AdminSecretRoute: { paths: ["/ad/loggin=nk-117Gv12Cg"], component: <Screen.AdminBlog /> },
+  AdminSecretRoutePortfolio: { paths: ["/portfolio/ad/loggin=nk-117Gv12Cg"], component: <Screen.AdminBlog /> },
+  ReadBlog: { paths: ["/blog/:slug", "/portfolio/blog/:slug"], component: <Screen.ReadBlog /> },
+  Ressources: { paths: ["/ressources", "/portfolio/ressources"], component: <Screen.Ressources /> },
 };
 
 const BrowserDom = () => {
   const location = useLocation();
+  const is404Route =
+    location.pathname === "/404" ||
+    location.pathname === "/portfolio/404" ||
+    location.pathname === "/404/" ||
+    location.pathname === "/portfolio/404/";
+
   return (
     <Suspense fallback={<div className="text-center p-10">Chargement...</div>}>
-      {location.pathname !== route.Page404.path && <UI.Header />}
-      <div
-      >
+      {!is404Route && <UI.Header />}
+      <div>
         <Suspense
           fallback={<div className="text-center p-10">Chargement...</div>}
         >
-          {/* {location.pathname.includes(route.Contact.path) && <UI.Navbar />} */}
-          <div className={` min-h-screen `}>
+          <div className={`min-h-screen`}>
             <Routes>
-              <Route path={route.Home.path} element={route.Home.render()} />
+              {route.Home.paths.map((path) => (
+                <Route key={path} path={path} element={route.Home.render()} />
+              ))}
 
               {Object.entries(route)
                 .filter(([key]) => key !== "Home" && key !== "Page404")
-                .map(([key, page]) => (
-                  <Route
-                    key={key}
-                    path={page.path}
-                    element={"component" in page ? page.component : page.render()}
-                  />
-                ))}
+                .flatMap(([key, page]) =>
+                  page.paths.map((path) => (
+                    <Route
+                      key={`${key}-${path}`}
+                      path={path}
+                      element={"component" in page ? page.component : page.render()}
+                    />
+                  ))
+                )}
 
-               <Route path="*" element={<Navigate to={route.Page404.path} />} /> 
+              <Route path="*" element={<Screen.Page404 />} />
             </Routes>
           </div>
           <UI.ShadowOverlay direction="toTop" position="bottom" />
-          {
-            location.pathname !== route.Skills.path &&
-            location.pathname !== route.Search.path &&
-            location.pathname !== route.AdminBlog.path && <UI.Footer />
-          }
+          {!is404Route &&
+            location.pathname !== "/portfolio/skills" &&
+            location.pathname !== "/skills" &&
+            location.pathname !== "/portfolio/search" &&
+            location.pathname !== "/search" &&
+            location.pathname !== "/portfolio/blog/create" &&
+            location.pathname !== "/blog/create" && <UI.Footer />}
         </Suspense>
       </div>
 
