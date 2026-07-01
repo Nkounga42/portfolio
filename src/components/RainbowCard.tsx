@@ -40,8 +40,8 @@ const styles = `
 `;
 
 export default function RainbowCard({ children, className }: { children?: React.ReactNode; className?: string }) {
-  const [speed, setSpeed] = useState(3);
-  const [blur, setBlur] = useState(8);
+  const [speed] = useState(3);
+  const [blur] = useState(8);
 
   return (
     <>
@@ -58,13 +58,13 @@ export default function RainbowCard({ children, className }: { children?: React.
           <div
             className="rainbow-ring"
             style={{
-              "--spin-duration": `${speed}s`,
-              "--ring-blur": `${blur}px`,
+              // custom CSS properties cast to satisfy React's style typing
+              ...( { ["--spin-duration"]: `${speed}s`, ["--ring-blur"]: `${blur}px` } as React.CSSProperties ),
             }}
           />
           <div
             className="rainbow-ring-sharp"
-            style={{ "--spin-duration": `${speed}s` }}
+            style={({ ["--spin-duration"]: `${speed}s` } as React.CSSProperties)}
           />
 
            

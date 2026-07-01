@@ -5,7 +5,7 @@ import { subscribeToNewsletter } from "../tools/supabase";
 import { useLanguage } from "../hooks/useLanguage";
 
 export default function Newsletter() {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -94,7 +94,7 @@ export default function Newsletter() {
               <div className="mt-3 p-2 bg-error/20 border border-error/30 rounded-lg flex items-center gap-2">
                 <AlertCircle className="w-4 h-4 text-error" />
                 <span className="text-error text-sm">
-                  {t.language === 'fr'
+                  {language === 'fr'
                     ? 'Erreur lors de l\'inscription. Veuillez réessayer.'
                     : 'Subscription failed. Please try again.'}
                 </span>

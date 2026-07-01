@@ -79,7 +79,7 @@ const cards: Card[] = [
 
 interface ArtCardProps {
   card: Card;
-  children: React.ReactNode;
+  children?: React.ReactNode;
   cardIndex: number;
   cards: Card[];
   imageSource: string;
@@ -93,7 +93,6 @@ function ArtCard({ card, children, cardIndex, cards, imageSource }: ArtCardProps
 
   const ty_value = cardIndex < middleIndex ? card.ty - offset * 20 : card.ty + offset * 20
   const tx_value = cardIndex < middleIndex ? card.tx + offset * 3 : card.tx + offset * 3
-  const rot_value = cardIndex < middleIndex ? offset * 0.2 : offset * 0.2
 
   const evaluateTransformY = () => {
     return ty_value;
@@ -111,9 +110,7 @@ function ArtCard({ card, children, cardIndex, cards, imageSource }: ArtCardProps
     return tx_value;
   };
 
-  const evaluateRotation = () => {
-    return rot_value;
-  };
+
 
   return (
     <div
@@ -139,12 +136,7 @@ function ArtCard({ card, children, cardIndex, cards, imageSource }: ArtCardProps
   );
 }
 
-interface TagBubbleProps {
-  label: string;
-  color: string;
-  arrowColor?: string;
-  style?: React.CSSProperties;
-}
+// TagBubbleProps removed — not used in this component
 
 
 

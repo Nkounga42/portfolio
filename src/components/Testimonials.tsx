@@ -63,7 +63,7 @@ export default function testimonials() {
 
     if (imageFile) {
       const fileName = `${Date.now()}-${imageFile.name}`;
-      const { data: uploadData, error: uploadError } = await supabase.storage
+      const { error: uploadError } = await supabase.storage
         .from('testimonials-images')
         .upload(fileName, imageFile);
 
@@ -97,9 +97,9 @@ export default function testimonials() {
     }
   };
 
-  // if (loader) {
-  //   return <div className="text-center py-20">{t.common.loading}</div>;
-  // }
+  if (loader) {
+    return <div className="text-center py-20">{t.common.loading}</div>;
+  }
 
   if (total === 0) {
     return null;

@@ -78,4 +78,46 @@ const img = [
   "https://i.pinimg.com/736x/91/64/19/9164191c5aee685530d57daea7c0f326.jpg"
 ]
 
-export {  categories, socialLinks, img }
+const projets = [
+  {
+    id: 1,
+    slug: "portfolio-v1",
+    nom: "Portfolio V1",
+    imagesIllustration: [img[0], img[1], img[2]],
+    technologies: ["react", "typescript", "tailwindcss"],
+    dateCreation: "2023-06",
+    description: "Mon portfolio personnel",
+    Client: "Auto",
+    Roles: "Développeur Frontend",
+    cathegorie: "Portfolio",
+    links: { repository: "https://github.com/username/portfolio", page: "https://example.com/portfolio" },
+  },
+  {
+    id: 2,
+    slug: "ecommerce-demo",
+    nom: "E-commerce Demo",
+    imagesIllustration: [img[3], img[4]],
+    technologies: ["react", "nodejs", "mongodb"],
+    dateCreation: "2022-11",
+    description: "Prototype d'une boutique en ligne",
+    Client: "Demo Client",
+    Roles: "Fullstack Developer",
+    cathegorie: "E-commerce",
+    links: { repository: "https://github.com/username/ecommerce-demo", page: "https://example.com/ecommerce" },
+  },
+  {
+    id: 3,
+    slug: "blog-platform",
+    nom: "Plateforme Blog",
+    imagesIllustration: [img[5], img[6]],
+    technologies: ["nextjs", "supabase"],
+    dateCreation: "2024-02",
+    description: "Plateforme de publication d'articles",
+    Client: "Personal",
+    Roles: "Backend & Frontend",
+    cathegorie: "Blog",
+    links: { repository: "https://github.com/username/blog-platform", page: "https://example.com/blog" },
+  },
+];
+
+export { categories, socialLinks, img, projets };
