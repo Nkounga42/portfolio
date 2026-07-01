@@ -61,6 +61,9 @@ const categories = [...new Set(ressourcesData.map(item => item.category))];
 
 export default function Ressources() {
     const [searchTerm, setSearchTerm] = useState('');
+    const [isPreviewActive, setIsPreviewActive] = useState(false);
+    const [hoveredUrl, setHoveredUrl] = useState<string | null>(null);
+    const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
     // Group resources by category
     const resourcesByCategory = categories.reduce((acc, category) => {
@@ -88,7 +91,19 @@ export default function Ressources() {
                     </h1>
                 </div>
 
-                <div className="form-control w-full md:w-80">
+                <div className="form-control w-full md:w-95 gap-4  flex items-center">
+                <div className="flex items-center gap-4 border border-base-100 bg-base-300 p-1 pr-3 rounded-2xl ">
+                    <label className="flex items-center gap-2 cursor-pointer" title='Prévisualisation au survol'>
+                        <input
+                            type="checkbox"
+                            checked={isPreviewActive}
+                            onChange={(e) => setIsPreviewActive(e.target.checked)}
+                           className="toggle toggle-primary" 
+                        />
+                        <span className="text-xs">Prévisualisation</span>
+                    </label>
+                </div>
+
                     <input
                         type="text"
                         placeholder="Rechercher une ressource..."
@@ -120,6 +135,18 @@ export default function Ressources() {
                                             target="_blank"
                                             rel="noopener noreferrer"
                                             className="flex items-center gap-3 p-2 rounded-lg hover:bg-base-100 transition-colors cursor-pointer group"
+                                            onMouseEnter={(e) => {
+                                                if (isPreviewActive) {
+                                                    setHoveredUrl(item.url);
+                                                    setMousePosition({ x: e.clientX, y: e.clientY });
+                                                }
+                                            }}
+                                            onMouseLeave={() => setHoveredUrl(null)}
+                                            onMouseMove={(e) => {
+                                                if (isPreviewActive) {
+                                                    setMousePosition({ x: e.clientX, y: e.clientY });
+                                                }
+                                            }}
                                         >
                                             <div className="w-8 h-8 rounded bg-base-300 flex items-center justify-center overflow-hidden flex-shrink-0">
                                                 {item.logo ? (
@@ -144,6 +171,41 @@ export default function Ressources() {
                     })}
                 </div>
             </div>
+
+            {/* Iframe preview */}
+            {hoveredUrl && (
+                <div
+                    className="fixed w-[300px] h-[200px]  rounded-xl shadow-2xl border border-base-content/20 overflow-hidden z-50 pointer-events-none hidden md:block"
+                    style={{
+                        left: `${mousePosition.x - 150}px`,
+                        top: `${mousePosition.y - 220}px`,
+                    }}
+                >
+                    <div className="flex items-center justify-between p-2 border-b border-base-content/10 bg-base-200/30 backdrop-blur-sm pointer-events-auto">
+                        <span className="text-xs text-base-content/60 truncate flex-1">{hoveredUrl}</span>
+                        <button
+                            onClick={() => setHoveredUrl(null)}
+                            className="ml-2 text-base-content/60 hover:text-base-content"
+                        >
+                            ✕
+                        </button>
+                    </div>
+                    <div className="w-full h-full overflow-hidden">
+                        <iframe
+                            src={hoveredUrl}
+                            className="bg-base-100"
+                            style={{
+                                transform: 'scale(0.3)',
+                                transformOrigin: 'top left',
+                                width: '1000px',
+                                height: '667px',
+                            }}
+                            title="Preview"
+                            sandbox="allow-same-origin allow-scripts"
+                        />
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

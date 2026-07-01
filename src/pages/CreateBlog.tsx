@@ -44,6 +44,7 @@ const AdminBlog = () => {
 
   const [comments, setComments] = useState<any[]>([]);
   const [projectsList, setProjectsList] = useState<any[]>([]);
+  const [blogsList, setBlogsList] = useState<any[]>([]);
   const [loadingList, setLoadingList] = useState(false);
 
   const navigate = useNavigate();
@@ -51,6 +52,7 @@ const AdminBlog = () => {
   useEffect(() => {
     if (activeTab === 'comments') fetchComments();
     if (activeTab === 'projects') fetchProjects();
+    if (activeTab === 'create') fetchBlogs();
   }, [activeTab]);
 
   const fetchComments = async () => {
@@ -73,6 +75,18 @@ const AdminBlog = () => {
     setLoadingList(false);
   };
 
+  const fetchBlogs = async () => {
+    setLoadingList(true);
+    const { data, error } = await supabase
+      .from('blog_posts')
+      // On remplace created_at par published_at
+      .select('id, title, slug, is_published, published_at')
+      .order('published_at', { ascending: false }); // Tri par date de publication
+
+    if (!error) setBlogsList(data || []);
+    setLoadingList(false);
+  };
+
   const deleteComment = async (id: number) => {
     if (!window.confirm('Supprimer ce commentaire ?')) return;
     const { error } = await supabase.from('blog_comments').delete().eq('id', id);
@@ -83,6 +97,12 @@ const AdminBlog = () => {
     if (!window.confirm('Supprimer ce projet ?')) return;
     const { error } = await supabase.from('projects').delete().eq('id', id);
     if (!error) setProjectsList(projectsList.filter(p => p.id !== id));
+  };
+
+  const deleteBlog = async (id: number) => {
+    if (!window.confirm('Supprimer cet article ?')) return;
+    const { error } = await supabase.from('blog_posts').delete().eq('id', id);
+    if (!error) setBlogsList(blogsList.filter(b => b.id !== id));
   };
 
   const handleAddBlogCategory = () => {
@@ -157,8 +177,6 @@ const AdminBlog = () => {
         summary: formData.summary,
         content: formData.content,
         cover_image: formData.cover_image,
-        category: formData.category,
-        tags: formData.tags
       }]);
       if (error) throw error;
       alert('Article publié !');
@@ -171,61 +189,122 @@ const AdminBlog = () => {
   };
 
   return (
-    <div className="max-w-6xl mx-auto px-6 py-12">
-      <div className="mb-10 text-center animate-in fade-in slide-in-from-top-4">
-        <h1 className="text-4xl font-bold text-base-content mb-2 tracking-tight">Administration Portfolio</h1>
-        <p className="opacity-60 mb-6">Gérez vos contenus de manière intuitive et moderne.</p>
-        <div className="tabs tabs-boxed bg-base-300 inline-flex p-1 rounded-2xl shadow-lg border border-base-content/5">
-          <button className={`tab rounded-xl tab-lg font-semibold transition-all duration-300 ${activeTab === 'create' ? 'tab-active bg-primary text-primary-content shadow-md' : 'hover:bg-base-content/10'}`} onClick={() => setActiveTab('create')}>Articles</button>
-          <button className={`tab rounded-xl tab-lg font-semibold transition-all duration-300 ${activeTab === 'projects' ? 'tab-active bg-primary text-primary-content shadow-md' : 'hover:bg-base-content/10'}`} onClick={() => setActiveTab('projects')}>Projets</button>
-          <button className={`tab rounded-xl tab-lg font-semibold transition-all duration-300 ${activeTab === 'comments' ? 'tab-active bg-primary text-primary-content shadow-md' : 'hover:bg-base-content/10'}`} onClick={() => setActiveTab('comments')}>Commentaires</button>
+    <div className="mx-8 mx-auto px-4 py-12">
+      <div className='flex '>
+        <div className="flex justify-end mb-4">
+          {activeTab === 'create' && (
+            <label htmlFor="blog-drawer" className="btn btn-primary rounded-2xl cursor-pointer">
+              + Nouvel Article
+            </label>
+          )}
+          {activeTab === 'projects' && (
+            <label htmlFor="project-drawer" className="btn btn-primary rounded-2xl cursor-pointer">
+              + Nouveau Projet
+            </label>
+          )}
         </div>
+      <div className="tabs tabs-boxed bg-base-300 inline-flex p-1 rounded-2xl shadow-lg border border-base-content/5">
+        <button className={`tab rounded-xl tab-lg font-semibold transition-all duration-300 ${activeTab === 'create' ? 'tab-active bg-primary text-primary-content shadow-md' : 'hover:bg-base-content/10'}`} onClick={() => setActiveTab('create')}>Articles</button>
+        <button className={`tab rounded-xl tab-lg font-semibold transition-all duration-300 ${activeTab === 'projects' ? 'tab-active bg-primary text-primary-content shadow-md' : 'hover:bg-base-content/10'}`} onClick={() => setActiveTab('projects')}>Projets</button>
+        <button className={`tab rounded-xl tab-lg font-semibold transition-all duration-300 ${activeTab === 'comments' ? 'tab-active bg-primary text-primary-content shadow-md' : 'hover:bg-base-content/10'}`} onClick={() => setActiveTab('comments')}>Commentaires</button>
+      </div>
       </div>
 
       {activeTab === 'create' && (
-        <BlogForm
-          formData={formData}
-          loading={loading}
-          blogCategories={blogCategories}
-          newBlogCat={newBlogCat}
-          showAddBlogCat={showAddBlogCat}
-          blogImageSource={blogImageSource}
-          setNewBlogCat={setNewBlogCat}
-          setShowAddBlogCat={setShowAddBlogCat}
-          setBlogImageSource={setBlogImageSource}
-          handleChange={handleChange}
-          handleFileChange={handleFileChange}
-          handleAddBlogCategory={handleAddBlogCategory}
-          handleSubmit={handleSubmit}
-        />
+        <div className="drawer drawer-end">
+          <input id="blog-drawer" type="checkbox" className="drawer-toggle" />
+          <div className="drawer-content">
+
+            <AdminLists
+              activeTab={activeTab}
+              comments={comments}
+              projectsList={projectsList}
+              blogsList={blogsList}
+              loadingList={loadingList}
+              deleteComment={deleteComment}
+              deleteProject={deleteProject}
+              deleteBlog={deleteBlog}
+            />
+          </div>
+          <div className="drawer-side">
+            <label htmlFor="blog-drawer" className="drawer-overlay"></label>
+            <div className="menu p-0 w-[500px] min-h-full bg-base-200">
+              <div className="p-4 border-b border-base-content/10 flex justify-between items-center">
+                <h2 className="text-xl font-bold">Nouvel Article</h2>
+                <label htmlFor="blog-drawer" className="btn btn-sm btn-circle btn-ghost cursor-pointer">✕</label>
+              </div>
+              <div className="p-6 overflow-y-auto h-[calc(100vh-80px)]">
+                <BlogForm
+                  formData={formData}
+                  loading={loading}
+                  blogCategories={blogCategories}
+                  newBlogCat={newBlogCat}
+                  showAddBlogCat={showAddBlogCat}
+                  blogImageSource={blogImageSource}
+                  setNewBlogCat={setNewBlogCat}
+                  setShowAddBlogCat={setShowAddBlogCat}
+                  setBlogImageSource={setBlogImageSource}
+                  handleChange={handleChange}
+                  handleFileChange={handleFileChange}
+                  handleAddBlogCategory={handleAddBlogCategory}
+                  handleSubmit={(e) => {
+                    handleSubmit(e);
+                    const checkbox = document.getElementById('blog-drawer') as HTMLInputElement;
+                    if (checkbox) checkbox.checked = false;
+                  }}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
       )}
 
       {activeTab === 'projects' && (
-        <div className="space-x-2 flex">
+        <div className="drawer drawer-end">
+          <input id="project-drawer" type="checkbox" className="drawer-toggle" />
+          <div className="drawer-content">
 
-          <AdminLists
-            activeTab={activeTab}
-            comments={comments}
-            projectsList={projectsList}
-            loadingList={loadingList}
-            deleteComment={deleteComment}
-            deleteProject={deleteProject}
-          />
-          <ProjectForm
-            projectData={projectData}
-            loading={loading}
-            projCategories={projCategories}
-            newProjCat={newProjCat}
-            showAddProjCat={showAddProjCat}
-            projImageSource={projImageSource}
-            setNewProjCat={setNewProjCat}
-            setShowAddProjCat={setShowAddProjCat}
-            setProjImageSource={setProjImageSource}
-            handleProjectChange={handleProjectChange}
-            handleFileChange={handleFileChange}
-            handleAddProjCategory={handleAddProjCategory}
-            handlePublishProject={handlePublishProject}
-          />
+            <AdminLists
+              activeTab={activeTab}
+              comments={comments}
+              projectsList={projectsList}
+              blogsList={blogsList}
+              loadingList={loadingList}
+              deleteComment={deleteComment}
+              deleteProject={deleteProject}
+              deleteBlog={deleteBlog}
+            />
+          </div>
+          <div className="drawer-side h-100">
+            <label htmlFor="project-drawer" className="drawer-overlay"></label>
+            <div className="menu p-0 w-[500px] min-h-full bg-base-200">
+              <div className="p-4 border-b border-base-content/10 flex justify-between items-center">
+                <h2 className="text-xl font-bold">Nouveau Projet</h2>
+                <label htmlFor="project-drawer" className="btn btn-sm btn-circle btn-ghost cursor-pointer">✕</label>
+              </div>
+              <div className="p-6 overflow-y-auto h-[calc(100vh-80px)]">
+                <ProjectForm
+                  projectData={projectData}
+                  loading={loading}
+                  projCategories={projCategories}
+                  newProjCat={newProjCat}
+                  showAddProjCat={showAddProjCat}
+                  projImageSource={projImageSource}
+                  setNewProjCat={setNewProjCat}
+                  setShowAddProjCat={setShowAddProjCat}
+                  setProjImageSource={setProjImageSource}
+                  handleProjectChange={handleProjectChange}
+                  handleFileChange={handleFileChange}
+                  handleAddProjCategory={handleAddProjCategory}
+                  handlePublishProject={(e) => {
+                    handlePublishProject(e);
+                    const checkbox = document.getElementById('project-drawer') as HTMLInputElement;
+                    if (checkbox) checkbox.checked = false;
+                  }}
+                />
+              </div>
+            </div>
+          </div>
         </div>
       )}
 
@@ -234,9 +313,11 @@ const AdminBlog = () => {
           activeTab={activeTab}
           comments={comments}
           projectsList={projectsList}
+          blogsList={blogsList}
           loadingList={loadingList}
           deleteComment={deleteComment}
           deleteProject={deleteProject}
+          deleteBlog={deleteBlog}
         />
       )}
     </div>

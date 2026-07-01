@@ -75,7 +75,8 @@ const BrowserDom = () => {
           <UI.ShadowOverlay direction="toTop" position="bottom" />
           {
             location.pathname !== route.Skills.path &&
-            location.pathname !== route.Search.path && <UI.Footer />
+            location.pathname !== route.Search.path &&
+            location.pathname !== route.AdminBlog.path && <UI.Footer />
           }
         </Suspense>
       </div>

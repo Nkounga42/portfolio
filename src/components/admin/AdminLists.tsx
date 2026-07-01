@@ -4,22 +4,50 @@ interface AdminListsProps {
   activeTab: 'create' | 'projects' | 'comments';
   comments: any[];
   projectsList: any[];
+  blogsList: any[];
   loadingList: boolean;
   deleteComment: (id: number) => void;
   deleteProject: (id: number) => void;
+  deleteBlog: (id: number) => void;
+  currentPage: number;
+  itemsPerPage: number;
+  setCurrentPage: (page: number) => void;
 }
 
 const AdminLists: React.FC<AdminListsProps> = ({
   activeTab,
   comments,
   projectsList,
+  blogsList,
   loadingList,
   deleteComment,
-  deleteProject
+  deleteProject,
+  deleteBlog
 }) => {
+  if (activeTab === 'create') {
+    return (
+      <div className="bg-base-300 shadow-inner rounded-xl w-full overflow-hidden animate-in fade-in zoom-in-95 duration-500">
+        <table className="table table-zebra w-full">
+          <thead><tr className="bg-base-200"><th>Article</th><th>Statut</th><th className="text-right">Actions</th></tr></thead>
+          <tbody>
+            {blogsList.map(b => (
+              <tr key={b.id} className="hover:bg-base-content/5">
+                <td className="font-bold">{b.title}</td>
+                <td><span className={`badge ${b.is_published ? 'badge-success' : 'badge-warning'} badge-outline rounded-lg`}>{b.is_published ? 'Publié' : 'Brouillon'}</span></td>
+                <td className="text-right">
+                  <button onClick={() => deleteBlog(b.id)} className="btn btn-error btn-xs rounded-lg shadow-sm">Supprimer</button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    );
+  }
+
   if (activeTab === 'projects') {
     return (
-      <div className="bg-base-300 shadow-inner rounded-xl w-2/3 overflow-hidden animate-in fade-in zoom-in-95 duration-500">
+      <div className="bg-base-300 shadow-inner rounded-xl w-full overflow-hidden animate-in fade-in zoom-in-95 duration-500">
         <table className="table table-zebra w-full">
           <thead><tr className="bg-base-200"><th>Projet</th><th>Catégorie</th><th className="text-right">Actions</th></tr></thead>
           <tbody>
