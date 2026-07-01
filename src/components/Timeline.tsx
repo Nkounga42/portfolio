@@ -1,15 +1,19 @@
 import { useState, useEffect } from "react";
 import { supabase } from "../tools/supabase";
+import { useLanguage } from "../hooks/useLanguage";
 
 interface ExperienceEvent {
-  id?: number;
-  date_period: string;
+  id: number;
+  illustration: string | null;
   title: string;
-  content: string;
+  content: string | null;
   position: "start" | "end";
+  date_debut: string | null;
+  date_fin: string | null;
 }
 
 export default function Timeline() {
+  const { language } = useLanguage();
   const [experiences, setExperiences] = useState<ExperienceEvent[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -17,7 +21,7 @@ export default function Timeline() {
     const fetchExperience = async () => {
       const { data, error } = await supabase
         .from('experiences')
-        .select('*')
+        .select('*').order('date_debut', { ascending: false });
 
       console.log("Supabase experiences query result:", { data, error });
 
@@ -34,11 +38,7 @@ export default function Timeline() {
     fetchExperience();
   }, []);
 
-  const renderIcon = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="h-5 w-5" >
-      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clipRule="evenodd" />
-    </svg>
-  );
+
 
   if (loading) return <div className="text-center p-10 opacity-50 italic">Chargement du parcours...</div>;
 
@@ -46,22 +46,46 @@ export default function Timeline() {
     <div className="w-full flex justify-center">
       {experiences.length > 0 ? (
         <ul className="timeline timeline-snap-icon max-md:timeline-compact timeline-vertical max-w-4xl">
-          {experiences.map((event, index) => (
-            <li key={event.id || index} >
-              <hr />
-              <div className="timeline-middle">{renderIcon()}</div>
-              <div
-                className={`relative timeline-${event.position} ${event.position === "start" ? "mb-10 md:text-end" : "md:mb-10"
-                  }`}
-              >
-                <time className="font-mono italic">{event.date_period}</time>
-                <div className={`md:w-full h-full md:mb-0 mb-4  md:absolute top-3  ${event.position === "start" ? "-right-full bg-base-300__ md:-mr-8  mr-0" : "-left-full bg-primary__ -300 md:-ml-8   ml-0"} `} ></div>
-                <div className="text-lg font-black">{event.title}</div>
-                <div className="opacity-80 leading-relaxed whitespace-pre-wrap">{event.content}</div>
-              </div>
-              <hr />
-            </li>
-          ))}
+          {experiences.map((event, index) => {
+            // Détermination automatique de la position (start pour les pairs, end pour les impairs)
+            const currentPosition = index % 2 === 0 ? "start" : "end";
+
+            return (
+              <li key={event.id || index} className="flex justify-center">
+                <div className="timeline-middle">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="h-5 w-5">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clipRule="evenodd" />
+                  </svg>
+                </div>
+
+                {/* Modification demandée ici */}
+                <div
+                  className={`relative timeline-${currentPosition} ${currentPosition === "start" ? "mb-10 md:text-end" : "md:mb-10"
+                    }`}
+                >
+                  <time className="font-mono italic">
+                    {event.date_debut ? new Date(event.date_debut).toLocaleDateString(language === 'fr' ? 'fr-FR' : 'en-US', { month: 'short', year: 'numeric' }) : ""}
+                    {event.date_fin ? ` - ${new Date(event.date_fin).toLocaleDateString(language === 'fr' ? 'fr-FR' : 'en-US', { month: 'short', year: 'numeric' })}` : (language === 'fr' ? " - Présent" : " - Present")}
+                  </time>
+
+                  <div className={`md:w-full h-full md:mb-0 mb-4 md:absolute top-3 ${currentPosition === "start" ? "-right-full bg-base-300__ md:-mr-8 mr-0" : "-left-full bg-primary__ -300 md:-ml-8 ml-0"} `} ></div>
+
+                  <div className="text-lg font-black">{event.title}</div>
+
+                  {event.illustration && (
+                    <img
+                      src={event.illustration}
+                      alt={event.title}
+                      className={`max-w-xs w-full mt-4 mb-4 rounded-xl shadow-lg border border-base-content/10 object-cover ${currentPosition === "start" ? "ml-auto" : ""}`}
+                    />
+                  )}
+
+                  <div className="opacity-80 leading-relaxed whitespace-pre-wrap">{event.content}</div>
+                </div>
+                <hr />
+              </li>
+            );
+          })}
         </ul>
       ) : (
         <div className="text-center p-10 bg-base-200/50 rounded-3xl border border-dashed border-base-content/20 max-w-xl">

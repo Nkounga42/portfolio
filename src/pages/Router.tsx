@@ -14,6 +14,7 @@ const ProjectPreview = lazy(() => import("./ProjectPreview"));
 const Search = lazy(() => import("./Search"));
 const Home = lazy(() => import("./Home"));
 const Gallery = lazy(() => import("./Gallery"));
+const Ressources = lazy(() => import("./Ressources"));
 
 
 const AdminBlog = lazy(() => import("./CreateBlog"));
@@ -35,6 +36,7 @@ export {
   Skills,
   Search,
   Gallery,
+  Ressources,
   AdminBlog,
   ReadBlog
 };

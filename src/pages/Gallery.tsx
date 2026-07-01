@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, ZoomIn, Download, Share2, Heart, Eye } from "lucide-react";
 import { supabase } from "../tools/supabase";
+import { useParams, useNavigate } from "react-router-dom";
+import { slugify } from "../tools/tools";
 import GalleryHero from "../components/GalleryHero";
 
 // Types pour les images de la galerie
@@ -19,6 +21,8 @@ interface GalleryImage {
 }
 
 export default function Gallery() {
+  const { slug } = useParams();
+  const navigate = useNavigate();
   const [selectedImage, setSelectedImage] = useState<GalleryImage | null>(null);
   const [likedImages, setLikedImages] = useState<Set<number>>(new Set());
   const [galleryImages, setGalleryImages] = useState<GalleryImage[]>([]);
@@ -27,8 +31,8 @@ export default function Gallery() {
   const [isDragging, setIsDragging] = useState(false);
   const dragStart = { x: 0, y: 0 };
 
-  const handleZoomIn    = () => setZoomLevel(prev => Math.min(prev + 0.25, 3));
-  const handleZoomOut   = () => { setZoomLevel(prev => { const next = Math.max(prev - 0.25, 0.5); if (next === 1) setPan({ x: 0, y: 0 }); return next; }); };
+  const handleZoomIn = () => setZoomLevel(prev => Math.min(prev + 0.25, 3));
+  const handleZoomOut = () => { setZoomLevel(prev => { const next = Math.max(prev - 0.25, 0.5); if (next === 1) setPan({ x: 0, y: 0 }); return next; }); };
   const handleZoomReset = () => { setZoomLevel(1); setPan({ x: 0, y: 0 }); };
 
   const handleMouseDown = (e: React.MouseEvent) => {
@@ -65,6 +69,29 @@ export default function Gallery() {
     };
     fetchGallery();
   }, []);
+
+  // Handle URL slug
+  useEffect(() => {
+    if (galleryImages.length > 0 && slug) {
+      const found = galleryImages.find(img => slugify(img.title) === slug || String(img.id) === slug);
+      if (found) {
+        setSelectedImage(found);
+      }
+    } else if (!slug && selectedImage) {
+      setSelectedImage(null);
+    }
+  }, [slug, galleryImages]);
+
+  const handleCloseLightbox = () => {
+    setSelectedImage(null);
+    setZoomLevel(1);
+    navigate("/portfolio/gallery");
+  };
+
+  const handleOpenLightbox = (img: GalleryImage) => {
+    setSelectedImage(img);
+    navigate(`/portfolio/gallery/${slugify(img.title)}`);
+  };
 
   const displayedImages = galleryImages;
 
@@ -147,33 +174,10 @@ export default function Gallery() {
   };
 
   return (
-    <section className="pb-20 pt-10 bg-base-100 min-h-screen">
-      <div className="container mx-auto px-4 max-w-5xl">
-        <GalleryHero/>
-        {/* Header */}
-        <div className="mb-12">
-          <motion.div
-            custom={0}
-            variants={fadeUpVariants}
-            initial="hidden"
-            animate="visible"
-          >
-            <h1 className="text-5xl font-bold mb-6 ">
-              Ma Galerie
-            </h1>
-          </motion.div>
-          <motion.div
-            custom={1}
-            variants={fadeUpVariants}
-            initial="hidden"
-            animate="visible"
-          >
-            <p className="text-xl opacity-80">
-              Découvrez mes créations à travers différents domaines : design UI/UX,
-              illustrations, photographie et bien plus encore.
-            </p>
-          </motion.div>
-        </div>
+    <section className="pb-20 bg-base-100 min-h-screen">
+      <GalleryHero sources={galleryImages} />
+      <div className="container mx-auto px-4 mt-10 max-w-5xl">
+
 
 
         {/* Bento Grid Gallery */}
@@ -190,7 +194,7 @@ export default function Gallery() {
                 animate="visible"
                 exit="hidden"
                 className="group relative bg-base-200/30 rounded-2xl overflow-hidden cursor-pointer hover:shadow-2xl transition-all duration-300 hover:scale-[1.02] break-inside-avoid mb-6"
-                onClick={() => setSelectedImage(image)}
+                onClick={() => handleOpenLightbox(image)}
               >
                 {/* Image */}
                 <div className="relative overflow-hidden">
@@ -202,7 +206,7 @@ export default function Gallery() {
                   />
 
                   {/* Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  {/* <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" /> */}
 
                   {/* Quick Actions */}
                   <div className="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
@@ -221,7 +225,7 @@ export default function Gallery() {
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
-                        setSelectedImage(image);
+                        handleOpenLightbox(image);
                       }}
                       className="p-2 rounded-full bg-white/20 backdrop-blur-sm text-white hover:bg-white/30 transition-colors"
                     >
@@ -306,7 +310,7 @@ export default function Gallery() {
             animate="visible"
             exit="exit"
             className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90 backdrop-blur-sm"
-            onClick={() => { setSelectedImage(null); setZoomLevel(1); }}
+            onClick={handleCloseLightbox}
           >
             <motion.div
               variants={imageModalVariants}
@@ -318,7 +322,7 @@ export default function Gallery() {
             >
               {/* Close Button */}
               <button
-                onClick={() => { setSelectedImage(null); setZoomLevel(1); }}
+                onClick={handleCloseLightbox}
                 className="absolute top-4 right-4 z-10 p-2 bg-black/50 text-white rounded-full hover:bg-black/70 transition-colors"
               >
                 <X className="w-6 h-6" />

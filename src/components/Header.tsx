@@ -15,6 +15,7 @@ const pagePaths = {
   gallery: "/portfolio/gallery",
   about: "/portfolio/about",
   admin: "/portfolio/blog/create",
+  Ressources: "/portfolio/Ressources",
 };
 
 const Header = () => {
@@ -25,12 +26,12 @@ const Header = () => {
 
   const pages = {
     [t.nav.home]: pagePaths.home,
+    [t.nav.about]: pagePaths.about,
+    [t.nav.gallery]: pagePaths.gallery,
     [t.nav.projects]: pagePaths.projects,
     [t.nav.blog]: pagePaths.blog,
-    [t.nav.skills]: pagePaths.skills,
-    [t.nav.gallery]: pagePaths.gallery,
-    [t.nav.about]: pagePaths.about,
     [t.nav.admin]: pagePaths.admin,
+    [t.nav.Ressources]: pagePaths.Ressources,
   };
 
   const scrollToTop = () => {
@@ -57,8 +58,18 @@ const Header = () => {
     <>
       {Object.entries(pages).map(([page, url]) => {
         const currentPath = location.pathname;
-        const isActive =
-          url === "/portfolio/" ? currentPath === "/portfolio/" : currentPath.startsWith(url);
+        let isActive = false;
+
+        if (url === "/portfolio/") {
+          isActive = currentPath === "/portfolio/";
+        } else if (url === pagePaths.admin) {
+          isActive = currentPath === pagePaths.admin;
+        } else if (url === pagePaths.blog) {
+          isActive = currentPath.startsWith(pagePaths.blog) && currentPath !== pagePaths.admin;
+        } else {
+          isActive = currentPath.startsWith(url);
+        }
+
         return (
           <li key={url}>
             <Link
@@ -82,6 +93,7 @@ const Header = () => {
     </>
   );
 
+  const isDashboardPage = location.pathname === pagePaths.Ressources || location.pathname === pagePaths.admin  ;
   const headerFloat = true;
   return (
     <div
@@ -89,11 +101,13 @@ const Header = () => {
         headerFloat ? "fixed -top-1  " : "sticky top-0 bg-base-100/80  "
       } w-full left-0 right-0 z-50 flex justify-center items-center px-1 sm:px-2 md:px-4 backdrop-blur-[10px] border border-base-content/10 bg-base-100/80`}
     >
-      <div
+      <motion.div
+        layout
+        transition={{ type: "spring", stiffness: 300, damping: 30 }}
         className={`${
-          headerFloat
-            ? "w-full max-w-5xl mx-2 sm:mx-0 rounded-full  "
-            : "w-full max-w-5xl  "
+          isDashboardPage
+            ? "w-full mx-0 "
+            : "w-full max-w-5xl mx-2 sm:mx-0 rounded-full  "
         } px-2 sm:px-3 md:px-4 flex items-center justify-between h-[50px]`}
       >
         <div className="flex items-center gap-1 sm:gap-2 flex-1 min-w-0">
@@ -106,15 +120,17 @@ const Header = () => {
             className="hidden lg:flex items-center justify-center relative ml-2 xl:ml-4"
           >
             <NavLinks />
-            <motion.div
-              className="absolute bottom-0 h-[2px] bg-primary rounded transition-all headerIndicator"
-              layout
-              transition={{ type: "spring", stiffness: 300, damping: 30 }}
-              style={{
-                left: indicatorStyle.left,
-                width: indicatorStyle.width,
-              }}
-            />
+            {location.pathname !== "/portfolio/search" && (
+              <motion.div
+                className="absolute bottom-0 h-[2px] bg-primary rounded transition-all headerIndicator"
+                layout
+                transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                style={{
+                  left: indicatorStyle.left,
+                  width: indicatorStyle.width,
+                }}
+              />
+            )}
           </ul>
         </div>
 
@@ -126,7 +142,7 @@ const Header = () => {
             <span className="hidden lg:inline">{t.nav.contact}</span>
             <span className="lg:hidden">{t.nav.contactShort}</span>
           </Link>
-          <Link to="/portfolio/search" className="hidden sm:block p-1">
+          <Link to="/portfolio/search" className={`hidden sm:block p-1 rounded-full ${location.pathname === "/portfolio/search" ? "bg-primary text-primary-content" : ""}`}>
             <Search className="h-4 w-4 sm:h-5 sm:w-5 cursor-pointer" />
           </Link>
 
@@ -167,7 +183,7 @@ const Header = () => {
                 <div className="flex items-center justify-around gap-2">
                   <Link
                     to="/portfolio/search"
-                    className="btn btn-ghost btn-sm btn-square flex-1"
+                    className={`btn btn-sm btn-square flex-1 ${location.pathname === "/portfolio/search" ? "btn-primary" : "btn-ghost"}`}
                     onClick={scrollToTop}
                   >
                     <Search className="h-4 w-4" />
@@ -190,7 +206,7 @@ const Header = () => {
           </div>
           <LanguageSwitcher />
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 };

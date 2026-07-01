@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import img from "../../public/image.jpg";
 import { handleDowload } from "../tools/tools";
 import { useLanguage } from "../hooks/useLanguage";
+import Skills from "./Skills";
 
 // import {SocialLogo} from "../components/customerLogo";
 
@@ -25,7 +26,7 @@ export default function About() {
   };
 
   return (
-    <div className=" ">
+    <div className="mt-10 ">
       <motion.div
         custom={1}
         variants={fadeUpVariants}
@@ -38,15 +39,16 @@ export default function About() {
       {/* <SocialLogo/> */}
       <div className="min-h-screen flex items-center flex-col">
         <motion.div
-        custom={2}
-        variants={fadeUpVariants}
-        initial="hidden"
-        animate="visible"
-        className="w-full"
-      >
+          custom={2}
+          variants={fadeUpVariants}
+          initial="hidden"
+          animate="visible"
+          className="w-full"
+        >
 
-        <UI.Objectif />
-      </motion.div>
+          <UI.Objectif />
+          <Skills />
+        </motion.div>
         <section className="py-20  ">
           <div className="container mx-auto px-4">
             <div className="text-center mb-16">
@@ -63,6 +65,7 @@ export default function About() {
           </div>
         </section>
       </div>
+
       <section className="py-40 bg-base-100 ">
         <div className="container mx-auto px-4 flex justify-center ">
           <div className="hero rounded-3xl max-w-4xl">
@@ -78,12 +81,12 @@ export default function About() {
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                   <Link className="rounded-full btn  text-base-content btn-lg hover:bg-base-content hover:text-base-200"
-                  to='/contact#contactfield'
+                    to='/contact#contactfield'
                   >
                     {language === "fr" ? "Me Contacter" : "Contact Me"}
                   </Link>
                   <Link className="rounded-full btn btn-outline btn-lg text-base-content -primary-content hover:border-base-content hover:bg-base-content hover:text-base-200"
-                  to="www.linkedin.com/in/exaucé-nkounga-b99ab9401"
+                    to="www.linkedin.com/in/exaucé-nkounga-b99ab9401"
                   >
                     {language === "fr" ? "Voir LinkedIn" : "View LinkedIn"}
                   </Link>
@@ -139,7 +142,7 @@ const ProfileCard = () => {
                 className="inline-flex items-center gap-2 px-3 py-2 rounded-full bg-gradient-to-r from-indigo-500/20 via-rose-500/20 to-amber-500/20 cursor-pointer"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                onClick={() => {}}
+                onClick={() => { }}
                 animate={{
                   background: [
                     "linear-gradient(90deg, rgba(99, 101, 241, 0.66) 0%, rgba(244,114,182,0.5) 50%, rgba(251,191,36,0.5) 100%)",

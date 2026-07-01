@@ -121,7 +121,6 @@ a {
 
 .pattern-flower {
   background-color: rgba(86, 30, 255, 0.18);
-  opacity: 0.95;
   background-image: url(https://i.pinimg.com/1200x/10/0b/15/100b1501391df29e4f17be9a96ec9770.jpg);
   background-position: -24px -24px, 24px 24px, 0 0, 0 0;
 }
