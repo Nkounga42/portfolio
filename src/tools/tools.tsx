@@ -18,9 +18,22 @@ const handleDowload = (language: Language = "fr") => {
   window.open(CV_URLS[language], "_blank", "noopener,noreferrer");
 };
 
+const slugify = (text: string) => {
+  return text
+    .toString()
+    .normalize('NFD')                    // split accented characters into their base characters and diacritical marks
+    .replace(/[\u0300-\u036f]/g, '')     // remove all the accents, which happen to be all in the \u03xx range 
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, '-')                // Replace spaces with -
+    .replace(/[^\w-]+/g, '')             // Remove all non-word chars
+    .replace(/--+/g, '-');               // Replace multiple - with single -
+};
+
 export {
   formatNumber,
   scrollToTop,
   handleDowload,
   CV_URLS,
+  slugify
 }

@@ -14,6 +14,7 @@ export const translations = {
       admin: "Admin",
       contact: "Prendre Contact",
       contactShort: "Contact",
+      Ressources: "Ressources",
     },
 
     // Home page
@@ -118,13 +119,21 @@ export const translations = {
     // Skills
     skills: {
       title: "Mes Compétences",
-      subtitle: "Les technologies que j'utilise au quotidien.",
+      subtitle: "Voici les technologies et outils que j'ai appris et utilisés dans mes projets académiques et personnels.",
     },
 
     // Gallery
     gallery: {
       title: "Galerie",
       subtitle: "Inspirations & créations visuelles.",
+    },
+
+    // Gallery Hero
+    galleryHero: {
+      title: "Where my concepts come to life.",
+      subtitle: "Découvrez mes créations à travers différents domaines : design UI/UX, illustrations, photographie et bien plus encore.",
+      pinterest: "Pinterest",
+      behance: "Behance",
     },
 
     // Search
@@ -178,6 +187,7 @@ export const translations = {
       admin: "Admin",
       contact: "Get in Touch",
       contactShort: "Contact",
+      Ressources: "Ressources",
     },
 
     // Home page
@@ -282,13 +292,21 @@ export const translations = {
     // Skills
     skills: {
       title: "My Skills",
-      subtitle: "The technologies I use on a daily basis.",
+      subtitle: "Here are the technologies and tools I've learned and used in my academic and personal projects.",
     },
 
     // Gallery
     gallery: {
       title: "Gallery",
       subtitle: "Inspirations & visual creations.",
+    },
+
+    // Gallery Hero
+    galleryHero: {
+      title: "Where my concepts come to life.",
+      subtitle: "Discover my creations across different fields: UI/UX design, illustrations, photography, and much more.",
+      pinterest: "Pinterest",
+      behance: "Behance",
     },
 
     // Search

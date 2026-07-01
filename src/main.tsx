@@ -35,11 +35,13 @@ const route = {
 
   Skills: { path: "/portfolio/skills", component: <Screen.Skills /> },
   Gallery: { path: "/portfolio/gallery", component: <Screen.Gallery /> },
+  GalleryWithSlug: { path: "/portfolio/gallery/:slug", component: <Screen.Gallery /> },
   Page404: { path: "/portfolio/404", component: <Screen.Page404 /> },
 
   Article: { path: "/portfolio/article", component: <Screen.Article /> },
   AdminBlog: { path: "/portfolio/blog/create", component: <Screen.AdminBlog /> },
   ReadBlog: { path: "/portfolio/blog/:slug", component: <Screen.ReadBlog /> },
+  Ressources: { path: "/portfolio/ressources", component: <Screen.Ressources /> },
 };
 
 const BrowserDom = () => {

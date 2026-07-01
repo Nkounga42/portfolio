@@ -16,7 +16,7 @@ export default function ProjectPreview() {
   useEffect(() => {
     const fetchProjectAndNav = async () => {
       setLoading(true);
-      
+
       // Fetch current project
       const { data, error } = await supabase
         .from('projects')
@@ -26,13 +26,13 @@ export default function ProjectPreview() {
 
       if (!error && data) {
         setProject(data);
-        
+
         // Fetch prev/next based on ID
         const { data: all } = await supabase
           .from('projects')
           .select('slug, nom')
           .order('id', { ascending: true });
-        
+
         if (all) {
           const index = all.findIndex(p => p.slug === slug);
           setNavigation({
@@ -85,7 +85,7 @@ export default function ProjectPreview() {
                     </div> */}
 
 
-      </div> 
+      </div>
 
 
       {/* Main Content */}
@@ -229,7 +229,7 @@ export default function ProjectPreview() {
                 {project.readme}
               </ReactMarkdown>
             </div>
-             {/* <div className="space-y-4" >
+            {/* <div className="space-y-4" >
                 {project.imagesIllustration.map((image, index) => (
                   <div key={index} className="rounded-lg overflow-hidden border border-base-content/10">
                     <img
@@ -252,7 +252,7 @@ export default function ProjectPreview() {
             <div className="sticky top-20 space-y-10">
               <div>
                 <h3 className="text-lg font-semibold mb-4">Aperçu du projet</h3>
-                
+
 
                 <div className="flex flex-wrap gap-2">
                   {project.badge.map((badge) => (

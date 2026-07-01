@@ -3,8 +3,9 @@ import { motion } from "framer-motion";
 import * as icons from "../components/skills-icons";
 import { Link } from "react-router-dom";
 import { ChevronDown } from "lucide-react";
-import { categories , socialLinks } from "../libs/data";
- 
+import { categories, socialLinks } from "../libs/data";
+import { useLanguage } from "../hooks/useLanguage";
+
 
 const tabs = Object.keys(categories);
 
@@ -12,6 +13,7 @@ export default function Skills() {
   const [activeTab, setActiveTab] = useState("Frontend");
   const tabRefs = useRef<(HTMLAnchorElement | null)[]>([]);
   const [indicator, setIndicator] = useState({ left: 0, width: 0 });
+  const { t } = useLanguage();
 
   useEffect(() => {
     const index = tabs.indexOf(activeTab);
@@ -44,6 +46,7 @@ export default function Skills() {
       },
     }),
   };
+
   const fadeVariants = {
     hidden: { opacity: 0 },
     visible: (i: number) => ({
@@ -55,8 +58,9 @@ export default function Skills() {
       },
     }),
   };
+
   return (
-    <section className="pb-20 pt-10 bg-base-100 flex flex-col items-center">
+    <section className="pb-20 pt-10 mt-10 bg-base-100 flex flex-col items-center">
       <div className="container mx-auto px-4 max-w-5xl">
         <div className="text-left mb-6">
           <motion.div
@@ -65,7 +69,7 @@ export default function Skills() {
             initial="hidden"
             animate="visible"
           >
-            <h2 className="text-4xl font-bold mb-4">Mes Compétences</h2>
+            <h2 className="text-4xl font-bold mb-4">{t.skills.title}</h2>
           </motion.div>
           <motion.div
             custom={2}
@@ -74,19 +78,18 @@ export default function Skills() {
             animate="visible"
           >
             <p className="text-lg max-w-2xl opacity-80">
-              Voici les technologies et outils que j'ai appris et utilisés dans
-              mes projets académiques et personnels.
+              {t.skills.subtitle}
             </p>
           </motion.div>
         </div>
 
         {/* Desktop Tabs */}
         <motion.div
-            custom={2}
-            variants={fadeUpVariants}
-            initial="hidden"
-            animate="visible"
-           className="relative hidden lg:flex gap-3 pt-2 mb-6 border-b border-base-content/10 overflow-y-hidden overflow-x-visible">
+          custom={2}
+          variants={fadeUpVariants}
+          initial="hidden"
+          animate="visible"
+          className="relative mt-12 hidden lg:flex gap-3 pt-2 mb-6   overflow-x-visible">
           {tabs.map((tab, i) => (
             <Link
               to={`#${tab}`}
@@ -94,11 +97,10 @@ export default function Skills() {
               ref={(el) => {
                 tabRefs.current[i] = el;
               }}
-              className={`pb-2 px-4 text-sm font-medium transition-colors duration-300 whitespace-nowrap ${
-                tab === activeTab
-                  ? "text-primary"
-                  : "text-base-content/60 hover:text-base-content"
-              }`}
+              className={`pb-2 px-4 text-sm font-medium transition-colors duration-300 whitespace-nowrap ${tab === activeTab
+                ? "text-primary"
+                : "text-base-content/60 hover:text-base-content"
+                }`}
               onClick={() => setActiveTab(tab)}
             >
               <div>
@@ -140,11 +142,10 @@ export default function Skills() {
               {tabs.map((tab) => (
                 <li key={tab}>
                   <button
-                    className={`w-full text-left ${
-                      tab === activeTab
-                        ? "text-primary bg-primary/10"
-                        : "text-base-content/70 hover:text-base-content hover:bg-base-200"
-                    }`}
+                    className={`w-full text-left ${tab === activeTab
+                      ? "text-primary bg-primary/10"
+                      : "text-base-content/70 hover:text-base-content hover:bg-base-200"
+                      }`}
                     onClick={() => setActiveTab(tab)}
                   >
                     {tab
@@ -156,14 +157,14 @@ export default function Skills() {
             </ul>
           </div>
         </motion.div>
-        
+
         {/* Skills Grid */}
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
           {displayedSkills.map(({ name, icon, url }, i) => (
             <motion.div
               custom={i / 3}
               variants={fadeVariants}
-              initial="hidden" 
+              initial="hidden"
               animate="visible"
               key={i}
               className="flex flex-col items-center justify-center bg-base-100 bg-base-200/20  p-4 rounded-xl  transition-transform hover:scale-105"

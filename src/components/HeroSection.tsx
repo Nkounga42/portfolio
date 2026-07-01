@@ -1,26 +1,54 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 
+import { supabase } from "../tools/supabase";
+
 const HeroSection = ({
   title,
   content,
   link,
   buttonText = "Get Started",
+  images,
   children
 }: {
   title?: string;
   content?: string;
   link?: string;
   buttonText?: string;
+  images?: string[];
   children?: React.ReactNode;
 }) => {
   const navigate: ReturnType<typeof useNavigate> = useNavigate();
   const [activeImage, setActiveImage] = useState(0);
-  const heroImages = [
-    "https://i.pinimg.com/1200x/1b/a8/33/1ba833ca70694836aeb99c11b4b2b3b9.jpg",
-    "https://i.pinimg.com/736x/0d/0d/b5/0d0db5b6d4b77ae7381d90b2ee6a5dd4.jpg",
-    "https://i.pinimg.com/1200x/c4/de/11/c4de111fd0966b2f10beb3923b275809.jpg",
-  ];
+  const [projects, setProjects] = useState<any[]>([]);
+
+  useEffect(() => {
+    const fetchProjects = async () => {
+      const { data, error } = await supabase
+        .from('projects')
+        .select('*')
+        .order('id', { ascending: false });
+
+      if (!error && data) {
+        const mappedData = data.map((p: any) => ({
+          ...p,
+          imagesIllustration: p.images_illustration || [],
+          dateCreation: p.date_creation,
+          Roles: p.roles,
+          Client: p.client
+        }));
+        setProjects(mappedData);
+      }
+    };
+    fetchProjects();
+  }, []);
+
+
+  const defaultImages = projects
+    .map((p) => p.imagesIllustration?.[0])
+    .filter(Boolean) as string[];
+
+  const heroImages = images && images.length > 0 ? images : defaultImages;
 
   useEffect(() => {
     const interval = window.setInterval(() => {
@@ -31,35 +59,36 @@ const HeroSection = ({
   }, [heroImages.length]);
 
   return (
-    <div className="relative  overflow-hidden ">
-      <div className=" min-h-[60vh]  mx-auto max-w-7xl flex flex-col lg:flex-row-reverse justify-between items-center gap-6 lg:gap-10 rounded-[2rem] p-6 md:p-10 ">
-        {heroImages.map((image, index) => (
-          <img
-            key={image}
-            src={image}
-            alt={`Hero section ${index + 1}`}
-            className={`absolute inset-0 z-1 w-full h-full object-cover transition-opacity duration-1000 ease-in-out ${index === activeImage ? "opacity-100" : "opacity-0"
-              }`}
-          />
-        ))}
-        <div className="relative w-full h-64 sm:h-80 lg:h-[400px]   overflow-hidden rounded-[1.5rem]">
-        </div>
-        <div className="w-full absolute inset-0 z-101  max-w-[600px] lg:min-w-[360px] lg:pl-[32px]">
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold max-w-[320px]">
-            {title || "Apprenez gratuitement les bases de Framer"}
-          </h1>
-          <p className="py-6 text-base-content/80 max-w-[460px]">
-            {content ||
-              "Initiez-vous au design interactif et au prototypage sans code avec Framer, l'outil préféré des designers modernes."}
-          </p>
-          {link && (
-            <button className="btn btn-primary" onClick={() => navigate(link)}>
-              {buttonText}
-            </button>
-          )}
+    <div className="relative overflow-hidden">
+      {heroImages.map((image, index) => (
+        <img
+          key={image}
+          src={image}
+          alt={`Hero section ${index + 1}`}
+          className={`absolute inset-0 z-1 w-full h-full object-cover transition-opacity duration-1000 ease-in-out ${index === activeImage ? "opacity-100" : "opacity-0"}`}
+        />
+      ))}
+      <div className=" min-h-[55vh]  mx-auto max-w-7xl flex flex-col lg:flex-row-reverse justify-between items-center gap-6 lg:gap-10 rounded-[2rem] p-6 md:p-10 ">
+        <div className="w-full absolute bg-base-200/70 backdrop-blur-sm right-0 left-0 top-0 bottom-0 inset-0 z-10 lg:pl-[32px]">
+          <div className="mx-auto px-4 max-w-5xl pt-25 ">
+
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold max-w-[320px]">
+              {title || "Apprenez gratuitement les bases de Framer"}
+            </h1>
+            <p className="py-6 text-base-content/80 max-w-[460px]">
+              {content || "Initiez-vous au design interactif et au prototypage sans code avec Framer, l'outil préféré des designers modernes."}
+            </p>
+            {link && (
+              <button className="btn btn-primary" onClick={() => navigate(link)}>
+                {buttonText}
+              </button>
+            )}
+          </div>
         </div>
       </div>
-      {children}
+      <div className="w-full absolute bg-base-300/70 backdrop-blur-sm bottom-0 left-0 right-0 z-110 lg:pl-[32px]">
+        {children}
+      </div>
     </div>
   );
 };

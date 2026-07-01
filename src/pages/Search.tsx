@@ -4,6 +4,7 @@ import { supabase } from "../tools/supabase";
 import { Link } from "react-router-dom";
 import { useLanguage } from "../hooks/useLanguage";
 import { motion, AnimatePresence } from "framer-motion";
+import { slugify } from "../tools/tools";
 
 type ResultType = 'blog' | 'project' | 'testimonial' | 'gallery' | 'page';
 
@@ -19,8 +20,8 @@ interface SearchResult {
 }
 
 const STATIC_PAGES = [
-  { title: "Accueil", title_en: "Home", description: "Page d'accueil de mon portfolio professionnel.", description_en: "Homepage of my professional portfolio.", link: "/portfolio/", keywords: ["home", "accueil", "bienvenue", "welcome", "index"] },
-  { title: "À propos", title_en: "About", description: "Découvrez mon parcours, mes compétences et ma vision.", description_en: "Learn about my journey, skills, and vision.", link: "/portfolio/about", keywords: ["about", "propos", "parcours", "bio", "qui suis-je", "who am i", "cv", "resume"] },
+  { title: "Accueil", title_en: "Home", description: "Page d'accueil de mon portfolio professionnel.", description_en: "Homepage of my professional portfolio.", link: "/portfolio/", keywords: ["home", "accueil", "bienvenue", "welcome", "index", "nkounga exaucé", "exaucé"] },
+  { title: "À propos", title_en: "About", description: "Découvrez mon parcours, mes compétences et ma vision.", description_en: "Learn about my journey, skills, and vision.", link: "/portfolio/about", keywords: ["about", "propos", "parcours", "bio", "qui suis-je", "who am i", "cv", "resume", "nkounga exaucé", "exaucé"] },
   { title: "Contact", title_en: "Contact", description: "Besoin d'un projet ? Contactez-moi pour en discuter.", description_en: "Need a project? Contact me to discuss.", link: "/portfolio/contact", keywords: ["contact", "email", "message", "travailler ensemble", "work together", "hire", "recruter"] },
   { title: "Projets", title_en: "Projects", description: "Liste complète de mes réalisations et projets.", description_en: "Full list of my achievements and projects.", link: "/portfolio/projects", keywords: ["projects", "projets", "portfolio", "réalisations", "work", "apps", "web", "mobile"] },
   { title: "Blog", title_en: "Blog", description: "Articles sur le développement, le design et mes idées.", description_en: "Articles on development, design, and ideas.", link: "/portfolio/blog", keywords: ["blog", "articles", "news", "nouvelles", "pensées", "thoughts", "tuto"] },
@@ -45,6 +46,33 @@ export default function SearchPage() {
   const [showDropdown, setShowDropdown] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  const [indicator, setIndicator] = useState({ left: 0, width: 0 });
+
+  const availableTabs = [
+    'all',
+    ...(['page', 'blog', 'project', 'testimonial', 'gallery'] as ResultType[]).filter(
+      type => results.filter(r => r.type === type).length > 0
+    )
+  ];
+
+  // If activeTab is no longer available in the availableTabs list, fall back to 'all'
+  useEffect(() => {
+    if (activeTab !== 'all' && !availableTabs.includes(activeTab)) {
+      setActiveTab('all');
+    }
+  }, [results, activeTab, availableTabs]);
+
+  useEffect(() => {
+    const index = availableTabs.indexOf(activeTab);
+    const currentTab = tabRefs.current[index];
+    if (currentTab) {
+      setIndicator({
+        left: currentTab.offsetLeft,
+        width: currentTab.offsetWidth,
+      });
+    }
+  }, [activeTab, results, availableTabs]);
 
   // Load history
   useEffect(() => {
@@ -89,15 +117,20 @@ export default function SearchPage() {
     }
 
     setLoading(true);
-    const lowSearch = searchTerm.toLowerCase();
+
+    // Normalize function for accent-insensitive search
+    const normalize = (str: string) =>
+      str.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+
+    const normSearch = normalize(searchTerm);
 
     try {
       // 1. Search Static Pages (Local)
       const pageResults: SearchResult[] = STATIC_PAGES
         .filter(p =>
-          p.title.toLowerCase().includes(lowSearch) ||
-          p.title_en.toLowerCase().includes(lowSearch) ||
-          p.keywords.some(k => k.includes(lowSearch))
+          normalize(p.title).includes(normSearch) ||
+          normalize(p.title_en).includes(normSearch) ||
+          p.keywords.some(k => normalize(k).includes(normSearch))
         )
         .map(p => ({
           id: `page-${p.link}`,
@@ -122,10 +155,10 @@ export default function SearchPage() {
 
       const blogResults: SearchResult[] = (blogs || [])
         .filter(b =>
-          b.title?.toLowerCase().includes(lowSearch) ||
-          b.summary?.toLowerCase().includes(lowSearch) ||
-          b.content?.toLowerCase().includes(lowSearch) ||
-          b.category?.toLowerCase().includes(lowSearch)
+          normalize(b.title || '').includes(normSearch) ||
+          normalize(b.summary || '').includes(normSearch) ||
+          normalize(b.content || '').includes(normSearch) ||
+          normalize(b.category || '').includes(normSearch)
         )
         .map(b => ({
           id: b.id,
@@ -139,12 +172,12 @@ export default function SearchPage() {
 
       const projectResults: SearchResult[] = (projects || [])
         .filter(p =>
-          p.nom?.toLowerCase().includes(lowSearch) ||
-          p.description?.toLowerCase().includes(lowSearch) ||
-          p.readme?.toLowerCase().includes(lowSearch) ||
-          p.category?.toLowerCase().includes(lowSearch) ||
-          (p.technologies && Array.isArray(p.technologies) && p.technologies.some((t: any) => t.toLowerCase().includes(lowSearch))) ||
-          (typeof p.technologies === 'string' && p.technologies.toLowerCase().includes(lowSearch))
+          normalize(p.nom || '').includes(normSearch) ||
+          normalize(p.description || '').includes(normSearch) ||
+          normalize(p.readme || '').includes(normSearch) ||
+          normalize(p.category || '').includes(normSearch) ||
+          (p.technologies && Array.isArray(p.technologies) && p.technologies.some((t: any) => normalize(t).includes(normSearch))) ||
+          (typeof p.technologies === 'string' && normalize(p.technologies).includes(normSearch))
         )
         .map(p => ({
           id: p.id,
@@ -158,8 +191,8 @@ export default function SearchPage() {
 
       const testimonialResults: SearchResult[] = (testimonials || [])
         .filter(t =>
-          t.name?.toLowerCase().includes(lowSearch) ||
-          t.message?.toLowerCase().includes(lowSearch)
+          normalize(t.name || '').includes(normSearch) ||
+          normalize(t.message || '').includes(normSearch)
         )
         .map(t => ({
           id: t.id,
@@ -172,16 +205,16 @@ export default function SearchPage() {
 
       const galleryResults: SearchResult[] = (gallery || [])
         .filter(g =>
-          g.title?.toLowerCase().includes(lowSearch) ||
-          g.description?.toLowerCase().includes(lowSearch) ||
-          g.category?.toLowerCase().includes(lowSearch)
+          normalize(g.title || '').includes(normSearch) ||
+          normalize(g.description || '').includes(normSearch) ||
+          normalize(g.category || '').includes(normSearch)
         )
         .map(g => ({
           id: g.id,
           type: 'gallery',
           title: g.title,
           description: g.description || '',
-          link: `/portfolio/gallery`,
+          link: `/portfolio/gallery/${slugify(g.title)}`,
           category: g.category,
           image: g.image_url
         }));
@@ -269,9 +302,8 @@ export default function SearchPage() {
 
   return (
     <div className="min-h-screen bg-base-100 flex flex-col overflow-x-hidden">
-      {/* Search Header */}
-      <div className="pattern-flower pt-24 pb-12 px-4 shadow-inner ">
-        <div className="max-w-4xl mx-auto  z-20">
+      <div className="pattern-flower pt-24 pb-12 px-4 shadow-inner sticky top-0 z-30 backdrop-blur-xl ">
+        <div className="max-w-4xl mx-auto relative z-20">
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -298,7 +330,7 @@ export default function SearchPage() {
                 type="text"
                 autoFocus
                 onFocus={() => setShowDropdown(true)}
-                className="w-full h-12 pl-16 pr-6  bg-base-100/60 backdrop-blur-xl border-2 border-transparent focus:border-primary/50 rounded-[2.5rem] outline-none shadow-2xl transition-all placeholder:text-base-content/30 z-20 sticky"
+                className="w-full h-12 pl-16 pr-6  bg-base-100  border-2 border-transparent focus:border-primary/50 rounded-[2.5rem] outline-none shadow-2xl transition-all placeholder:text-base-content/30 z-20"
                 placeholder={language === 'fr' ? 'Rechercher quelque chose...' : 'Search for something...'}
                 value={query}
                 onChange={(e) => {
@@ -330,16 +362,16 @@ export default function SearchPage() {
                     initial={{ opacity: 0, y: -20, scale: 0.95 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: -20, scale: 0.95 }}
+                    className=""
                   >
                     <div
-                      className="absolute top-full left-0 right-0 mt-3 bg-base-100/60 backdrop-blur-xl  rounded-[2rem] shadow  border border-base-content/5 overflow-hidden z-150 "
-
+                      className="absolute top-full left-0 right-0 mt-3  bg-base-100 /60 backdrop-blur-2xl rounded-[2rem] shadow  border border-base-content/5 overflow-hidden z-150 "
                     >
 
                       {/* Recent History Section */}
                       {history.length > 0 && (
                         <div className="mb-2">
-                          <div className="px-6 py-3 flex justify-between items-center opacity-40">
+                          <div className="px-6 py-3 flex justify-between items-center opacity-80 backdrop-blur-2xl">
                             <span className="text-[10px] font-black uppercase tracking-widest">{language === 'fr' ? 'Recherches récentes' : 'Recent searches'}</span>
                             <button onClick={clearHistory} className="text-[10px] uppercase font-black hover:text-error">{language === 'fr' ? 'Effacer tout' : 'Clear all'}</button>
                           </div>
@@ -397,37 +429,55 @@ export default function SearchPage() {
       </div>
 
       {/* Tabs & Results */}
-      <div className="flex-1 max-w-5xl mx-auto w-full px-4 py-12 ">
+      <div className="flex-1 max-w-5xl mx-auto w-full px-4 py-12 relative z-10">
         {results.length > 0 ? (
           <>
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              className="flex flex-wrap gap-2 mb-12 overflow-x-auto pb-4 scrollbar-none"
+              className="relative flex gap-3 overflow-x-auto pb-2 mb-12 border-b-2 border-base-300 scrollbar-none"
             >
-              <button
-                onClick={() => setActiveTab('all')}
-                className={`px-8 py-3 rounded-full text-xs transition-all ${activeTab === 'all' ? 'bg-primary text-primary-content shadow-2xl scale-105' : 'bg-base-200 hover:bg-base-300 opacity-60'}`}
-              >
-                {language === 'fr' ? 'Tout' : 'All'} <span className="opacity-40 ml-2">{results.length}</span>
-              </button>
-              {(['page', 'blog', 'project', 'testimonial', 'gallery'] as ResultType[]).map(type => {
-                const count = results.filter(r => r.type === type).length;
-                if (count === 0) return null;
-                return (
-                  <button
-                    key={type}
-                    onClick={() => setActiveTab(type)}
-                    className={`px-8 py-3 rounded-full text-xs flex items-center gap-2 transition-all ${activeTab === type ? 'bg-primary text-primary-content shadow-2xl scale-105' : 'bg-base-200 hover:bg-base-300 opacity-60'}`}
-                  >
-                    {getIcon(type)}
-                    {getLabel(type)} <span className="opacity-40 ml-2">{count}</span>
-                  </button>
-                );
-              })}
+              {availableTabs.map((tab, i) => (
+                <button
+                  key={tab}
+                  ref={(el) => {
+                    tabRefs.current[i] = el;
+                  }}
+                  className={`pb-2 px-4 text-sm font-medium transition-colors duration-300 whitespace-nowrap flex items-center gap-2 relative ${tab === activeTab
+                      ? "text-primary font-bold"
+                      : "text-base-content/60 hover:text-base-content"
+                    }`}
+                  onClick={() => setActiveTab(tab)}
+                >
+                  {tab === 'all' ? (
+                    <>
+                      <Search className="w-5 h-5" />
+                      <span>{language === 'fr' ? 'Tout' : 'All'}</span>
+                      <span className="opacity-40 text-xs ml-1">{results.length}</span>
+                    </>
+                  ) : (
+                    <>
+                      {getIcon(tab as ResultType)}
+                      <span>{getLabel(tab as ResultType)}</span>
+                      <span className="opacity-40 text-xs ml-1">
+                        {results.filter(r => r.type === tab).length}
+                      </span>
+                    </>
+                  )}
+                </button>
+              ))}
+              <motion.div
+                className="absolute bottom-0 h-[2px] bg-primary headerIndicator"
+                layout
+                transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                style={indicator}
+              />
             </motion.div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pb-40">
+
+
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pb-40">
               <AnimatePresence mode="popLayout">
                 {filteredResults.map((result, idx) => (
                   <motion.div
@@ -441,52 +491,64 @@ export default function SearchPage() {
                     <Link
                       to={result.link}
                       onClick={() => addToHistory(query)}
-                      className="group flex flex-col h-full bg-base-200 hover:bg-base-200/80 border border-base-content/5 hover:border-primary/20 rounded-[3rem] p-8 transition-all shadow-sm hover:shadow-2xl  overflow-hidden"
+                      className="group flex flex-col h-full bg-base-200 hover:bg-base-200/80 border border-base-content/5 hover:border-primary/20 rounded-[2.5rem] transition-all shadow-sm hover:shadow-2xl overflow-hidden"
                     >
-                      <div className="flex justify-between items-start mb-6">
-                        <div className={`p-4 rounded-[1.5rem] bg-base-100 shadow-lg group-hover:bg-primary group-hover:text-primary-content transition-all duration-500`}>
-                          {getIcon(result.type)}
+                      {result.type === 'gallery' && result.image ? (
+                        <div className="w-full aspect-video overflow-hidden">
+                          <img
+                            src={result.image}
+                            alt={result.title}
+                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                          />
                         </div>
-                        <span className="text-[10px] font-black uppercase tracking-[0.3em] bg-base-content/5 px-5 py-2 rounded-full opacity-40">
-                          {getLabel(result.type)}
-                        </span>
-                      </div>
+                      ) : null}
 
-                      <div className="flex gap-6 items-center mb-6">
-                        {result.image && (
-                          <div className="flex-shrink-0">
-                            <img
-                              src={result.image}
-                              alt={result.title}
-                              className="w-24 h-24 rounded-[2rem] object-cover shadow-2xl border-2 border-base-content/5 group-hover:border-primary/30 transition-all duration-500 group-hover:scale-105"
-                              onError={(e) => {
-                                (e.target as HTMLImageElement).parentElement!.style.display = 'none';
-                              }}
-                            />
+                      <div className="p-6 flex flex-col h-full">
+                        <div className="flex justify-between items-start mb-4">
+                          <div className={`p-3 rounded-[1.2rem] bg-base-100 shadow-lg group-hover:bg-primary group-hover:text-primary-content transition-all duration-500`}>
+                            {getIcon(result.type)}
                           </div>
-                        )}
-                        <div className="flex-1 min-w-0">
-                          <h3 className="text-2xl md:text-3xl font-black group-hover:text-primary transition-colors line-clamp-1 mb-2">
-                            {result.title}
-                          </h3>
-                          {result.category && (
-                            <span className="text-[10px] text-primary font-black uppercase tracking-widest bg-primary/10 px-4 py-1.5 rounded-full">
-                              {result.category}
-                            </span>
-                          )}
+                          <span className="text-[10px] font-black uppercase tracking-[0.3em] bg-base-content/5 px-5 py-2 rounded-full opacity-40">
+                            {getLabel(result.type)}
+                          </span>
                         </div>
-                      </div>
 
-                      <p className="text-base-content/50 text-md leading-relaxed line-clamp-3 mb-10 flex-1 font-medium">
-                        {result.description}
-                      </p>
+                        <div className="flex gap-4 items-center mb-6">
+                          {result.type !== 'gallery' && result.image && (
+                            <div className="flex-shrink-0">
+                              <img
+                                src={result.image}
+                                alt={result.title}
+                                className="w-16 h-16 rounded-[1.5rem] object-cover shadow-2xl border-2 border-base-content/5 group-hover:border-primary/30 transition-all duration-500 group-hover:scale-105"
+                                onError={(e) => {
+                                  (e.target as HTMLImageElement).parentElement!.style.display = 'none';
+                                }}
+                              />
+                            </div>
+                          )}
+                          <div className="flex-1 min-w-0">
+                            <h3 className="text-xl md:text-2xl font-black group-hover:text-primary transition-colors line-clamp-1 mb-1">
+                              {result.title}
+                            </h3>
+                            {result.category && (
+                              <span className="text-[10px] text-primary font-black uppercase tracking-widest bg-primary/10 px-4 py-1.5 rounded-full">
+                                {result.category}
+                              </span>
+                            )}
+                          </div>
+                        </div>
 
-                      <div className="flex items-center justify-between pt-8 border-t border-base-content/5">
-                        <span className="text-xs font-black uppercase tracking-[0.2em] flex items-center gap-3 text-primary group-hover:translate-x-3 transition-all duration-300">
-                          {language === 'fr' ? 'Découvrir' : 'Discover'} <ArrowRight className="w-5 h-5" />
-                        </span>
-                        <div className="text-[10px] font-mono opacity-20 uppercase">
-                          REC: {idx + 1}
+                        <p className="text-base-content/50 text-sm leading-relaxed line-clamp-2 mb-6 flex-1 font-medium">
+                          {result.description}
+                        </p>
+
+                        <div className="flex items-center justify-between pt-6 border-t border-base-content/5">
+                          <span className="text-xs font-black uppercase tracking-[0.2em] flex items-center gap-3 text-primary group-hover:translate-x-3 transition-all duration-300">
+                            {language === 'fr' ? 'Découvrir' : 'Discover'} <ArrowRight className="w-5 h-5" />
+                          </span>
+                          <div className="text-[10px] font-mono opacity-20 uppercase">
+                            REC: {idx + 1}
+                          </div>
                         </div>
                       </div>
                     </Link>

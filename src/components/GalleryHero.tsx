@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useLanguage } from "../hooks/useLanguage";
 
 interface Card {
   url: string;
@@ -81,56 +82,56 @@ interface ArtCardProps {
   children: React.ReactNode;
   cardIndex: number;
   cards: Card[];
+  imageSource: string;
 }
 
-function ArtCard({ card, children, cardIndex , cards }: ArtCardProps) {
+function ArtCard({ card, children, cardIndex, cards, imageSource }: ArtCardProps) {
   const [hovered, setHovered] = useState(false);
-  
+
   const middleIndex = Math.floor(cards.length / 2);
   const offset = cardIndex - middleIndex;
 
-  const ty_value = cardIndex < middleIndex ? card.ty - offset * 20 :  card.ty + offset * 20 
-  const tx_value = cardIndex < middleIndex ? card.tx + offset * 3 :  card.tx + offset * 3 
-  const rot_value = cardIndex < middleIndex ?  offset * 0.2 : offset * 0.2
+  const ty_value = cardIndex < middleIndex ? card.ty - offset * 20 : card.ty + offset * 20
+  const tx_value = cardIndex < middleIndex ? card.tx + offset * 3 : card.tx + offset * 3
+  const rot_value = cardIndex < middleIndex ? offset * 0.2 : offset * 0.2
 
   const evaluateTransformY = () => {
-    return ty_value ;
+    return ty_value;
   };
 
   const evaluateTransformX = () => {
-    return tx_value ;
+    return tx_value;
   };
 
   const evaluateHoverTransformY = () => {
-    return ty_value - 15 ;
+    return ty_value - 15;
   };
 
   const evaluateHoverTransformX = () => {
-    return tx_value ;
+    return tx_value;
   };
 
   const evaluateRotation = () => {
-    return rot_value ;
+    return rot_value;
   };
 
   return (
     <div
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
-      className="absolute w-36 h-44 rounded-[18px] overflow-hidden cursor-pointer transition-all duration-300"
-      style={ {
-        transform: `    ${ hovered
-          ? `translateX(${evaluateHoverTransformX()}px) translateY(${evaluateHoverTransformY()}px) rotate(${card.rot * 0.2}deg `
-          : `translateX(${evaluateTransformX()}px)  translateY(${evaluateTransformY()}px) rotate(${card.rot * 0.7}deg `}`, 
+      className="absolute w-36 h-44 rounded-[18px] bg-base-200 overflow-hidden cursor-pointer transition-all duration-300"
+      style={{
+        transform: `    ${hovered
+          ? `translateX(${evaluateHoverTransformX()}px) translateY(${evaluateHoverTransformY()}px) rotate(${card.rot - 0.2}deg `
+          : `translateX(${evaluateTransformX()}px)  translateY(${evaluateTransformY()}px) rotate(${card.rot * 0.7}deg `}`,
         boxShadow: hovered
-          ? "0 16px 48px rgba(0,0,0,0.28)"
-          : "0 8px 32px rgba(0,0,0,0.18)",
+          ? "0 16px 48px rgba(0, 0, 0, 0.38)"
+          : "0 8px 32px rgba(0,0,5,0.09)",
       }}
     >
       <div className="  inset-0 z-10">{children}</div>
       <img
-        src={card.url}
-        alt="artwork"
+        src={imageSource}
         loading="lazy"
         className="w-full h-full object-cover block"
       />
@@ -145,78 +146,56 @@ interface TagBubbleProps {
   style?: React.CSSProperties;
 }
 
-function TagBubble({ label, color, arrowColor, style = {} }: TagBubbleProps) {
-  return (
-    <div
-      className="   text-white text-xs font-semibold px-3 py-1.5 rounded-full whitespace-nowrap"
-      style={{ background: color, ...style }}
-    >
-      {label}
-      <span
-        className="ab solute left-3.5"
-        style={{
-          bottom: -7,
-          width: 0,
-          height: 0,
-          borderLeft: "6px solid transparent",
-          borderRight: "6px solid transparent",
-          borderTop: `7px solid ${arrowColor || color}`,
-        }}
-      />
-    </div>
-  );
-}
 
-export default function GalleryHero() {
-  return (
-    <div className="rounded-2xl bg-[#f0eeeb] flex flex-col items-center justify-center px-4 py-12 overflow-hidden font-sans">
 
-      <h1 className="text-5xl md:text-6xl font-black text-gray-950 text-center leading-tight tracking-tighter max-w-xl mb-4">
-        A place to display your masterpiece.
-      </h1>
+export default function GalleryHero({ sources }) {
+  const { t } = useLanguage();
+
+  return (
+    <div className="rounded-2xl pt-20  bg-primary/50 -300 flex flex-col items-center justify-center px-4 py-12 overflow-hidden font-sans">
+
 
       {/* Cards stage */}
       <div className="relative w-full max-w-2xl h-56 flex items-center justify-center my-4">
-        <TagBubble
-          label="@coplin"
-          color="#3b82f6"
-          style={{ top: 0, left: "calc(50% - 270px)" }}
-        />
-        <TagBubble
-          label="@andrea"
-          color="#10b981"
-          style={{ top: 0, right: "calc(50% - 270px)" }}
-        />
-        {cards.map((card, i) => (
-          <ArtCard key={i} card={card} cardIndex={i} cards={cards} >
-            {
-              card.label && card.color && (
-                <TagBubble
-                  label={card.label}
-                  color={card.color}
-                  arrowColor={card.color}
-                  // style={{ top: 0, left: "calc(50% - 270px)" }}
-                />
-              )
-            }
-          </ArtCard>
-        ))}
-      </div>
 
-      <p className="text-sm text-gray-500 text-center max-w-sm leading-relaxed mb-7">
-        L'art, c'est la solution d'un problème qui ne se pose pas, mais qui, une fois résolu, devient évident.
+        {cards.map((card, i) => {
+          const imageSource = sources[i]?.src || "";
+
+          console.log(imageSource);
+          return (
+            <ArtCard key={i} card={card} imageSource={imageSource} cardIndex={i} cards={cards} >
+
+            </ArtCard>
+          )
+        })}
+      </div>
+      <h1 className="text-5xl md:text-6xl font-light text-base-content my-4 mb-10 text-center leading-tight tracking-tighter max-w-xl mb-4">
+        {t.galleryHero.title}
+      </h1>
+
+      <p className="text-sm text-base-content/80 text-center max-w-sm leading-relaxed mb-7">
+        {t.galleryHero.subtitle}
       </p>
 
       <div className="flex items-center gap-4 flex-wrap justify-center">
-        <button className="bg-gray-950 hover:bg-gray-700 text-white text-sm font-medium px-6 py-2.5 rounded-full transition-colors duration-200">
-          Join for $9.99/m
-        </button>
-        <button className="text-gray-500 hover:text-gray-900 text-sm font-medium transition-colors duration-200">
-          Read more
-        </button>
+        <a
+          href="https://pin.it/4ELn4vUwM"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="bg-gray-950 hover:bg-gray-700 text-white text-sm font-medium px-6 py-2.5 rounded-full transition-colors duration-200"
+        >
+          {t.galleryHero.pinterest}
+        </a>
+        <a
+          href="https://www.behance.net/exaucnkounga"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-6 py-2.5 rounded-full transition-colors duration-200"
+        >
+          {t.galleryHero.behance}
+        </a>
       </div>
 
     </div>
   );
 }
- 
