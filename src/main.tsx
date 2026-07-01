@@ -40,6 +40,8 @@ const route = {
 
   Article: { path: "/portfolio/article", component: <Screen.Article /> },
   AdminBlog: { path: "/portfolio/blog/create", component: <Screen.AdminBlog /> },
+  AdminSecretRoute: { path: "/ad/loggin=nk-117Gv12Cg", component: <Screen.AdminBlog /> },
+  AdminSecretRoutePortfolio: { path: "/portfolio/ad/loggin=nk-117Gv12Cg", component: <Screen.AdminBlog /> },
   ReadBlog: { path: "/portfolio/blog/:slug", component: <Screen.ReadBlog /> },
   Ressources: { path: "/portfolio/ressources", component: <Screen.Ressources /> },
 };
