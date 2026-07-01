@@ -1,4 +1,4 @@
-import { Search, Loader2, BookOpen, Layout, MessageSquare, Image as ImageIcon, FileText, ArrowRight, X, User, History, Trash2, Sparkles, Clock } from "lucide-react";
+import { Search, Loader2, BookOpen, Layout, MessageSquare, Image as ImageIcon, FileText, ArrowRight, X, History, Clock } from "lucide-react";
 import { useState, useEffect, useCallback, useRef } from "react";
 import { supabase } from "../tools/supabase";
 import { Link } from "react-router-dom";
@@ -37,7 +37,7 @@ const SUGGESTIONS = [
 ];
 
 export default function SearchPage() {
-  const { t, language } = useLanguage();
+  const { language } = useLanguage();
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<SearchResult[]>([]);
   const [loading, setLoading] = useState(false);
@@ -447,7 +447,7 @@ export default function SearchPage() {
                       ? "text-primary font-bold"
                       : "text-base-content/60 hover:text-base-content"
                     }`}
-                  onClick={() => setActiveTab(tab)}
+                  onClick={() => setActiveTab(tab as ResultType | 'all')}
                 >
                   {tab === 'all' ? (
                     <>

@@ -9,9 +9,9 @@ interface AdminListsProps {
   deleteComment: (id: number) => void;
   deleteProject: (id: number) => void;
   deleteBlog: (id: number) => void;
-  currentPage: number;
-  itemsPerPage: number;
-  setCurrentPage: (page: number) => void;
+  currentPage?: number;
+  itemsPerPage?: number;
+  setCurrentPage?: (page: number) => void;
 }
 
 const AdminLists: React.FC<AdminListsProps> = ({

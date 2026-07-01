@@ -72,8 +72,8 @@ export default function Blog() {
                   </div>
                 </Link>
                 <div className="flex items-center gap-x-4 text-xs">
-                  <time dateTime={post.published_at} className="text-base-content/70">
-                    {formatDate(post.published_at)}
+                  <time dateTime={post.created_at} className="text-base-content/70">
+                    {formatDate(post.created_at)}
                   </time>
                   <span
                     className="relative z-10 rounded-full bg-primary/10 px-3 py-1.5 font-medium text-primary"

@@ -1,5 +1,5 @@
 import { LinkIcon } from 'lucide-react';
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 // Base de données structurée de tes liens
 const ressourcesData = [

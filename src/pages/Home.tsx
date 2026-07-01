@@ -1,12 +1,9 @@
 import * as UI from "../components/UICompoents";
 import HeroGeometric from "../components/HeroGeometric";
 import { CustomerLogo } from "../components/customerLogo";
-import { img } from "../libs/data";
 import { Code2, Sparkles, Terminal, Zap } from "lucide-react";
-import LetsWorkTogether from "../components/LetsWorkTogether";
 import { Link } from "react-router-dom";
 import { useLanguage } from "../hooks/useLanguage";
-import RainbowCard from "../components/RainbowCard";
 
 function Home() {
   const { t } = useLanguage();

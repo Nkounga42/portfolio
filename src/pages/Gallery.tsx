@@ -135,18 +135,7 @@ export default function Gallery() {
     }
   };
 
-  const fadeUpVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: (i: number) => ({
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.8,
-        delay: i * 0.1,
-        ease: [0.2, 0.4, 0.9, 1],
-      },
-    }),
-  };
+  // fadeUpVariants removed (unused)
 
   const imageVariants = {
     hidden: { opacity: 0, scale: 0.8 },
