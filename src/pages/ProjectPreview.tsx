@@ -1,10 +1,11 @@
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { supabase } from "../tools/supabase";
 import { useEffect, useState } from "react";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
+// import ReactMarkdown from "react-markdown";
+// import remarkGfm from "remark-gfm";
 import { ArrowLeft, ExternalLink, Github, Calendar, User, Tag, ArrowRight } from "lucide-react";
 import { scrollToTop } from "../tools/tools";
+import MdViewer from "../components/MdVIewer";
 
 export default function ProjectPreview() {
   const { slug } = useParams<{ slug: string }>();
@@ -94,7 +95,7 @@ export default function ProjectPreview() {
           {/* README Content */}
           <div className="lg:col-span-2">
             <div className="prose prose-lg max-w-none">
-              <ReactMarkdown
+              {/* <ReactMarkdown
                 remarkPlugins={[remarkGfm]}
                 components={{
                   h1: ({ children }) => (
@@ -227,24 +228,11 @@ export default function ProjectPreview() {
                 }}
               >
                 {project.readme}
-              </ReactMarkdown>
+              </ReactMarkdown> */}
+
+              <MdViewer readme={project.readme} />
             </div>
-            {/* <div className="space-y-4" >
-                {project.imagesIllustration.map((image, index) => (
-                  <div key={index} className="rounded-lg overflow-hidden border border-base-content/10">
-                    <img
-                      src={image}
-                      alt={`${project.nom} - Image ${index + 1}`}
-                      className="w-full h-auto object-cover"
-                      onError={(e) => {
-                        const target = e.target as HTMLImageElement;
-                        target.onerror = null;
-                        target.src = "https://i.pinimg.com/736x/36/85/37/368537ab800464ee9b14d843e117ab01.jpg";
-                      }}
-                    />
-                  </div>
-                ))} 
-            </div> */}
+
           </div>
 
           {/* Project Images */}

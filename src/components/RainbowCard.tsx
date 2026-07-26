@@ -51,15 +51,14 @@ export default function RainbowCard({ children, className }: { children?: React.
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        padding: "", 
       }}>
 
-        <div className={className+ "transition-transform flex-1 items-center bg-black  justify-center -translate-y-1 "} style={{ position: "relative", borderRadius: "20px" }}>
+        <div className={className + "transition-transform flex-1 items-center  justify-center -translate-y-1 "} style={{ position: "relative", }}>
           <div
             className="rainbow-ring"
             style={{
               // custom CSS properties cast to satisfy React's style typing
-              ...( { ["--spin-duration"]: `${speed}s`, ["--ring-blur"]: `${blur}px` } as React.CSSProperties ),
+              ...({ ["--spin-duration"]: `${speed}s`, ["--ring-blur"]: `${blur}px` } as React.CSSProperties),
             }}
           />
           <div
@@ -67,16 +66,16 @@ export default function RainbowCard({ children, className }: { children?: React.
             style={({ ["--spin-duration"]: `${speed}s` } as React.CSSProperties)}
           />
 
-           
+
           <div style={{
             position: "relative",
-            zIndex: 1, 
+            zIndex: 1,
             // overflow: "hidden",
           }}  >
-             { children }
-          </div>  
+            {children}
+          </div>
         </div>
-      
+
       </div>
     </>
   );
