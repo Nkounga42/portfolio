@@ -16,6 +16,7 @@ const pagePaths = {
   about: "/portfolio/about",
   admin: "/portfolio/blog/create",
   Ressources: "/portfolio/Ressources",
+  chat: "/portfolio/chat",
 };
 
 const Header = () => {
@@ -31,6 +32,7 @@ const Header = () => {
     [t.nav.projects]: pagePaths.projects,
     [t.nav.blog]: pagePaths.blog,
     [t.nav.Ressources]: pagePaths.Ressources,
+    [t.nav.chat]: pagePaths.chat,
   };
 
   const scrollToTop = () => {
@@ -92,7 +94,7 @@ const Header = () => {
     </>
   );
 
-  const isDashboardPage = location.pathname === pagePaths.Ressources || location.pathname === pagePaths.admin  ;
+  const isDashboardPage = location.pathname === pagePaths.Ressources || location.pathname === pagePaths.admin || location.pathname === pagePaths.chat;
   const headerFloat = true;
   return (
     <div

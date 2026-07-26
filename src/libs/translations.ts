@@ -15,6 +15,7 @@ export const translations = {
       contact: "Prendre Contact",
       contactShort: "Contact",
       Ressources: "Ressources",
+      chat: "AI Chat",
     },
 
     // Home page
@@ -188,6 +189,7 @@ export const translations = {
       contact: "Get in Touch",
       contactShort: "Contact",
       Ressources: "Ressources",
+      chat: "AI Chat",
     },
 
     // Home page

@@ -11,6 +11,7 @@ import * as UI from "./components/UICompoents";
 import * as Screen from "./pages/Router";
 
 import "./index.css";
+import "./aiAssistant.css";
 import KeyboardShortcut from "./hooks/KeyboardShortcut";
 import { LanguageProvider } from "./hooks/useLanguage";
 
@@ -42,6 +43,7 @@ const route = {
   AdminSecretRoutePortfolio: { paths: ["/portfolio/ad/loggin=nk-117Gv12Cg"], component: <Screen.AdminBlog /> },
   ReadBlog: { paths: ["/blog/:slug", "/portfolio/blog/:slug"], component: <Screen.ReadBlog /> },
   Ressources: { paths: ["/ressources", "/portfolio/ressources"], component: <Screen.Ressources /> },
+  Chat: { paths: ["/chat", "/portfolio/chat"], component: <Screen.Chat /> },
 };
 
 const BrowserDom = () => {
@@ -80,14 +82,18 @@ const BrowserDom = () => {
               <Route path="*" element={<Screen.Page404 />} />
             </Routes>
           </div>
-          <UI.ShadowOverlay direction="toTop" position="bottom" />
+          {location.pathname !== "/chat" && location.pathname !== "/portfolio/chat" && (
+            <UI.ShadowOverlay direction="toTop" position="bottom" />
+          )}
           {!is404Route &&
             location.pathname !== "/portfolio/skills" &&
             location.pathname !== "/skills" &&
             location.pathname !== "/portfolio/search" &&
             location.pathname !== "/search" &&
             location.pathname !== "/portfolio/blog/create" &&
-            location.pathname !== "/blog/create" && <UI.Footer />}
+            location.pathname !== "/blog/create" &&
+            location.pathname !== "/portfolio/chat" &&
+            location.pathname !== "/chat" && <UI.Footer />}
         </Suspense>
       </div>
 
