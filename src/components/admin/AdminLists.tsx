@@ -9,9 +9,8 @@ interface AdminListsProps {
   deleteComment: (id: number) => void;
   deleteProject: (id: number) => void;
   deleteBlog: (id: number) => void;
-  currentPage?: number;
-  itemsPerPage?: number;
-  setCurrentPage?: (page: number) => void;
+  onEditBlog?: (blog: any) => void;
+  onEditProject?: (project: any) => void;
 }
 
 const AdminLists: React.FC<AdminListsProps> = ({
@@ -22,7 +21,9 @@ const AdminLists: React.FC<AdminListsProps> = ({
   loadingList,
   deleteComment,
   deleteProject,
-  deleteBlog
+  deleteBlog,
+  onEditBlog,
+  onEditProject
 }) => {
   if (activeTab === 'create') {
     return (
@@ -35,10 +36,16 @@ const AdminLists: React.FC<AdminListsProps> = ({
                 <td className="font-bold">{b.title}</td>
                 <td><span className={`badge ${b.is_published ? 'badge-success' : 'badge-warning'} badge-outline rounded-lg`}>{b.is_published ? 'Publié' : 'Brouillon'}</span></td>
                 <td className="text-right">
+                  {onEditBlog && (
+                    <button onClick={() => onEditBlog(b)} className="btn btn-outline btn-xs rounded-lg shadow-sm mr-2">Modifier</button>
+                  )}
                   <button onClick={() => deleteBlog(b.id)} className="btn btn-error btn-xs rounded-lg shadow-sm">Supprimer</button>
                 </td>
               </tr>
             ))}
+            {blogsList.length === 0 && (
+              <tr><td colSpan={3} className="text-center py-8 opacity-60">Aucun article trouvé.</td></tr>
+            )}
           </tbody>
         </table>
       </div>
@@ -56,10 +63,16 @@ const AdminLists: React.FC<AdminListsProps> = ({
                 <td className="font-bold">{p.nom}</td>
                 <td><span className="badge badge-info badge-outline rounded-lg">{p.category}</span></td>
                 <td className="text-right">
+                  {onEditProject && (
+                    <button onClick={() => onEditProject(p)} className="btn btn-outline btn-xs rounded-lg shadow-sm mr-2">Modifier</button>
+                  )}
                   <button onClick={() => deleteProject(p.id)} className="btn btn-error btn-xs rounded-lg shadow-sm">Supprimer</button>
                 </td>
               </tr>
             ))}
+            {projectsList.length === 0 && (
+              <tr><td colSpan={3} className="text-center py-8 opacity-60">Aucun projet trouvé.</td></tr>
+            )}
           </tbody>
         </table>
       </div>

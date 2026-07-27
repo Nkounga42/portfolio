@@ -103,6 +103,8 @@ const Header = () => {
     { label: "Articles", path: "/portfolio/admin/articles/login=nk-admincode" },
     { label: "Projets", path: "/portfolio/admin/projects/login=nk-admincode" },
     { label: "Commentaires", path: "/portfolio/admin/comments/login=nk-admincode" },
+    { label: "Galerie", path: "/portfolio/admin/gallery/login=nk-admincode" },
+    { label: "Ressources", path: "/portfolio/admin/ressources/login=nk-admincode" },
   ];
 
   if (isAdminRoute) {
@@ -124,7 +126,7 @@ const Header = () => {
                   <Link
                     key={link.path}
                     to={link.path}
-                    className={`px-3 py-2 rounded-full text-sm transition-colors ${isActive ? "bg-primary text-primary-content" : "text-base-content/70 hover:text-base-content hover:bg-base-200"}`}
+                    className={`px-3 py-2 rounded-full text-sm transition-colors ${isActive ? " text-primary " : "text-base-content/70 hover:text-base-content  "}`}
                   >
                     {link.label}
                   </Link>
@@ -139,8 +141,7 @@ const Header = () => {
             </Link>
             <div className="scale-90 sm:scale-100">
               <UI.ThemeControler />
-            </div>
-            <LanguageSwitcher />
+            </div> 
           </div>
         </motion.div>
       </div>

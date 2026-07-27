@@ -22,6 +22,8 @@ const AdminBlog = lazy(() => import("./CreateBlog"));
 const AdminArticles = lazy(() => import("./AdminArticles"));
 const AdminProjects = lazy(() => import("./AdminProjects"));
 const AdminComments = lazy(() => import("./AdminComments"));
+const AdminGallery = lazy(() => import("./AdminGallery"));
+const AdminRessources = lazy(() => import("./AdminRessources"));
 const ReadBlog = lazy(() => import("./ReadBlog"));
 
 
@@ -46,5 +48,7 @@ export {
   AdminArticles,
   AdminProjects,
   AdminComments,
+  AdminGallery,
+  AdminRessources,
   ReadBlog
 };
