@@ -64,33 +64,39 @@ export default function MdViewer({ readme }: { readme: string }) {
             {children}
           </blockquote>
         ),
-        img: ({ src, ...props }) => (
-          <img
-            key={`img-${src}`}
-            src={src + '?raw=true'}
-            alt={src}
-            className="w-full h-auto rounded-lg border border-base-content/10 mb-4"
-            onError={(e) => {
-              const target = e.target as HTMLImageElement;
-              target.onerror = null;
-              target.src = "https://i.pinimg.com/736x/36/85/37/368537ab800464ee9b14d843e117ab01.jpg";
-            }}
-            {...props}
-          />
-        ),
-        video: ({ src, ...props }) => (
-          <video
-            key={`video-${src}`}
-            src={src + '?raw=true'}
-            className="w-full h-[200px] rounded-lg border border-base-content/10 mb-4"
-            onError={(e) => {
-              const target = e.target as HTMLVideoElement;
-              target.onerror = null;
-              target.src = "https://i.pinimg.com/736x/36/85/37/368537ab800464ee9b14d843e117ab01.jpg";
-            }}
-            {...props}
-          />
-        ),
+        img: ({ src, ...props }) => {
+          if (!src) return null;
+          return (
+            <img
+              key={`img-${src}`}
+              src={src + '?raw=true'}
+              alt={src}
+              className="w-full h-auto rounded-lg border border-base-content/10 mb-4"
+              onError={(e) => {
+                const target = e.target as HTMLImageElement;
+                target.onerror = null;
+                target.src = "https://i.pinimg.com/736x/36/85/37/368537ab800464ee9b14d843e117ab01.jpg";
+              }}
+              {...props}
+            />
+          );
+        },
+        video: ({ src, ...props }) => {
+          if (!src) return null;
+          return (
+            <video
+              key={`video-${src}`}
+              src={src + '?raw=true'}
+              className="w-full h-[200px] rounded-lg border border-base-content/10 mb-4"
+              onError={(e) => {
+                const target = e.target as HTMLVideoElement;
+                target.onerror = null;
+                target.src = "https://i.pinimg.com/736x/36/85/37/368537ab800464ee9b14d843e117ab01.jpg";
+              }}
+              {...props}
+            />
+          );
+        },
         a: ({ href, children }) => (
           <a
             href={href}

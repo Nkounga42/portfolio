@@ -38,9 +38,12 @@ const route = {
   Page404: { paths: ["/404", "/portfolio/404"], component: <Screen.Page404 /> },
 
   Article: { paths: ["/article", "/portfolio/article"], component: <Screen.Article /> },
-  AdminBlog: { paths: ["/blog/create", "/portfolio/blog/create"], component: <Screen.AdminBlog /> },
-  AdminSecretRoute: { paths: ["/ad/loggin=nk-117Gv12Cg"], component: <Screen.AdminBlog /> },
-  AdminSecretRoutePortfolio: { paths: ["/portfolio/ad/loggin=nk-117Gv12Cg"], component: <Screen.AdminBlog /> },
+  AdminBlog: { paths: ["/admin/create/login=nk-admincode", "/portfolio/admin/create/login=nk-admincode"], component: <Screen.AdminBlog /> },
+  AdminArticles: { paths: ["/admin/articles/login=nk-admincode", "/portfolio/admin/articles/login=nk-admincode"], component: <Screen.AdminArticles /> },
+  AdminProjects: { paths: ["/admin/projects/login=nk-admincode", "/portfolio/admin/projects/login=nk-admincode"], component: <Screen.AdminProjects /> },
+  AdminComments: { paths: ["/admin/comments/login=nk-admincode", "/portfolio/admin/comments/login=nk-admincode"], component: <Screen.AdminComments /> },
+  AdminSecretRoute: { paths: ["/admin/login=nk-admincode"], component: <Screen.AdminBlog /> },
+  AdminSecretRoutePortfolio: { paths: ["/portfolio/admin/login=nk-admincode"], component: <Screen.AdminBlog /> },
   ReadBlog: { paths: ["/blog/:slug", "/portfolio/blog/:slug"], component: <Screen.ReadBlog /> },
   Ressources: { paths: ["/ressources", "/portfolio/ressources"], component: <Screen.Ressources /> },
   Chat: { paths: ["/chat", "/portfolio/chat"], component: <Screen.Chat /> },
@@ -90,8 +93,14 @@ const BrowserDom = () => {
             location.pathname !== "/skills" &&
             location.pathname !== "/portfolio/search" &&
             location.pathname !== "/search" &&
-            location.pathname !== "/portfolio/blog/create" &&
-            location.pathname !== "/blog/create" &&
+            location.pathname !== "/portfolio/admin/create/login=nk-admincode" &&
+            location.pathname !== "/admin/create/login=nk-admincode" &&
+            location.pathname !== "/portfolio/admin/articles/login=nk-admincode" &&
+            location.pathname !== "/admin/articles/login=nk-admincode" &&
+            location.pathname !== "/portfolio/admin/projects/login=nk-admincode" &&
+            location.pathname !== "/admin/projects/login=nk-admincode" &&
+            location.pathname !== "/portfolio/admin/comments/login=nk-admincode" &&
+            location.pathname !== "/admin/comments/login=nk-admincode" &&
             location.pathname !== "/portfolio/chat" &&
             location.pathname !== "/chat" && <UI.Footer />}
         </Suspense>

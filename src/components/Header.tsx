@@ -14,7 +14,7 @@ const pagePaths = {
   skills: "/portfolio/skills",
   gallery: "/portfolio/gallery",
   about: "/portfolio/about",
-  admin: "/portfolio/blog/create",
+  admin: "/portfolio/admin/create/login=nk-admincode",
   Ressources: "/portfolio/Ressources",
   chat: "/portfolio/chat",
 };
@@ -94,8 +94,59 @@ const Header = () => {
     </>
   );
 
+  const isAdminRoute = /^(\/portfolio)?\/admin\/.+\/login=[^/]+\/?$/.test(location.pathname);
   const isDashboardPage = location.pathname === pagePaths.Ressources || location.pathname === pagePaths.admin || location.pathname === pagePaths.chat;
   const headerFloat = true;
+
+  const adminNavLinks = [
+    { label: "Créer", path: "/portfolio/admin/create/login=nk-admincode" },
+    { label: "Articles", path: "/portfolio/admin/articles/login=nk-admincode" },
+    { label: "Projets", path: "/portfolio/admin/projects/login=nk-admincode" },
+    { label: "Commentaires", path: "/portfolio/admin/comments/login=nk-admincode" },
+  ];
+
+  if (isAdminRoute) {
+    return (
+      <div className="fixed -top-1 w-full left-0 right-0 z-50 flex justify-center items-center px-1 sm:px-2 md:px-4 backdrop-blur-[10px] border-b border-base-content/10 bg-base-100/80">
+        <motion.div
+          layout
+          transition={{ type: "spring", stiffness: 300, damping: 30 }}
+          className="w-full max-w-6xl mx-2 sm:mx-0 rounded-full px-2 sm:px-3 md:px-4 flex items-center justify-between h-[50px]"
+        >
+          <div className="flex items-center gap-2 sm:gap-3 flex-1 min-w-0">
+            <Link to="/portfolio/" className="text-lg sm:text-xl flex-shrink-0">
+              <Logo />
+            </Link>
+            <nav className="hidden md:flex items-center gap-1">
+              {adminNavLinks.map((link) => {
+                const isActive = location.pathname === link.path;
+                return (
+                  <Link
+                    key={link.path}
+                    to={link.path}
+                    className={`px-3 py-2 rounded-full text-sm transition-colors ${isActive ? "bg-primary text-primary-content" : "text-base-content/70 hover:text-base-content hover:bg-base-200"}`}
+                  >
+                    {link.label}
+                  </Link>
+                );
+              })}
+            </nav>
+          </div>
+
+          <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+            <Link to="/portfolio/" className="btn btn-ghost btn-sm hidden sm:inline-flex">
+              Retour au site
+            </Link>
+            <div className="scale-90 sm:scale-100">
+              <UI.ThemeControler />
+            </div>
+            <LanguageSwitcher />
+          </div>
+        </motion.div>
+      </div>
+    );
+  }
+
   return (
     <div
       className={`${

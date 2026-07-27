@@ -16,6 +16,7 @@ const AdminBlog = () => {
     cover_image: '',
     category: '',
     tags: '',
+    status: 'published',
   });
 
   const [projectData, setProjectData] = useState({
@@ -79,9 +80,9 @@ const AdminBlog = () => {
     setLoadingList(true);
     const { data, error } = await supabase
       .from('blog_posts')
-      // On remplace created_at par published_at
       .select('id, title, slug, is_published, published_at')
-      .order('published_at', { ascending: false }); // Tri par date de publication
+      .eq('is_published', true)
+      .order('published_at', { ascending: false });
 
     if (!error) setBlogsList(data || []);
     setLoadingList(false);
@@ -177,9 +178,10 @@ const AdminBlog = () => {
         summary: formData.summary,
         content: formData.content,
         cover_image: formData.cover_image,
+        is_published: formData.status === 'published',
       }]);
       if (error) throw error;
-      alert('Article publié !');
+      alert(formData.status === 'published' ? 'Article publié !' : 'Article enregistré en brouillon !');
       navigate('/portfolio/blog');
     } catch (error: any) {
       alert('Erreur: ' + error.message);

@@ -64,6 +64,14 @@ const BlogForm: React.FC<BlogFormProps> = ({
           )}
         </div>
 
+        <div className="space-y-2">
+          <label className="text-sm font-bold opacity-70 ml-1">Statut</label>
+          <select name="status" value={formData.status || 'published'} onChange={handleChange} className="select select-bordered w-full rounded-2xl bg-base-100">
+            <option value="published">Publié</option>
+            <option value="draft">Brouillon</option>
+          </select>
+        </div>
+
         <div className="col-span-2 space-y-4">
           <div className="flex justify-between items-center px-1">
             <label className="text-sm font-bold opacity-70">Image de couverture</label>
@@ -93,7 +101,7 @@ const BlogForm: React.FC<BlogFormProps> = ({
         </div>
       </div>
       <button type="submit" disabled={loading} className="btn btn-primary w-full rounded-2xl h-14 shadow-lg shadow-primary/20 font-bold text-lg">
-        {loading ? <span className="loading loading-spinner"></span> : 'Publier l\'article'}
+        {loading ? <span className="loading loading-spinner"></span> : (formData.status === 'draft' ? 'Enregistrer en brouillon' : 'Publier l\'article')}
       </button>
     </form>
   );

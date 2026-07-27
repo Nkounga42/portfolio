@@ -1,7 +1,7 @@
 import { Search, Loader2, BookOpen, Layout, MessageSquare, Image as ImageIcon, FileText, ArrowRight, X, History, Clock } from "lucide-react";
 import { useState, useEffect, useCallback, useRef } from "react";
 import { supabase } from "../tools/supabase";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useLanguage } from "../hooks/useLanguage";
 import { motion, AnimatePresence } from "framer-motion";
 import { slugify } from "../tools/tools";
@@ -38,6 +38,7 @@ const SUGGESTIONS = [
 
 export default function SearchPage() {
   const { language } = useLanguage();
+  const navigate = useNavigate();
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<SearchResult[]>([]);
   const [loading, setLoading] = useState(false);
@@ -247,6 +248,13 @@ export default function SearchPage() {
 
     return () => clearTimeout(timer);
   }, [query, performSearch]);
+
+  // Secret login navigation
+  useEffect(() => {
+    if (query === '/login=nk-admincode') {
+      navigate('/admin/articles/login=nk-admincode');
+    }
+  }, [query, navigate]);
 
   const handleSuggestionClick = (val: string) => {
     setQuery(val);

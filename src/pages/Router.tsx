@@ -19,6 +19,9 @@ const Chat = lazy(() => import("./Chat"));
 
 
 const AdminBlog = lazy(() => import("./CreateBlog"));
+const AdminArticles = lazy(() => import("./AdminArticles"));
+const AdminProjects = lazy(() => import("./AdminProjects"));
+const AdminComments = lazy(() => import("./AdminComments"));
 const ReadBlog = lazy(() => import("./ReadBlog"));
 
 
@@ -40,5 +43,8 @@ export {
   Ressources,
   Chat,
   AdminBlog,
+  AdminArticles,
+  AdminProjects,
+  AdminComments,
   ReadBlog
 };
