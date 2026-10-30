@@ -104,17 +104,17 @@ export default function HeroGeometric({
             className="mb-10 relative inline-block"
           >
             <div className="w-50 sm:w-40 sm:h-40 group rounded-[20px]">
-              <RainbowCard className="mask mask-squircle w-50 sm:w-40 sm:h-40 mx-auto ">
+              <div className="mask mask-squircle w-50 sm:w-40 sm:h-40 mx-auto ">
                 <img
                   src={img}
                   alt="Nkounga Gil Exaucé"
                   className="block w-full h-full object-cover transition  duration-500 group-hover:scale-98 will-change-transform mask mask-squircle"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-primary/30 to-transparent pointer-events-none" />
-              </RainbowCard>
+              </div>
             </div>
 
-            <div className="absolute bottom-5 -right-5  backdrop-blur-md  rounded-xl z-20  -rotate-12 overflow-hidden ">
+            {/* <div className="absolute bottom-5 -right-5  backdrop-blur-md  rounded-xl z-20  -rotate-12 overflow-hidden ">
               <motion.div
                 className="inline-flex items-center gap-2 px-3 py-1  bg-gradient-to-r from-green-500/20 via-yellow-500/20 to-red-500/10border border-white/[0.05]  cursor-pointer"
                 whileHover={{ scale: 1.05 }}
@@ -131,7 +131,7 @@ export default function HeroGeometric({
                 </span>
               </motion.div>
               <br />
-            </div>
+            </div> */}
           </motion.div>
 
           <motion.div custom={1} variants={fadeUpVariants} initial="hidden" animate="visible">
