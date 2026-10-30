@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import Logo from "../assets/logo";
 import LanguageSwitcher from "./LanguageSwitcher";
 import { useLanguage } from "../hooks/useLanguage";
+import { AIButton } from "./Aibutton";
 
 const pagePaths = {
   home: "/portfolio/",
@@ -17,6 +18,7 @@ const pagePaths = {
   admin: "/portfolio/admin/create/login=nk-admincode",
   Ressources: "/portfolio/Ressources",
   chat: "/portfolio/chat",
+  contact: "/portfolio/contact#contactfield"
 };
 
 const Header = () => {
@@ -32,7 +34,7 @@ const Header = () => {
     [t.nav.projects]: pagePaths.projects,
     [t.nav.blog]: pagePaths.blog,
     [t.nav.Ressources]: pagePaths.Ressources,
-    [t.nav.chat]: pagePaths.chat,
+    [t.nav.contact]: pagePaths.contact,
   };
 
   const scrollToTop = () => {
@@ -75,15 +77,13 @@ const Header = () => {
           <li key={url}>
             <Link
               to={url}
-              className={`text-sm transition-colors duration-300 ${
-                isMobile
+              className={`text-sm transition-colors duration-300 ${isMobile
                   ? "px-4 py-2 block hover:bg-base-200 rounded-lg"
                   : "px-2 h-[50px] flex items-center"
-              } ${
-                isActive
+                } ${isActive
                   ? "text-primary"
                   : "text-base-content/70 hover:text-base-content"
-              }`}
+                }`}
               onClick={scrollToTop}
             >
               {page}
@@ -141,7 +141,7 @@ const Header = () => {
             </Link>
             <div className="scale-90 sm:scale-100">
               <UI.ThemeControler />
-            </div> 
+            </div>
           </div>
         </motion.div>
       </div>
@@ -150,18 +150,16 @@ const Header = () => {
 
   return (
     <div
-      className={`${
-        headerFloat ? "fixed -top-1  " : "sticky top-0 bg-base-100/80  "
-      } w-full left-0 right-0 z-50 flex justify-center items-center px-1 sm:px-2 md:px-4 backdrop-blur-[10px] border-b border-base-content/10 bg-base-100/80`}
+      className={`${headerFloat ? "fixed -top-1  " : "sticky top-0 bg-base-100/80  "
+        } w-full left-0 right-0 z-50 flex justify-center items-center px-1 sm:px-2 md:px-4 backdrop-blur-[10px] border-b border-base-content/10 bg-base-100/80`}
     >
       <motion.div
         layout
         transition={{ type: "spring", stiffness: 300, damping: 30 }}
-        className={`${
-          isDashboardPage
+        className={`${isDashboardPage
             ? "w-full mx-0 "
             : "w-full max-w-5xl mx-2 sm:mx-0 rounded-full  "
-        } px-2 sm:px-3 md:px-4 flex items-center justify-between h-[50px]`}
+          } px-2 sm:px-3 md:px-4 flex items-center justify-between h-[50px]`}
       >
         <div className="flex items-center gap-1 sm:gap-2 flex-1 min-w-0">
           <Link to="/portfolio/" className="text-lg sm:text-xl flex-shrink-0">
@@ -189,16 +187,13 @@ const Header = () => {
 
         <div className="flex items-center gap-1 sm:gap-2 md:gap-3 flex-shrink-0">
           <Link
-            className="btn btn-primary btn-sm hidden md:inline-flex text-xs md:text-sm"
-            to="/portfolio/contact#contactfield"
-          >
-            <span className="hidden lg:inline">{t.nav.contact}</span>
-            <span className="lg:hidden">{t.nav.contactShort}</span>
+            to="/portfolio/chat"className="hidden lg:inline"
+          > 
+            <AIButton />
           </Link>
           <Link to="/portfolio/search" className={`hidden sm:block p-1 rounded-full ${location.pathname === "/portfolio/search" ? "bg-primary text-primary-content" : ""}`}>
             <Search className="h-4 w-4 sm:h-5 sm:w-5 cursor-pointer" />
           </Link>
-
 
           <div className="scale-90 sm:scale-100">
             <UI.ThemeControler />

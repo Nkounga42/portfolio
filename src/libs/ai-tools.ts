@@ -246,8 +246,10 @@ export const AI_TOOLS = [
   }
 ];
 
+type AIFunction = (params?: any) => Promise<any>;
+
 // Map des fonctions exécutables
-export const AI_FUNCTIONS = {
+export const AI_FUNCTIONS: Record<string, AIFunction> = {
   getProjects,
   getProjectBySlug,
   getBlogPosts,

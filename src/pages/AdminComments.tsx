@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { supabase } from '../tools/supabase';
 import AdminLists from '../components/admin/AdminLists';
 

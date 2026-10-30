@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, type ChangeEvent, type FormEvent } from 'react';
 import { supabase } from '../tools/supabase';
 
 const AdminRessourcesPage = () => {

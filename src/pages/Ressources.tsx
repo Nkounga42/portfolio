@@ -9,7 +9,6 @@ import { supabase } from '../tools/supabase';
 
 export default function Ressources() {
     const [searchTerm, setSearchTerm] = useState('');
-    const [loading, setLoading] = useState(true);
     const [Ressources, setRessources] = useState<any[]>([]);
 
     const [isPreviewActive, setIsPreviewActive] = useState(false);
@@ -18,7 +17,6 @@ export default function Ressources() {
 
     useEffect(() => {
         const fetchProjects = async () => {
-            setLoading(true);
             const { data, error } = await supabase
                 .from('ressources')
                 .select('*')
@@ -27,7 +25,6 @@ export default function Ressources() {
             if (!error && data) {
                 setRessources(data);
             }
-            setLoading(false);
         };
         fetchProjects();
     }, []);

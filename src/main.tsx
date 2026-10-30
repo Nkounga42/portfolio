@@ -12,6 +12,7 @@ import * as Screen from "./pages/Router";
 
 import "./index.css";
 import "./aiAssistant.css";
+import "./aiButton.css";
 import KeyboardShortcut from "./hooks/KeyboardShortcut";
 import { LanguageProvider } from "./hooks/useLanguage";
 
